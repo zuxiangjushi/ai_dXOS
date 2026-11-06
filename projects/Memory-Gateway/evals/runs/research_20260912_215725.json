@@ -1,0 +1,83 @@
+{
+  "aggregate": {
+    "n_questions": 5,
+    "n_valid": 5,
+    "citation_precision": 0.4,
+    "groundedness": 0.4,
+    "avg_citations": 0.4,
+    "avg_answer_len": 105.0,
+    "latency_p50": 6.81,
+    "latency_p95": 7.64,
+    "latency_avg": 6.89,
+    "avg_prompt_tokens": 433.0,
+    "avg_completion_tokens": 184.0
+  },
+  "details": [
+    {
+      "id": "q1",
+      "query": "重庆今天气温",
+      "category": "realtime",
+      "answer_len": 47,
+      "has_citation": true,
+      "citation_count": 1,
+      "citation_correct": true,
+      "latency": 7.644426584243774,
+      "prompt_tokens": 687,
+      "completion_tokens": 37,
+      "answer_preview": "2026年9月12日，重庆市秀山土家族苗族自治县的最高气温为27℃，最低气温为20℃ [1]。"
+    },
+    {
+      "id": "q2",
+      "query": "最新 Python 版本",
+      "category": "realtime",
+      "answer_len": 73,
+      "has_citation": true,
+      "citation_count": 1,
+      "citation_correct": true,
+      "latency": 5.983644008636475,
+      "prompt_tokens": 546,
+      "completion_tokens": 46,
+      "answer_preview": "根据最新的信息，目前 Python 的最新版本是 Python 3.15，它正处于预发布阶段，计划于 2026 年 10 月 1 日发布 [1]。"
+    },
+    {
+      "id": "q3",
+      "query": "Qdrant 是什么向量数据库",
+      "category": "factual",
+      "answer_len": 215,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 6.807652711868286,
+      "prompt_tokens": 105,
+      "completion_tokens": 400,
+      "answer_preview": "Qdrant 是一个开源的**向量数据库**（Vector Database），专注于高效存储、管理和检索**高维向量数据**。它最初由俄罗斯团队开发，支持多种相似性搜索算法（如 HNSW、IVF-PQ 等），适用于需要快速处理大规模向量数据的场景（如机器学习模型输出的嵌入向量）。\n\n---\n\n##"
+    },
+    {
+      "id": "q4",
+      "query": "今天重庆有雨吗",
+      "category": "realtime",
+      "answer_len": 51,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 7.28331184387207,
+      "prompt_tokens": 809,
+      "completion_tokens": 36,
+      "answer_preview": "根据重庆市气象台的最新预报，今天（9月12日）夜间到明天（13日）白天，重庆部分地区将有降雨[N1]。"
+    },
+    {
+      "id": "q5",
+      "query": "2026年国庆节放假安排",
+      "category": "factual",
+      "answer_len": 139,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 6.709418773651123,
+      "prompt_tokens": 17,
+      "completion_tokens": 400,
+      "answer_preview": "截至当前（2023年），**2026年国庆节的放假安排尚未正式公布**，但根据中国国务院通常发布的放假通知规律，可以推测大致框架。以下为参考性推测（具体以官方通知为准）：\n\n---\n\n### **推测的2026年国庆节放假安排**\n1. **国庆节日期**：2026年10月1日"
+    }
+  ],
+  "timestamp": "2026-09-12T21:57:25.871411"
+}

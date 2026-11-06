@@ -1,0 +1,68 @@
+{
+  "version": "6.0",
+  "schema": 2,
+  "running_models": {
+    "emb_bge_m3": {
+      "status": "running",
+      "container": "M00_3BGE",
+      "port": 8003,
+      "gpu": "CPU",
+      "pool": "L0",
+      "engine": "infinity",
+      "updated_at": "2026-10-10T07:34:53.405719",
+      "progress": 100
+    },
+    "Qwen3_Embedding_06B": {
+      "status": "running",
+      "container": "M-WIN-BGE",
+      "port": 8002,
+      "gpu": "RTX 3080 Ti (WSL2)",
+      "pool": "Pool-WIN",
+      "engine": "vllm",
+      "updated_at": "2026-10-19T00:25:27.879817",
+      "progress": 100
+    },
+    "bge_reranker_v2_m3": {
+      "status": "running",
+      "container": "M11_BGE_V2M3",
+      "port": 8012,
+      "gpu": "CPU",
+      "pool": "L0",
+      "engine": "infinity",
+      "updated_at": "2026-10-20T00:14:30.682014",
+      "progress": 100
+    },
+    "jev_decision": {
+      "status": "running",
+      "container": "M16_Jev",
+      "port": 8021,
+      "gpu": "CPU",
+      "pool": "L0",
+      "engine": "llama.cpp",
+      "updated_at": "2026-11-03T02:22:28.488228",
+      "progress": 100
+    },
+    "qwen2.5_3b": {
+      "status": "running",
+      "container": "M19",
+      "port": 8023,
+      "gpu": "CPU",
+      "pool": "L0",
+      "engine": "llama.cpp",
+      "updated_at": "2026-11-03T19:00:24.808273",
+      "progress": 100
+    },
+    "qwen38_27b": {
+      "status": "running",
+      "container": "M07_38_27B",
+      "port": 8008,
+      "gpu": "0,1,2,3",
+      "pool": "Pool-ALL",
+      "engine": "sglang",
+      "updated_at": "2026-11-04T00:08:23.779479",
+      "progress": 100
+    }
+  },
+  "gpu_lock": {},
+  "recovery_queue": []
+}

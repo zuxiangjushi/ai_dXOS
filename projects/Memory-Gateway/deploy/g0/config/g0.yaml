@@ -1,0 +1,29 @@
+base:
+  gateway_url: "http://192.168.10.132:9980"
+  admin_url:   "http://192.168.10.132:9981"
+  emb_model:   "emb_bge_m3"
+  emb_key_env: "PILOT_KEY_M00"
+  emb_direct_url: "http://192.168.10.132:8003"
+  judge_model: "qwen3_30b"
+  judge_key_env: "PILOT_KEY_M08"
+rerank: { url: "http://localhost:8091/rerank", candidates: 20, doc_chars: 180 }
+stores:
+  qdrant_url: "http://localhost:6333"
+  qdrant_collection: "g0_probe_vector"
+  meili_url: "http://localhost:7700"
+  meili_index: "g0_probe_kw"
+  meili_key_env: "MEILISEARCH_API_KEY"
+  redis_url: "redis://localhost:6379/9"
+  pg_dsn_env: "PG_PROBE_DSN"
+seed: { count: 10000 }
+budgets:
+  embed_p95: 120
+  rerank_p95: 120
+  retrieval_no_rerank_p95: 200
+  eventloop_lag_p95: 40
+  pg_commit_p95: 5
+  json_valid_rate: 0.99
+  extract_usable_rate: 0.80
+  rule_tier_coverage: 0.70
+expected_dim: 1024
+pass_min_items: 6

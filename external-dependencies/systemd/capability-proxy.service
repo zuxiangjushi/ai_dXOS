@@ -1,0 +1,17 @@
+[Unit]
+Description=Capability Proxy (模型能力代理)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/ai/Memory-Gateway
+EnvironmentFile=/ai/Memory-Gateway/.env.g0
+ExecStart=/ai/Memory-Gateway/.venv/bin/python -m uvicorn capability_proxy:app --host 0.0.0.0 --port 9900
+Restart=always
+RestartSec=5
+StandardOutput=append:/ai/Memory-Gateway/logs/capability_proxy.log
+StandardError=append:/ai/Memory-Gateway/logs/capability_proxy.log
+
+[Install]
+WantedBy=multi-user.target

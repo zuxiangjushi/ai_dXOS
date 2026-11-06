@@ -1,0 +1,11 @@
+[Unit]
+Description=Memory Gateway Pool Auto Sync
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c "while true; do /ai/Memory-Gateway/scripts/sync_pools.sh; sleep 5; done"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,14 @@
+[Unit]
+Description=Dxos_Pilot Frontend
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/ai/dxos_pilot/frontend
+ExecStart=/usr/bin/npx serve -s /ai/dxos_pilot/frontend -l 3001
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

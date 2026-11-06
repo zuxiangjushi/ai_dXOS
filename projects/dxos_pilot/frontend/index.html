@@ -1,0 +1,2212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dxos_Pilot · AI 推理管理平台</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* ===== 完整样式（与之前一致，省略，保持不变） ===== */
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #1C1C1E;
+            --bg-card: #2C2C2E;
+            --bg-card-hover: #3A3A3C;
+            --text-primary: #F5F5F7;
+            --text-secondary: #A1A1A6;
+            --text-tertiary: #636366;
+            --border-color: rgba(255,255,255,0.08);
+            --shadow-color: rgba(0,0,0,0.6);
+            --glass-bg: rgba(0,0,0,0.7);
+            --blue: #0A84FF;
+            --green: #30D158;
+            --yellow: #FFD60A;
+            --red: #FF453A;
+            --purple: #BF5AF2;
+            --orange: #FF9F0A;
+        }
+        .light-theme {
+            --bg-primary: #F5F5F7;
+            --bg-secondary: #FFFFFF;
+            --bg-card: #FFFFFF;
+            --bg-card-hover: #F0F0F2;
+            --text-primary: #1C1C1E;
+            --text-secondary: #6C6C70;
+            --text-tertiary: #AEAEB2;
+            --border-color: rgba(0,0,0,0.06);
+            --shadow-color: rgba(0,0,0,0.08);
+            --glass-bg: rgba(255,255,255,0.85);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro", "Inter", "Helvetica Neue", sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: background 0.3s, color 0.2s;
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--text-tertiary); border-radius: 20px; }
+
+        .app-container { display: flex; flex: 1; overflow: hidden; }
+
+        /* ===== 侧边栏 ===== */
+        .sidebar {
+            width: 230px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 28px 16px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            transition: background 0.3s;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 28px;
+        }
+        .logo-icon {
+            width: 36px; height: 36px;
+            background: var(--blue);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700; font-size: 16px;
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(10,132,255,0.3);
+        }
+        .logo-text {
+            font-size: 18px; font-weight: 700;
+            background: linear-gradient(to right, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo-text span { -webkit-text-fill-color: var(--blue); }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.15s;
+            cursor: pointer;
+            margin-bottom: 2px;
+        }
+        .nav-item i { width: 20px; font-size: 15px; }
+        .nav-item.active {
+            background: var(--blue);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(10,132,255,0.25);
+        }
+        .nav-item:not(.active):hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+        .nav-spacer { flex: 1; }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+        .user-avatar {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600; font-size: 13px;
+            color: #fff;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 32px 0 32px;
+            overflow: hidden;
+            background: var(--bg-primary);
+            transition: background 0.3s;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .page-title h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .page-title .sub {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-left: 12px;
+            font-weight: 400;
+            -webkit-text-fill-color: var(--text-secondary);
+        }
+        .top-bar-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 14px 5px 10px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+        }
+        .status-pill .dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .dot.green { background: var(--green); box-shadow: 0 0 12px rgba(48,209,88,0.3); }
+        .dot.yellow { background: var(--yellow); box-shadow: 0 0 12px rgba(255,214,10,0.3); }
+        .dot.red { background: var(--red); box-shadow: 0 0 12px rgba(255,69,58,0.3); }
+
+        .popover-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 5px 14px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+        }
+        .popover-btn:hover {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+        }
+
+        .popover-container {
+            position: relative;
+            display: inline-block;
+        }
+        .popover-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 12px;
+            min-width: 200px;
+            box-shadow: 0 20px 60px var(--shadow-color);
+            display: none;
+            z-index: 1000;
+        }
+        .popover-menu.open { display: block; }
+        .popover-menu .group-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 4px 8px;
+            margin-bottom: 4px;
+        }
+        .popover-menu .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.15s;
+            border: none;
+            background: transparent;
+            width: 100%;
+            font-family: inherit;
+        }
+        .popover-menu .menu-item:hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+        .popover-menu .menu-item.active {
+            background: var(--blue);
+            color: #fff;
+        }
+        .popover-menu .divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 6px 0;
+        }
+
+        .btn-openwebui {
+            background: linear-gradient(135deg, #0A84FF, #5E5CE6);
+            border: none;
+            border-radius: 30px;
+            padding: 6px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+            box-shadow: 0 4px 12px rgba(10,132,255,0.3);
+        }
+        .btn-openwebui:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(10,132,255,0.5);
+        }
+
+        .page {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+            overflow-y: auto;
+            padding-top: 16px;
+            padding-bottom: 20px;
+            gap: 16px;
+        }
+        .page.active { display: flex; }
+
+        /* ===== 系统资源 ===== */
+        .system-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+        .sys-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 16px 18px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 16px var(--shadow-color);
+            transition: 0.2s;
+        }
+        .sys-card:hover { transform: translateY(-2px); }
+        .sys-card .label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .sys-card .value {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 4px 0;
+        }
+        .sys-card .sub {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .sys-card .progress-track {
+            width: 100%;
+            height: 4px;
+            background: var(--bg-primary);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .sys-card .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.8s;
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .btn-clean {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-clean:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-clean.danger:hover:not(:disabled) {
+            background: var(--red);
+            color: #fff;
+            border-color: var(--red);
+        }
+        .btn-clean.primary:hover:not(:disabled) {
+            background: var(--blue);
+            color: #fff;
+            border-color: var(--blue);
+        }
+
+        /* ===== GPU 卡片 ===== */
+        .gpu-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            flex-shrink: 0;
+        }
+        .gpu-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 1px solid var(--border-color);
+            transition: 0.25s;
+            box-shadow: 0 4px 20px var(--shadow-color);
+        }
+        .gpu-card:hover { transform: translateY(-3px); border-color: var(--blue); }
+        .gpu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .gpu-header .label { font-weight: 600; font-size: 14px; color: var(--text-secondary); }
+        .gpu-metrics { display: flex; gap: 12px; font-size: 12px; font-weight: 500; }
+        .gpu-memory-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .progress-track {
+            width: 100%;
+            height: 4px;
+            background: var(--bg-primary);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.8s;
+        }
+        .gpu-process {
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .model-tag {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* ===== 模型卡片 ===== */
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            flex-shrink: 0;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .model-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 18px 20px;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--text-tertiary);
+            transition: 0.25s;
+            box-shadow: 0 4px 16px var(--shadow-color);
+        }
+        .model-card:hover { transform: translateY(-4px); }
+        .model-card.running { border-left-color: var(--green); }
+        .model-card.loading { border-left-color: var(--yellow); }
+        .model-card.stopped { border-left-color: var(--text-tertiary); }
+        .model-card.error { border-left-color: var(--red); }
+
+        .model-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 6px;
+        }
+        .model-name-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .status-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .status-dot.green { background: var(--green); animation: pulse 2s infinite; }
+        .status-dot.yellow { background: var(--yellow); animation: pulse 1.5s infinite; }
+        .status-dot.gray { background: var(--text-tertiary); }
+        .status-dot.red { background: var(--red); animation: pulse 1s infinite; }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 0.6; transform: scale(0.9); }
+        }
+
+        .pool-tag {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--blue);
+            background: rgba(10,132,255,0.12);
+            padding: 2px 10px;
+            border-radius: 30px;
+        }
+        .model-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .model-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .btn-sm {
+            border: none;
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: 0.15s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-sm:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-sm.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+        .btn-sm.primary:hover:not(:disabled) { background: #3b7de8; }
+        .btn-sm.danger { background: var(--red); color: #fff; border-color: var(--red); }
+        .btn-sm.danger:hover:not(:disabled) { background: #dc2626; }
+        .btn-sm:not(.primary):not(.danger):hover:not(:disabled) { background: var(--bg-card-hover); }
+
+        /* ===== 进度条（卡片内） ===== */
+        .progress-inline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        .progress-inline .track {
+            width: 80px;
+            height: 4px;
+            background: var(--bg-primary);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-inline .track .fill {
+            height: 100%;
+            background: var(--blue);
+            border-radius: 10px;
+            transition: width 0.3s;
+        }
+        .progress-inline .progress-text {
+            min-width: 36px;
+            text-align: right;
+        }
+
+        /* ===== 日志终端 ===== */
+        .terminal-wrapper {
+            flex: 1;
+            min-height: 120px;
+            max-height: 300px;
+            display: flex;
+            flex-direction: column;
+            margin-top: 4px;
+        }
+        .terminal {
+            background: var(--bg-secondary);
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 18px;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .terminal-dots { display: flex; gap: 6px; }
+        .terminal-dots span { width: 12px; height: 12px; border-radius: 50%; }
+        .terminal-dots .red { background: var(--red); }
+        .terminal-dots .yellow { background: var(--yellow); }
+        .terminal-dots .green { background: var(--green); }
+        .terminal-title {
+            font-family: 'SF Mono', monospace;
+            font-size: 11px;
+            color: var(--text-tertiary);
+            margin-left: 8px;
+        }
+        .terminal-body {
+            flex: 1;
+            padding: 12px 20px;
+            font-family: 'SF Mono', monospace;
+            font-size: 12px;
+            line-height: 1.9;
+            overflow-y: auto;
+            color: var(--text-secondary);
+        }
+        .line-info { color: var(--green); }
+        .line-warn { color: var(--yellow); }
+        .line-error { color: var(--red); }
+        .line-muted { color: var(--text-tertiary); }
+        .cursor-blink {
+            display: inline-block;
+            width: 8px; height: 16px;
+            background: var(--text-secondary);
+            animation: blink 1s step-end infinite;
+            vertical-align: text-bottom;
+        }
+        @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+        /* ===== 密钥表格 ===== */
+        .key-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .key-table th {
+            text-align: left;
+            padding: 12px 16px;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .key-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        .key-table tr:hover td { background: var(--bg-card); }
+        .key-table .key-value {
+            font-family: 'SF Mono', monospace;
+            font-size: 13px;
+            color: var(--text-primary);
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 1400px) {
+            .gpu-grid { grid-template-columns: repeat(2, 1fr); }
+            .model-grid { grid-template-columns: repeat(2, 1fr); }
+            .system-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 1024px) {
+            .sidebar { width: 72px; padding: 20px 8px; }
+            .sidebar .logo-text, .sidebar .nav-item span, .sidebar .user-info { display: none; }
+            .sidebar .nav-item { justify-content: center; padding: 12px; }
+            .sidebar .nav-item i { font-size: 18px; margin: 0; }
+        }
+        @media (max-width: 768px) {
+            .gpu-grid, .model-grid, .system-grid { grid-template-columns: 1fr; }
+            .top-bar { flex-direction: column; align-items: stretch; }
+            .action-bar { flex-wrap: wrap; }
+        }
+        .btn-nextchat {
+            background: linear-gradient(135deg, #30D158, #0A84FF);
+            border: none;
+            border-radius: 30px;
+            padding: 6px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: 8px;
+        }
+        .btn-nextchat:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(48,209,88,0.5);
+        }
+        /* ComfyUI 按钮 (Auto-Injected) */
+        .btn-comfyui {
+            background: linear-gradient(135deg, #FF453A, #FFD60A);
+            border: none;
+            border-radius: 30px;
+            padding: 6px 18px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: 8px;
+        }
+        .btn-comfyui:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(255,69,58,0.5);
+        }
+
+        /* Toast 动画 */
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(400px); opacity: 0; }
+        }
+
+        /* 进度条脉冲动画 */
+        .progress-fill {
+            position: relative;
+            overflow: hidden;
+        }
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+/* ========== 服务入口栏 ========== */
+.service-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 14px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.svc-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    border-radius: 24px;
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    white-space: nowrap;
+    position: relative;
+}
+.svc-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+.svc-btn i { font-size: 14px; width: 16px; text-align: center; }
+.svc-btn .svc-badge { position: absolute; top: -4px; right: -4px; background: #FF453A; color: #fff; font-size: 9px; padding: 1px 5px; border-radius: 8px; font-weight: 700; }
+.svc-openwebui { background: linear-gradient(135deg, #0A84FF, #5E5CE6); }
+.svc-nextchat  { background: linear-gradient(135deg, #30D158, #0A84FF); }
+.svc-comfyui   { background: linear-gradient(135deg, #FF9F0A, #FF453A); }
+.svc-ccweb     { background: linear-gradient(135deg, #BF5AF2, #FF375F); }
+.svc-langfuse  { background: linear-gradient(135deg, #FFD60A, #FF9F0A); }
+.svc-searxng   { background: linear-gradient(135deg, #5AC8FA, #0A84FF); }
+.svc-qdrant    { background: linear-gradient(135deg, #FF453A, #BF5AF2); }
+.svc-meili     { background: linear-gradient(135deg, #30D158, #5AC8FA); }
+.svc-claude    { background: linear-gradient(135deg, #D97757, #C15F3C); }
+.svc-hermes    { background: linear-gradient(135deg, #BF5AF2, #8E44AD); }
+.svc-openclaw  { background: linear-gradient(135deg, #30D158, #00A86B); }
+.svc-codex     { background: linear-gradient(135deg, #10A37F, #0D7A5F); }
+.svc-pi        { background: linear-gradient(135deg, #0A84FF, #5AC8FA); }
+.svc-cursor    { background: linear-gradient(135deg, #333, #000); border: 1px solid #555; }
+.svc-continue  { background: linear-gradient(135deg, #A855F7, #6366F1); }
+.svc-cline     { background: linear-gradient(135deg, #F59E0B, #EF4444); }
+.svc-longcite  { background: linear-gradient(135deg, #06B6D4, #0891B2); }
+.svc-disabled  { opacity: 0.55; filter: grayscale(0.3); }
+.svc-disabled:hover { opacity: 1; filter: none; }
+.agent-modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 100000; justify-content: center; align-items: center; padding: 20px; }
+.agent-modal-bg.active { display: flex; }
+.agent-modal { background: #1C1C1E; border-radius: 16px; max-width: 700px; width: 100%; max-height: 85vh; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.8); display: flex; flex-direction: column; }
+.agent-modal-header { padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; }
+.agent-modal-header h2 { margin: 0; color: #F5F5F7; font-size: 20px; }
+.agent-modal-header .close-btn { background: transparent; border: none; color: #8E8E93; font-size: 24px; cursor: pointer; padding: 4px 8px; }
+.agent-modal-body { padding: 20px 24px; overflow-y: auto; color: #F5F5F7; }
+.agent-modal-body pre { background: #000; padding: 16px; border-radius: 10px; overflow-x: auto; font-size: 12px; line-height: 1.6; color: #30D158; font-family: monospace; border: 1px solid rgba(255,255,255,0.08); position: relative; }
+.agent-modal-body .meta { color: #8E8E93; font-size: 12px; margin-bottom: 12px; }
+.agent-modal-body .copy-btn { position: absolute; top: 8px; right: 8px; background: #0A84FF; color: #fff; border: none; padding: 4px 10px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+</style>
+
+<!-- 1Panel 风格覆盖 -->
+<style>
+:root {
+  --bg-primary: #0f1419;
+  --bg-secondary: #1a1f2e;
+  --bg-card: #232936;
+  --text-primary: #e5e7eb;
+  --text-secondary: #9ca3af;
+  --blue: #1677ff;
+  --green: #52c41a;
+  --yellow: #faad14;
+  --red: #ff4d4f;
+  --purple: #722ed1;
+  --border-radius: 6px;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+body, .app-container, .sidebar, .main-container, .card, .model-card, .gpu-card, .sys-card, .terminal {
+  border-radius: var(--border-radius) !important;
+  box-shadow: var(--shadow) !important;
+  transition: all 0.2s ease;
+}
+
+.sidebar {
+  background: var(--bg-secondary) !important;
+  border-right: 1px solid rgba(255,255,255,0.06) !important;
+}
+.nav-item {
+  border-radius: var(--border-radius) !important;
+  margin: 4px 8px !important;
+  padding: 10px 16px !important;
+}
+.nav-item.active {
+  background: var(--blue) !important;
+  color: #fff !important;
+}
+.nav-item:hover:not(.active) {
+  background: rgba(255,255,255,0.05) !important;
+}
+
+.model-card, .gpu-card, .sys-card {
+  background: var(--bg-card) !important;
+  border: 1px solid rgba(255,255,255,0.06) !important;
+  padding: 16px !important;
+}
+.model-card.running {
+  border-left: 3px solid var(--green) !important;
+}
+.model-card.stopped {
+  border-left: 3px solid var(--red) !important;
+}
+
+button, .btn, .svc-btn {
+  border-radius: var(--border-radius) !important;
+  transition: all 0.2s ease;
+  border: none !important;
+  font-weight: 500;
+}
+.btn-clean.primary {
+  background: var(--blue) !important;
+  color: #fff !important;
+}
+.btn-clean.danger {
+  background: var(--red) !important;
+  color: #fff !important;
+}
+button:hover:not(:disabled) {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.progress-track {
+  background: rgba(255,255,255,0.1) !important;
+  border-radius: 4px !important;
+  overflow: hidden;
+}
+.progress-fill {
+  border-radius: 4px !important;
+}
+
+.terminal {
+  background: #0a0c10 !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: var(--border-radius) !important;
+}
+
+.pool-tag {
+  background: rgba(22, 119, 255, 0.15) !important;
+  color: var(--blue) !important;
+  border-radius: 4px !important;
+  padding: 2px 8px !important;
+  font-size: 12px !important;
+}
+
+.topbar, .header {
+  background: var(--bg-secondary) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+}
+
+</style>
+
+<!-- theme-i18n-patch-start -->
+<style>
+/* ===== 深色主题（默认） ===== */
+:root, html[data-theme="dark"] {
+  --bg-primary:    #0f1419;
+  --bg-secondary:  #1a1f2e;
+  --bg-card:       #232936;
+  --text-primary:  #e5e7eb;
+  --text-secondary:#9ca3af;
+  --blue:   #1677ff;
+  --green:  #52c41a;
+  --yellow: #faad14;
+  --red:    #ff4d4f;
+  --purple: #722ed1;
+  --border-radius: 6px;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --border-color: rgba(255,255,255,0.08);
+}
+
+/* ===== 浅色主题 ===== */
+html[data-theme="light"] {
+  --bg-primary:    #f5f7fa;
+  --bg-secondary:  #ffffff;
+  --bg-card:       #ffffff;
+  --text-primary:  #1f2329;
+  --text-secondary:#646a73;
+  --blue:   #1677ff;
+  --green:  #52c41a;
+  --yellow: #faad14;
+  --red:    #ff4d4f;
+  --purple: #722ed1;
+  --shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  --border-color: #e5e6eb;
+}
+
+/* ===== 通用组件（两套主题都适用） ===== */
+body, .app-container {
+  background: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.sidebar {
+  background: var(--bg-secondary) !important;
+  border-right: 1px solid var(--border-color) !important;
+  transition: background 0.25s ease;
+}
+
+.nav-item {
+  border-radius: var(--border-radius) !important;
+  margin: 4px 8px !important;
+  padding: 10px 16px !important;
+  color: var(--text-secondary) !important;
+  transition: all 0.2s ease;
+}
+.nav-item.active {
+  background: var(--blue) !important;
+  color: #fff !important;
+}
+.nav-item:hover:not(.active) {
+  background: rgba(127,127,127,0.1) !important;
+  color: var(--text-primary) !important;
+}
+
+.model-card, .gpu-card, .sys-card, .card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--border-radius) !important;
+  box-shadow: var(--shadow) !important;
+  padding: 16px !important;
+  transition: all 0.2s ease;
+}
+.model-card.running { border-left: 3px solid var(--green) !important; }
+.model-card.stopped { border-left: 3px solid var(--red) !important; }
+
+button, .btn, .svc-btn {
+  border-radius: var(--border-radius) !important;
+  border: none !important;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.btn-clean.primary { background: var(--blue) !important; color:#fff !important; }
+.btn-clean.danger  { background: var(--red)  !important; color:#fff !important; }
+.btn-clean         { background: rgba(127,127,127,0.15) !important; color: var(--text-primary) !important; }
+button:hover:not(:disabled) { opacity: 0.85; transform: translateY(-1px); }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.progress-track { background: rgba(127,127,127,0.2) !important; border-radius:4px !important; overflow:hidden; }
+.progress-fill  { border-radius:4px !important; }
+
+.terminal {
+  background: #0a0c10 !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--border-radius) !important;
+  color: #e5e7eb !important;
+}
+
+.pool-tag {
+  background: rgba(22,119,255,0.15) !important;
+  color: var(--blue) !important;
+  border-radius: 4px !important;
+  padding: 2px 8px !important;
+  font-size: 12px !important;
+}
+
+.topbar, .header {
+  background: var(--bg-secondary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+/* ===== 右上角切换按钮 ===== */
+#themeLangControls {
+  position: fixed; top: 12px; right: 16px;
+  z-index: 99999;
+  display: flex; gap: 8px;
+}
+#themeLangControls button {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+}
+#themeLangControls button:hover {
+  background: var(--blue) !important;
+  color: #fff !important;
+  border-color: var(--blue) !important;
+}
+
+
+/* v10.2-network-nav */
+a.nav-item {
+    text-decoration: none;
+    cursor: pointer;
+}
+a.nav-item:hover {
+    background: var(--bg-card);
+}
+</style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="logo-area">
+            <div class="logo-icon">P</div>
+            <div class="logo-text">Dxos<span>_Pilot</span></div>
+        </div>
+        <div class="nav-item active" data-page="overview"><i class="fas fa-th-large"></i><span data-i18n="overview">总览</span></div>
+        <div class="nav-item" data-page="models"><i class="fas fa-robot"></i><span data-i18n="models">模型</span></div>
+        <div class="nav-item" data-page="keys"><i class="fas fa-key"></i><span data-i18n="keys">密钥管理</span></div>
+        <div class="nav-item" data-page="gpu"><i class="fas fa-chart-line"></i><span data-i18n="gpu">GPU 监控</span></div>
+        <div class="nav-item" data-page="logs"><i class="fas fa-terminal"></i><span data-i18n="logs">日志</span></div>
+        <div class="nav-item" data-page="wsl"><i class="fas fa-server"></i><span data-i18n="wsl2">WSL2 远程</span></div>
+
+        <!-- v10.2: 网络控制入口 -->
+        <a onclick="return openNetworkModal(event)" class="nav-item" id="networkNavItem"
+           href="http://192.168.10.132:9984/network.html"
+           target="_blank" rel="noopener">
+          <i class="fas fa-globe"></i><span>网络控制</span>
+        </a>
+
+        <div class="nav-spacer"></div>
+        <div class="user-profile">
+            <div class="user-avatar">AD</div>
+            <div class="user-info" style="line-height:1.3;">
+                <div style="font-size:13px;font-weight:600;">Admin</div>
+                <div style="font-size:11px;color:var(--text-tertiary);">系统管理员</div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="main-content">
+        <header class="top-bar">
+            <div class="page-title">
+                <h1 id="pageTitle">总览 <span class="sub">实时算力资源调度</span></h1>
+            </div>
+            <div class="top-bar-actions">
+                <div class="status-pill" id="gatewayStatusPill"><span class="dot green"></span> <span data-i18n="gateway">网关</span> <span id="gatewayStatusText">运行中</span></div>
+                <div class="status-pill"><span class="dot green"></span> <span data-i18n="kernel">Kernel</span></div>
+                <button class="btn-openwebui" id="openWebUIBtn"><i class="fas fa-globe"></i> Open WebUI</button>
+                <button class="btn-nextchat" id="openNextChatBtn"><i class="fas fa-comments"></i> NextChat</button>
+                <button class="btn-comfyui" id="openComfyUIBtn">
+                    <i class="fas fa-palette"></i> ComfyUI
+                </button>
+    
+                <div class="popover-container">
+                    <button class="popover-btn" id="popoverToggle"><i class="fas fa-sliders-h"></i> <i class="fas fa-chevron-down" style="font-size:10px;"></i></button>
+                    <div class="popover-menu" id="popoverMenu">
+                        <div class="group-label" data-i18n="theme">主题</div>
+                        <button class="menu-item active" data-theme="dark"><i class="fas fa-moon"></i> <span data-i18n="dark">深色</span></button>
+                        <button class="menu-item" data-theme="light"><i class="fas fa-sun"></i> <span data-i18n="light">浅色</span></button>
+                        <div class="divider"></div>
+                        <div class="group-label" data-i18n="language">语言</div>
+                        <button class="menu-item active" data-lang="zh"><i class="fas fa-language"></i> 中文</button>
+                        <button class="menu-item" data-lang="en"><i class="fas fa-language"></i> English</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 服务入口栏 -->
+        <div class="service-bar">
+            <a class="svc-btn svc-ccweb" href="http://192.168.10.132" target="_blank"><i class="fas fa-terminal"></i> OpenClaw</a>
+            <a class="svc-btn svc-langfuse" href="http://192.168.10.132:3108" target="_blank"><i class="fas fa-chart-line"></i> Langfuse</a>
+            <a class="svc-btn svc-searxng" href="http://192.168.10.132:3180" target="_blank"><i class="fas fa-search"></i> SearXNG</a>
+            <a class="svc-btn svc-qdrant" href="http://192.168.10.132:6333/dashboard" target="_blank"><i class="fas fa-database"></i> Qdrant</a>
+            <a class="svc-btn svc-meili" href="http://192.168.10.132:7700" target="_blank"><i class="fas fa-search-plus"></i> Meilisearch</a>
+            <a class="svc-btn svc-longcite" href="http://192.168.10.132:8020" target="_blank"><i class="fas fa-quote-right"></i> LongCite</a>
+            <button class="svc-btn svc-claude" onclick="showAgentModal('claude-code')"><i class="fas fa-code"></i> Claude Code</button>
+            <a class="svc-btn svc-hermes" href="http://192.168.10.132:6061/" target="_blank"><i class="fas fa-robot"></i> Hermes</a>
+            <button class="svc-btn svc-openclaw" onclick="showAgentModal('openclaw')"><i class="fas fa-paw"></i> OpenClaw</button>
+            <button class="svc-btn svc-codex svc-disabled" onclick="showAgentModal('codex')"><i class="fas fa-terminal"></i> Codex <span class="svc-badge">待装</span></button>
+            <button class="svc-btn svc-pi svc-disabled" onclick="showAgentModal('pi')"><i class="fas fa-infinity"></i> PI <span class="svc-badge">待装</span></button>
+            <button class="svc-btn svc-cursor svc-disabled" onclick="showAgentModal('cursor')"><i class="fas fa-i-cursor"></i> Cursor <span class="svc-badge">待装</span></button>
+            <button class="svc-btn svc-continue svc-disabled" onclick="showAgentModal('continue')"><i class="fas fa-play"></i> Continue <span class="svc-badge">待装</span></button>
+            <button class="svc-btn svc-cline svc-disabled" onclick="showAgentModal('cline')"><i class="fas fa-layer-group"></i> Cline <span class="svc-badge">待装</span></button>
+        </div>
+        <div class="agent-modal-bg" id="agentModalBg" onclick="if(event.target===this)closeAgentModal()">
+            <div class="agent-modal">
+                <div class="agent-modal-header">
+                    <h2 id="agentModalTitle">Agent 配置</h2>
+                    <button class="close-btn" onclick="closeAgentModal()">×</button>
+                </div>
+                <div class="agent-modal-body" id="agentModalBody"></div>
+            </div>
+        </div>
+        
+<div class="page active" id="page-overview">
+            <div class="system-grid" id="systemGrid"></div>
+            <div class="action-bar">
+                <button class="btn-clean danger" id="cleanGpuAllBtn"><i class="fas fa-bolt"></i> <span data-i18n="clean_all">清理全部</span></button>
+                <button class="btn-clean primary" id="cleanPoolABtn"><i class="fas fa-bolt"></i> <span data-i18n="clean_pool_a">清理 Pool-A</span></button>
+                <button class="btn-clean primary" id="cleanPoolBBtn"><i class="fas fa-bolt"></i> <span data-i18n="clean_pool_b">清理 Pool-B</span></button>
+                <button class="btn-clean" id="cleanPoolAllBtn" style="border-color:var(--blue);color:var(--blue);"><i class="fas fa-bolt"></i> <span data-i18n="clean_pool_all">清理 Pool-ALL</span></button>
+                <button class="btn-clean" id="restartGatewayBtn" style="border-color:var(--blue);color:var(--blue);"><i class="fas fa-undo-alt"></i> <span data-i18n="restart_gateway">重启网关</span></button>
+            </div>
+
+            <div class="gpu-grid" id="gpuGrid"></div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg-card);padding:12px 20px;border-radius:14px;border:1px solid var(--border-color);flex-shrink:0;flex-wrap:wrap;gap:12px;">
+                <div style="font-weight:600;font-size:15px;"><i class="fas fa-home" style="color:var(--blue);margin-right:8px;"></i> <span data-i18n="model_management">模型管理</span></div>
+                <div style="display:flex;gap:12px;flex-wrap:wrap;">
+                    <button class="btn-sm danger" style="padding:6px 24px;" id="stopAllBtn"><i class="fas fa-stop"></i> <span data-i18n="stop_all">一键停止</span></button>
+                </div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0 8px 0;">
+                <h2 style="font-size:17px;font-weight:600;"><i class="fas fa-cubes" style="color:var(--blue);margin-right:8px;"></i> <span data-i18n="model_instances">模型实例</span></h2>
+                <span style="font-size:12px;color:var(--text-secondary);" id="modelCount">加载中...</span>
+            </div>
+            <div class="model-grid" id="modelGrid"></div>
+
+            <div class="terminal-wrapper">
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div style="display:flex;align-items:center;">
+                            <div class="terminal-dots"><span class="red"></span><span class="yellow"></span><span class="green"></span></div>
+                            <span class="terminal-title">action.log</span>
+                        </div>
+                        <div><i class="fas fa-eraser" style="color:var(--text-tertiary);margin-left:12px;cursor:pointer;" id="clearLogBtn"></i></div>
+                    </div>
+                    <div class="terminal-body" id="logBody"><span class="cursor-blink"></span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 模型页面 -->
+        <div class="page" id="page-models">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:12px;">
+                <h2 style="font-weight:600;font-size:18px;" data-i18n="full_model_list">全量模型列表</h2>
+                <div style="display:flex;gap:10px;"><button class="btn-sm primary" id="refreshModelsBtn"><i class="fas fa-sync-alt"></i> <span data-i18n="refresh">刷新</span></button></div>
+            </div>
+            <div style="flex:1;overflow-y:auto;">
+                <table class="key-table">
+                    <thead><tr><th data-i18n="container_name">容器名</th><th data-i18n="api_name">API 名称</th><th data-i18n="status">状态</th><th data-i18n="gpu_allocation">GPU 分配</th><th data-i18n="port">端口</th><th data-i18n="engine">引擎</th><th data-i18n="actions">操作</th></tr></thead>
+                    <tbody id="modelsTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 密钥页面 -->
+        <div class="page" id="page-keys">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:12px;">
+                <h2 style="font-weight:600;font-size:18px;" data-i18n="api_key_management">API 密钥管理</h2>
+                <div style="display:flex;gap:10px;"><button class="btn-sm primary" id="refreshKeysBtn"><i class="fas fa-sync-alt"></i> <span data-i18n="refresh">刷新</span></button></div>
+            </div>
+            <div style="flex:1;overflow-y:auto;">
+                <table class="key-table"><thead><tr><th data-i18n="model">模型</th><th data-i18n="endpoint">Endpoint</th><th data-i18n="api_key">API Key</th><th data-i18n="expiry">有效期</th><th data-i18n="status">状态</th><th data-i18n="actions">操作</th></tr></thead><tbody id="keysTableBody"></tbody></table>
+            </div>
+        </div>
+
+        <!-- GPU监控页面 -->
+        <div class="page" id="page-gpu">
+            <h2 style="font-weight:600;font-size:18px;margin-bottom:12px;" data-i18n="gpu_detail">GPU 详细监控</h2>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;flex:1;" id="gpuDetailGrid"></div>
+        </div>
+
+        <!-- 日志页面 -->
+        <div class="page" id="page-logs">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:12px;">
+                <h2 style="font-weight:600;font-size:18px;" data-i18n="system_logs">系统日志流</h2>
+                <div style="display:flex;gap:8px;">
+                    <button class="btn-sm" data-log-filter="ALL" style="border-color:var(--blue);color:var(--blue);">ALL</button>
+                    <button class="btn-sm" data-log-filter="INFO" style="border-color:var(--green);color:var(--green);">INFO</button>
+                    <button class="btn-sm" data-log-filter="WARN" style="border-color:var(--yellow);color:var(--yellow);">WARN</button>
+                    <button class="btn-sm" data-log-filter="ERROR" style="border-color:var(--red);color:var(--red);">ERROR</button>
+                    <button class="btn-sm primary" id="clearLogViewBtn"><i class="fas fa-eraser"></i> <span data-i18n="clear">清除</span></button>
+                </div>
+            </div>
+            <div class="terminal-wrapper" style="max-height:100%;flex:1;">
+                <div class="terminal" style="height:100%;">
+                    <div class="terminal-header"><div style="display:flex;align-items:center;"><div class="terminal-dots"><span class="red"></span><span class="yellow"></span><span class="green"></span></div><span class="terminal-title">/ai/ai_dxos/logs/action.log</span></div><div><i class="fas fa-download" style="color:var(--text-tertiary);margin-left:12px;cursor:pointer;" id="exportLogBtn"></i></div></div>
+                    <div class="terminal-body" id="logViewer"><span class="cursor-blink"></span></div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="page" id="page-wsl">
+            <div class="system-grid" id="wslSystemGrid">
+                <div class="sys-card" style="grid-column: 1/-1;">
+                    <div class="label">Win11 主机 GPU（192.168.10.208）</div>
+                    <div id="wslGpuContent" style="margin-top: 10px;">加载中...</div>
+                </div>
+            </div>
+            <div class="action-bar" style="margin-top: 20px;">
+                <button class="btn-clean primary" id="wslRefreshBtn">刷新</button>
+                <button class="btn-clean" id="wslRestartGatewayBtn">重启网关</button>
+                <button class="btn-clean danger" id="wslCleanGpuBtn">清理 vLLM 显存</button>
+            </div>
+            <h3 style="margin: 20px 0 10px;">远程模型（Pool-WIN）</h3>
+            <div class="model-grid" id="wslModelGrid"></div>
+        </div>
+</main>
+</div>
+
+<script>
+const API_BASE = 'http://192.168.10.132:9981';
+let modelsData = [];
+let gpusData = [];
+let systemData = {};
+let refreshTimer = null;
+
+const i18n = {
+    zh: {
+        overview: '总览', models: '模型', keys: '密钥管理', gpu: 'GPU 监控', logs: '日志',
+        gateway: '网关', kernel: 'Kernel', theme: '主题', language: '语言', dark: '深色', light: '浅色',
+        running: '运行中', stopped: '已停止', starting: '启动中', loading: '加载中', error: '异常',
+        start: '启动', stop: '停止', restart: '重启', renew: '续期', valid: '有效', expiring: '即将过期', expired: '已过期',
+        clean_all: '清理全部', clean_pool_a: '清理 Pool-A', clean_pool_b: '清理 Pool-B', clean_pool_all: '清理 Pool-ALL',
+        restart_gateway: '重启网关', stop_all: '一键停止', model_management: '模型管理', model_instances: '模型实例',
+        full_model_list: '全量模型列表', refresh: '刷新', container_name: '容器名', api_name: 'API 名称',
+        status: '状态', gpu_allocation: 'GPU 分配', port: '端口', engine: '引擎', actions: '操作',
+        api_key_management: 'API 密钥管理', model: '模型', endpoint: 'Endpoint', api_key: 'API Key',
+        expiry: '有效期', gpu_detail: 'GPU 详细监控', system_logs: '系统日志流', clear: '清除',
+        no_data: '暂无数据', loading: '加载中...', pool_exclusive: 'Pool-ALL 独占全部 GPU 资源',
+        pool_a_running: 'Pool-A 已有模型运行中', pool_b_running: 'Pool-B 已有模型运行中'
+    },
+    en: {
+        overview: 'Overview', models: 'Models', keys: 'Key Management', gpu: 'GPU Monitor', logs: 'Logs',
+        gateway: 'Gateway', kernel: 'Kernel', theme: 'Theme', language: 'Language', dark: 'Dark', light: 'Light',
+        running: 'Running', stopped: 'Stopped', starting: 'Starting', loading: 'Loading', error: 'Error',
+        start: 'Start', stop: 'Stop', restart: 'Restart', renew: 'Renew', valid: 'Valid', expiring: 'Expiring', expired: 'Expired',
+        clean_all: 'Clean All', clean_pool_a: 'Clean Pool-A', clean_pool_b: 'Clean Pool-B', clean_pool_all: 'Clean Pool-ALL',
+        restart_gateway: 'Restart Gateway', stop_all: 'Stop All', model_management: 'Model Management',
+        model_instances: 'Model Instances', full_model_list: 'Full Model List', refresh: 'Refresh',
+        container_name: 'Container', api_name: 'API Name', status: 'Status', gpu_allocation: 'GPU Allocation',
+        port: 'Port', engine: 'Engine', actions: 'Actions', api_key_management: 'API Key Management',
+        model: 'Model', endpoint: 'Endpoint', api_key: 'API Key', expiry: 'Expiry',
+        gpu_detail: 'GPU Detail Monitor', system_logs: 'System Logs', clear: 'Clear',
+        no_data: 'No Data', loading: 'Loading...', pool_exclusive: 'Pool-ALL is using all GPU resources',
+        pool_a_running: 'Pool-A has a running model', pool_b_running: 'Pool-B has a running model'
+    }
+};
+let currentLang = localStorage.getItem('dxos_lang') || 'zh';
+
+function t(key) { return i18n[currentLang]?.[key] || i18n['zh'][key] || key; }
+
+async function apiCall(endpoint, options = {}) {
+    try {
+        const resp = await fetch(`${API_BASE}${endpoint}`, { ...options, headers: { 'Content-Type': 'application/json', ...options.headers } });
+        return await resp.json();
+    } catch(e) { return { success: false, message: e.message }; }
+}
+
+function getStatusColor(status) {
+    const map = { 'running': 'green', 'stopped': 'gray', 'starting': 'yellow', 'loading': 'yellow', 'error': 'red', 'failed': 'red' };
+    return map[status] || 'gray';
+}
+function getStatusText(status) {
+    const map = { 'running': t('running'), 'stopped': t('stopped'), 'starting': t('starting'), 'loading': t('loading'), 'error': t('error'), 'failed': t('error') };
+    return map[status] || status;
+}
+
+// ---- 渲染函数 ----
+function renderSystemStats(stats) {
+    const grid = document.getElementById('systemGrid');
+    if (!grid) return;
+    const noData = (!stats || Object.keys(stats).length === 0);
+    const cpu = noData ? 0 : (stats.cpu_usage || 0);
+    grid.innerHTML = `
+        <div class="sys-card"><div class="label"><i class="fas fa-microchip"></i> CPU</div><div class="value">${noData ? '--' : cpu.toFixed(1) + '%'}</div><div class="sub">${noData ? '等待数据' : (stats.cpu_cores || 64) + ' 核心'}</div><div class="progress-track"><div class="progress-fill" style="width:${noData ? 0 : cpu}%;background:var(--blue);"></div></div></div>
+        <div class="sys-card"><div class="label"><i class="fas fa-memory"></i> 内存</div><div class="value">${noData ? '--' : (stats.memory_used_gb || 0).toFixed(1) + ' / ' + (stats.memory_total_gb || 64).toFixed(1) + ' GB'}</div><div class="sub">${noData ? '' : (stats.memory_percent || 0).toFixed(0) + '% 占用'}</div><div class="progress-track"><div class="progress-fill" style="width:${noData ? 0 : (stats.memory_percent || 0)}%;background:var(--green);"></div></div></div>
+        <div class="sys-card"><div class="label"><i class="fas fa-database"></i> 交换分区</div><div class="value">${noData ? '--' : (stats.swap_used_gb || 0).toFixed(1) + ' / ' + (stats.swap_total_gb || 8).toFixed(1) + ' GB'}</div><div class="sub">${noData ? '' : (stats.swap_percent || 0).toFixed(0) + '% 占用'}</div><div class="progress-track"><div class="progress-fill" style="width:${noData ? 0 : (stats.swap_percent || 0)}%;background:var(--yellow);"></div></div></div>
+        <div class="sys-card"><div class="label"><i class="fas fa-hdd"></i> 磁盘 (/ai)</div><div class="value">${noData ? '--' : (stats.disk_used_gb || 0).toFixed(1) + ' / ' + (stats.disk_total_gb || 1024).toFixed(1) + ' GB'}</div><div class="sub">${noData ? '' : (stats.disk_percent || 0).toFixed(0) + '% 已用'}</div><div class="progress-track"><div class="progress-fill" style="width:${noData ? 0 : (stats.disk_percent || 0)}%;background:var(--purple);"></div></div></div>
+    `;
+}
+
+function renderGPUs(gpus) {
+    const grid = document.getElementById('gpuGrid');
+    if (!grid) return;
+    if (!gpus || gpus.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-secondary);padding:20px 0;">${t('no_data')}</div>`;
+        return;
+    }
+    grid.innerHTML = gpus.map(g => {
+        const pct = g.total_gb > 0 ? (g.used_gb / g.total_gb * 100) : 0;
+        const color = pct > 85 ? 'var(--red)' : pct > 70 ? 'var(--yellow)' : 'var(--green)';
+        const processText = g.processes && g.processes.length > 0 ? g.processes.join(', ') : '空闲';
+        return `<div class="gpu-card"><div class="gpu-header"><span class="label">GPU ${g.index}</span><div class="gpu-metrics"><span>${g.temperature || 0}°C</span><span>${g.utilization || 0}%</span></div></div><div class="gpu-memory-bar"><span>VRAM</span><span>${g.used_gb.toFixed(1)}/${g.total_gb.toFixed(1)}GB</span></div><div class="progress-track"><div class="progress-fill" style="width:${pct}%;background:${color};"></div></div><div class="gpu-process">${processText}</div></div>`;
+    }).join('');
+}
+
+function renderModels(models) {
+        // 按容器名 M00-M14 排序
+        models.sort(function(a, b) {
+            var getNum = function(name) {
+                var m = (name || '').match(/M(\d+)/);
+                return m ? parseInt(m[1], 10) : 999;
+            };
+            return getNum(a.container_name) - getNum(b.container_name);
+        });
+        // ★ v3.1.1：总览页过滤 Pool-WIN 模型（它们在 WSL2 远程页面单独显示）
+        models = models.filter(m => m.pool !== 'Pool-WIN');
+    const grid = document.getElementById('modelGrid');
+    if (!grid) return;
+    const count = document.getElementById('modelCount');
+    if (!models || models.length === 0) {
+        if (count) count.textContent = t('no_data');
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-secondary);padding:20px 0;">${t('no_data')}</div>`;
+        return;
+    }
+    if (count) count.textContent = `${models.length} 个模型`;
+    const runningModels = models.filter(m => ['running','starting','loading'].includes(m.status));
+    const poolALLRunning = runningModels.some(m => m.pool === 'Pool-ALL');
+    const poolARunning = runningModels.some(m => m.pool === 'Pool-A');
+    const poolBRunning = runningModels.some(m => m.pool === 'Pool-B');
+
+    grid.innerHTML = models.map(m => {
+        const status = m.status || 'stopped';
+        const statusClass = getStatusColor(status);
+        const statusText = getStatusText(status);
+        const isRunning = status === 'running';
+        const isStarting = status === 'starting' || status === 'loading';
+        const isStopped = status === 'stopped';
+        const isError = status === 'error' || status === 'failed';
+        const cardClass = isRunning ? 'running' : isStarting ? 'loading' : isError ? 'error' : 'stopped';
+        const progress = m.progress || 0;
+        const displayName = `${m.container_name} (${m.api_name})`;
+
+        let startDisabled = false;
+        let startTitle = '';
+        let stopDisabled = !isRunning && !isStarting;
+
+        if (isStarting) { startDisabled = true; stopDisabled = true; }
+        else if (isRunning) { startDisabled = true; stopDisabled = false; }
+        else if (isStopped) {
+            // L0 池不受互斥限制
+            if (poolALLRunning && m.pool !== 'Pool-ALL' && m.pool !== 'L0') {
+                startDisabled = true;
+                startTitle = t('pool_exclusive');
+            } else if (m.pool === 'Pool-A' && poolARunning) {
+                startDisabled = true;
+                startTitle = t('pool_a_running');
+            } else if (m.pool === 'Pool-B' && poolBRunning) {
+                startDisabled = true;
+                startTitle = t('pool_b_running');
+            }
+        }
+
+        return `<div class="model-card ${cardClass}">
+            <div class="model-top"><div class="model-name-group"><span class="status-dot ${statusClass}"></span><span class="model-name">${displayName}</span></div><span class="pool-tag">${m.pool || 'L0'}</span></div>
+            <div class="model-meta"><span>GPU ${m.gpu_ids || 'CPU'}</span><span>:${m.port}</span><span>${m.engine || '未知'}</span><span>${statusText}</span>${isStarting ? `<span style="color:var(--yellow);">${Math.round(progress)}%</span>` : ''}</div>
+            <div class="model-actions" id="actions-${m.api_name}">
+                ${isStarting ? `
+                    <div class="progress-inline" id="progress-${m.api_name}">
+                        <div class="track"><div class="fill" style="width:${Math.min(100, progress)}%;"></div></div>
+                        <span class="progress-text">${Math.round(progress)}%</span>
+                    </div>
+                ` : `
+                    <button class="btn-sm primary" onclick="startModel('${m.api_name}')" ${startDisabled ? 'disabled' : ''} title="${startTitle}">${t('start')}</button>
+                    <button class="btn-sm danger" onclick="stopModel('${m.api_name}')" ${stopDisabled ? 'disabled' : ''}>${t('stop')}</button>
+                `}
+                ${isError ? `<button class="btn-sm" style="border-color:var(--red);color:var(--red);" onclick="startModel('${m.api_name}')"><i class="fas fa-redo"></i> ${t('restart')}</button>` : ''}
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function renderModelsTable(models) {
+        // 按容器名 M00-M14 排序
+        models.sort(function(a, b) {
+            var getNum = function(name) {
+                var m = (name || '').match(/M(\d+)/);
+                return m ? parseInt(m[1], 10) : 999;
+            };
+            return getNum(a.container_name) - getNum(b.container_name);
+        });
+    const tbody = document.getElementById('modelsTableBody');
+    if (!tbody) return;
+    if (!models || models.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--text-secondary);padding:30px 0;">${t('no_data')}</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = models.map(m => {
+        const status = m.status || 'stopped';
+        const statusClass = getStatusColor(status);
+        const statusText = getStatusText(status);
+        const isRunning = status === 'running';
+        const isStarting = status === 'starting' || status === 'loading';
+        const progress = m.progress || 0;
+        const displayName = `${m.container_name} (${m.api_name})`;
+        return `<tr><td><strong>${m.container_name}</strong></td><td>${displayName}</td><td><span class="status-dot ${statusClass}" style="display:inline-block;margin-right:6px;"></span>${statusText}</td><td>${m.gpu_ids || 'CPU'}</td><td>:${m.port}</td><td>${m.engine || '未知'}</td><td>
+            ${isStarting ? `<div style="display:flex;align-items:center;gap:8px;"><div class="progress-track" style="width:60px;height:4px;"><div class="progress-fill" style="width:${progress}%;background:var(--blue);"></div></div>${Math.round(progress)}%</div>` : `
+                <button class="btn-sm primary" onclick="startModel('${m.api_name}')" ${isRunning ? 'disabled' : ''}>${t('start')}</button>
+                <button class="btn-sm danger" onclick="stopModel('${m.api_name}')" ${!isRunning ? 'disabled' : ''}>${t('stop')}</button>
+            `}
+        </td></tr>`;
+    }).join('');
+}
+
+function renderKeys(keys) {
+    const tbody = document.getElementById('keysTableBody');
+    if (!tbody) return;
+    if (!keys || keys.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-secondary);padding:30px 0;">${t('no_data')}</td></tr>`;
+        return;
+    }
+    tbody.innerHTML = keys.map(k => `<tr><td><strong>${k.model_name}</strong></td><td style="font-size:13px;color:var(--text-secondary);">${k.endpoint || '-'}</td><td><span class="key-value">${k.api_key || '****'}</span></td><td>${k.expires_at || '永久'}</td><td><span style="color:${k.is_active ? 'var(--green)' : 'var(--red)'};">${k.is_active ? t('valid') : t('expired')}</span></td><td><button class="btn-sm" onclick="renewKey('${k.model_name}')">${t('renew')}</button></td></tr>`).join('');
+}
+
+function renderGPUDetail(gpus) {
+    const grid = document.getElementById('gpuDetailGrid');
+    if (!grid) return;
+    if (!gpus || gpus.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-secondary);padding:40px 0;">${t('no_data')}</div>`;
+        return;
+    }
+    grid.innerHTML = gpus.map(g => {
+        const pct = g.total_gb > 0 ? (g.used_gb / g.total_gb * 100) : 0;
+        const color = pct > 85 ? 'var(--red)' : pct > 70 ? 'var(--yellow)' : 'var(--green)';
+        const processText = g.processes && g.processes.length > 0 ? g.processes.join(', ') : '空闲';
+        return `<div class="gpu-card" style="display:flex;flex-direction:column;justify-content:center;align-items:center;padding:30px;">
+            <span style="font-size:18px;font-weight:600;">GPU ${g.index}</span>
+            <div style="width:100%;margin:16px 0;"><div class="gpu-memory-bar"><span>显存</span><span>${g.used_gb.toFixed(1)} / ${g.total_gb.toFixed(1)} GB</span></div><div class="progress-track"><div class="progress-fill" style="width:${pct}%;background:${color};"></div></div></div>
+            <div style="display:flex;gap:30px;font-size:14px;color:var(--text-secondary);"><span>🌡️ ${g.temperature || 0}°C</span><span>⚡ ${g.utilization || 0}%</span></div>
+            <div style="margin-top:12px;background:var(--bg-primary);padding:6px 16px;border-radius:20px;font-size:13px;color:var(--text-primary);">${processText}</div>
+        </div>`;
+    }).join('');
+}
+
+// ---- 数据加载 ----
+async function loadDashboard() {
+    try {
+        const data = await apiCall('/api/dashboard');
+        if (data.models) { modelsData = data.models; renderModels(modelsData); renderModelsTable(modelsData); }
+        if (data.gpus) { gpusData = data.gpus; renderGPUs(gpusData); renderGPUDetail(gpusData); }
+        if (data.system) { systemData = data.system; renderSystemStats(systemData); }
+        updateGatewayStatus();
+    } catch(e) { console.error('Load error:', e); }
+}
+
+async function loadKeys() {
+    try { const data = await apiCall('/api/keys'); renderKeys(data); } catch(e) { renderKeys([]); }
+}
+
+async function updateGatewayStatus() {
+    try {
+        const data = await apiCall('/api/gateway/status');
+        const el = document.getElementById('gatewayStatusText');
+        if (el) { el.textContent = data.status === 'running' ? '✓' : '⚠️ ' + (data.detail || '异常'); el.style.color = data.status === 'running' ? 'var(--green)' : 'var(--red)'; }
+    } catch(e) { const el = document.getElementById('gatewayStatusText'); if (el) { el.textContent = '⚠️ 连接失败'; el.style.color = 'var(--red)'; } }
+}
+
+// ---- 模型级进度条辅助函数 ----
+function updateModelProgress(modelName, percent, detail) {
+    const container = document.getElementById(`progress-${modelName}`);
+    if (!container) return;
+    const fill = container.querySelector('.fill');
+    if (fill) fill.style.width = `${Math.round(percent)}%`;
+    const text = container.querySelector('.progress-text');
+    if (text) text.textContent = detail || `${Math.round(percent)}%`;
+}
+
+// ---- 启动/停止操作（模型级进度条） ----
+async function startModel(name) {
+    // 检查是否已经在启动中（防止重复点击）
+    const existing = document.getElementById(`progress-${name}`);
+    if (existing) return;
+
+    // 将按钮替换为进度条
+    const actionsDiv = document.getElementById(`actions-${name}`);
+    if (actionsDiv) {
+        actionsDiv.innerHTML = `
+            <div class="progress-inline" id="progress-${name}">
+                <div class="track"><div class="fill" style="width:0%;"></div></div>
+                <span class="progress-text">0%</span>
+            </div>
+        `;
+    }
+
+    const steps = ['准备启动...', '获取调度锁...', '检查资源池...', '停止冲突模型...', '清理 GPU...', '启动容器...', '等待健康检查...', '服务就绪 ✓'];
+    let idx = 0;
+    const timer = setInterval(() => {
+        idx++;
+        if (idx < steps.length) {
+            updateModelProgress(name, (idx / steps.length) * 100, steps[idx]);
+        }
+    }, 500);
+
+    try {
+        const result = await apiCall(`/api/models/${name}/start`, { method: 'POST' });
+        clearInterval(timer);
+        if (result.success) {
+            updateModelProgress(name, 100, '✅ 启动成功');
+            await new Promise(r => setTimeout(r, 800));
+            // 刷新视图，恢复按钮
+            await loadDashboard();
+        } else {
+            updateModelProgress(name, 100, `❌ 启动失败: ${result.message || '未知错误'}`);
+            setTimeout(() => loadDashboard(), 2000);
+        }
+    } catch (e) {
+        clearInterval(timer);
+        updateModelProgress(name, 100, `❌ 请求失败: ${e.message}`);
+        setTimeout(() => loadDashboard(), 2000);
+    }
+}
+
+async function stopModel(name) {
+    // 检查是否已经在停止中
+    const existing = document.getElementById(`progress-${name}`);
+    if (existing) return;
+
+    const actionsDiv = document.getElementById(`actions-${name}`);
+    if (actionsDiv) {
+        actionsDiv.innerHTML = `
+            <div class="progress-inline" id="progress-${name}">
+                <div class="track"><div class="fill" style="width:0%;"></div></div>
+                <span class="progress-text">0%</span>
+            </div>
+        `;
+    }
+
+    const steps = ['准备停止...', '获取模型锁...', '停止容器...', '清理 GPU 显存...', '更新状态...', '完成 ✓'];
+    let idx = 0;
+    const timer = setInterval(() => {
+        idx++;
+        if (idx < steps.length) {
+            updateModelProgress(name, (idx / steps.length) * 100, steps[idx]);
+        }
+    }, 400);
+
+    try {
+        const result = await apiCall(`/api/models/${name}/stop`, { method: 'POST' });
+        clearInterval(timer);
+        if (result.success) {
+            updateModelProgress(name, 100, '✅ 停止成功');
+            await new Promise(r => setTimeout(r, 800));
+            await loadDashboard();
+        } else {
+            updateModelProgress(name, 100, `❌ 停止失败: ${result.message || '未知错误'}`);
+            setTimeout(() => loadDashboard(), 2000);
+        }
+    } catch (e) {
+        clearInterval(timer);
+        updateModelProgress(name, 100, `❌ 请求失败: ${e.message}`);
+        setTimeout(() => loadDashboard(), 2000);
+    }
+}
+
+// ---- 一键停止（仍使用全局进度条，但只影响整体操作） ----
+async function stopAllModels() {
+    if (!confirm('确定要停止所有 GPU 模型吗？')) return;
+    const steps = ['获取全局锁...', '停止 Pool-A...', '停止 Pool-B...', '停止 Pool-ALL...', '清理 GPU...', '完成 ✓'];
+    // 使用全局进度条（快速实现）
+    showProgress('一键停止', steps[0], 0);
+    let idx = 0;
+    const timer = setInterval(() => {
+        idx++;
+        if (idx < steps.length) {
+            updateProgress((idx / steps.length) * 100, steps[idx]);
+        }
+    }, 500);
+    try {
+        const result = await apiCall('/api/stop/all', { method: 'POST' });
+        clearInterval(timer);
+        if (result.success) {
+            updateProgress(100, '✅ 全部停止完成');
+            await new Promise(r => setTimeout(r, 800));
+            hideProgress();
+            await loadDashboard();
+        } else {
+            updateProgress(100, `❌ 失败: ${result.message || '未知错误'}`);
+            setTimeout(hideProgress, 2000);
+        }
+    } catch(e) {
+        clearInterval(timer);
+        updateProgress(100, `❌ 请求失败: ${e.message}`);
+        setTimeout(hideProgress, 2000);
+    }
+}
+
+// ---- 其他操作（清理、网关、密钥）使用全局进度条（不影响模型进度） ----
+async function cleanGpu(target) {
+    const labelMap = { 'all': '全部 GPU', 'pool-a': 'Pool-A', 'pool-b': 'Pool-B', 'pool-all': 'Pool-ALL' };
+    if (!confirm(`确定要清理 ${labelMap[target] || target} 的 GPU 显存吗？`)) return;
+    const steps = ['扫描 GPU 进程...', '识别 Dxos 进程...', '终止孤儿进程...', '释放显存...', '验证完成 ✓'];
+    showProgress(`清理 ${labelMap[target] || target}`, steps[0], 0);
+    let idx = 0;
+    const timer = setInterval(() => {
+        idx++;
+        if (idx < steps.length) {
+            updateProgress((idx / steps.length) * 100, steps[idx]);
+        }
+    }, 400);
+    try {
+        const result = await apiCall(`/api/gpu/clean?target=${target}`, { method: 'POST' });
+        clearInterval(timer);
+        if (result.success) {
+            updateProgress(100, '✅ 清理完成');
+            await new Promise(r => setTimeout(r, 800));
+            hideProgress();
+            await loadDashboard();
+        } else {
+            updateProgress(100, `❌ 清理失败: ${result.output || '未知错误'}`);
+            setTimeout(hideProgress, 2000);
+        }
+    } catch(e) {
+        clearInterval(timer);
+        updateProgress(100, `❌ 请求失败: ${e.message}`);
+        setTimeout(hideProgress, 2000);
+    }
+}
+
+async function renewKey(name) {
+    const steps = ['调用网关 API...', '生成新密钥...', '同步配置...', '验证...', '完成 ✓'];
+    showProgress(`续期 ${name}`, steps[0], 0);
+    let idx = 0;
+    const timer = setInterval(() => {
+        idx++;
+        if (idx < steps.length) {
+            updateProgress((idx / steps.length) * 100, steps[idx]);
+        }
+    }, 400);
+    try {
+        const result = await apiCall(`/api/keys/${name}/renew`, { method: 'POST' });
+        clearInterval(timer);
+        if (result.success) {
+            updateProgress(100, `✅ 续期成功，有效期至 ${result.new_expiry}`);
+            await new Promise(r => setTimeout(r, 800));
+            hideProgress();
+            await loadKeys();
+        } else {
+            updateProgress(100, `❌ 续期失败: ${result.message || '未知错误'}`);
+            setTimeout(hideProgress, 2000);
+        }
+    } catch(e) {
+        clearInterval(timer);
+        updateProgress(100, `❌ 请求失败: ${e.message}`);
+        setTimeout(hideProgress, 2000);
+    }
+}
+
+async function restartGateway() {
+    if (!confirm('确定要重启网关吗？')) return;
+    const steps = ['生成网关配置...', '停止网关容器...', '启动网关容器...', '等待健康检查...', '完成 ✓'];
+    showProgress('重启网关', steps[0], 0);
+    let idx = 0;
+    const timer = setInterval(() => {
+        idx++;
+        if (idx < steps.length) {
+            updateProgress((idx / steps.length) * 100, steps[idx]);
+        }
+    }, 500);
+    try {
+        const result = await apiCall('/api/gateway/restart', { method: 'POST' });
+        clearInterval(timer);
+        if (result.success) {
+            updateProgress(100, '✅ 网关重启成功');
+            await new Promise(r => setTimeout(r, 800));
+            hideProgress();
+            updateGatewayStatus();
+        } else {
+            updateProgress(100, `❌ 重启失败: ${result.message || '未知错误'}`);
+            setTimeout(hideProgress, 2000);
+        }
+    } catch(e) {
+        clearInterval(timer);
+        updateProgress(100, `❌ 请求失败: ${e.message}`);
+        setTimeout(hideProgress, 2000);
+    }
+}
+
+// ---- 全局进度条（仅用于非模型操作） ----
+let progressTimer = null;
+function showProgress(title, detail, percent) {
+    let overlay = document.getElementById('globalProgressOverlay');
+    if (!overlay) {
+        const div = document.createElement('div');
+        div.id = 'globalProgressOverlay';
+        div.style.cssText = 'display:none;position:fixed;bottom:30px;right:30px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:16px 20px;min-width:280px;box-shadow:0 20px 60px var(--shadow-color);z-index:9999;';
+        div.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><span id="globalProgressTitle" style="font-size:14px;font-weight:600;">操作进行中</span><span id="globalProgressPercent" style="font-size:13px;color:var(--text-secondary);">0%</span></div><div class="progress-track" style="height:6px;background:var(--bg-primary);border-radius:10px;overflow:hidden;"><div id="globalProgressBar" class="progress-fill" style="width:0%;background:var(--blue);height:100%;border-radius:10px;transition:width 0.3s;"></div></div><div id="globalProgressDetail" style="font-size:12px;color:var(--text-tertiary);margin-top:4px;">初始化...</div>`;
+        document.body.appendChild(div);
+        overlay = document.getElementById('globalProgressOverlay');
+    }
+    overlay.style.display = 'block';
+    document.getElementById('globalProgressTitle').textContent = title;
+    document.getElementById('globalProgressDetail').textContent = detail || '';
+    document.getElementById('globalProgressPercent').textContent = `${Math.round(percent || 0)}%`;
+    document.getElementById('globalProgressBar').style.width = `${Math.round(percent || 0)}%`;
+}
+function updateProgress(percent, detail) {
+    const el = document.getElementById('globalProgressPercent');
+    if (el) el.textContent = `${Math.round(percent)}%`;
+    const bar = document.getElementById('globalProgressBar');
+    if (bar) bar.style.width = `${Math.round(percent)}%`;
+    const detailEl = document.getElementById('globalProgressDetail');
+    if (detailEl && detail) detailEl.textContent = detail;
+}
+function hideProgress() {
+    const overlay = document.getElementById('globalProgressOverlay');
+    if (overlay) overlay.style.display = 'none';
+    if (progressTimer) { clearInterval(progressTimer); progressTimer = null; }
+}
+
+// ---- 初始化 ----
+function init() {
+    loadDashboard();
+    loadKeys();
+    setInterval(loadDashboard, 5000);
+    setInterval(updateGatewayStatus, 30000);
+    // 事件绑定
+    document.getElementById('cleanGpuAllBtn').addEventListener('click', () => cleanGpu('all'));
+    document.getElementById('cleanPoolABtn').addEventListener('click', () => cleanGpu('pool-a'));
+    document.getElementById('cleanPoolBBtn').addEventListener('click', () => cleanGpu('pool-b'));
+    document.getElementById('cleanPoolAllBtn').addEventListener('click', () => cleanGpu('pool-all'));
+    document.getElementById('restartGatewayBtn').addEventListener('click', restartGateway);
+    document.getElementById('stopAllBtn').addEventListener('click', stopAllModels);
+    document.getElementById('refreshModelsBtn').addEventListener('click', loadDashboard);
+    document.getElementById('refreshKeysBtn').addEventListener('click', loadKeys);
+    document.getElementById('openWebUIBtn').addEventListener('click', () => window.open('http://192.168.10.132:3000', '_blank'));
+    document.getElementById('openNextChatBtn').addEventListener('click', () => window.open('http://192.168.10.132:2000', '_blank'));
+            // ComfyUI 按钮事件
+            document.getElementById('openComfyUIBtn').addEventListener('click', () => window.open('http://192.168.10.132:8001', '_blank'));
+    
+    // 导航切换
+    document.querySelectorAll('.nav-item[data-page]').forEach(item => {
+        item.addEventListener('click', () => {
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            item.classList.add('active');
+            const pageId = item.dataset.page;
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const target = document.getElementById('page-' + pageId);
+            if (target) target.classList.add('active');
+            const titleMap = { overview: '总览', models: '模型', keys: '密钥管理', gpu: 'GPU 监控', logs: '日志', wsl: 'WSL2 远程模型' };
+            const subMap = { overview: '实时算力资源调度', models: '全量模型生命周期管理', keys: 'API 密钥集中管理', gpu: '详细 GPU 状态监控', logs: '实时日志流', wsl: 'Win11 主机 GPU 与远程模型' };
+            document.getElementById('pageTitle').innerHTML = `${titleMap[pageId] || '总览'} <span class="sub">${subMap[pageId] || ''}</span>`;
+            if (pageId === 'keys') loadKeys();
+            if (pageId === 'gpu') renderGPUDetail(gpusData);
+            if (pageId === 'wsl') {
+                loadWslGpu();
+                loadWslModels();
+                // 每 5 秒自动刷新
+                if (window._wslTimer) clearInterval(window._wslTimer);
+                window._wslTimer = setInterval(() => {
+                    if (document.getElementById('page-wsl')?.classList.contains('active')) {
+                        loadWslGpu();
+                        loadWslModels();
+                    } else {
+                        clearInterval(window._wslTimer);
+                    }
+                }, 5000);
+            }
+        });
+    });
+    // 弹窗
+    document.getElementById('popoverToggle').addEventListener('click', (e) => { e.stopPropagation(); document.getElementById('popoverMenu').classList.toggle('open'); });
+    document.addEventListener('click', () => document.getElementById('popoverMenu').classList.remove('open'));
+    // 主题
+    document.querySelectorAll('[data-theme]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const theme = btn.dataset.theme;
+            document.querySelectorAll('[data-theme]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.documentElement.classList.toggle('light-theme', theme === 'light');
+            document.getElementById('popoverMenu').classList.remove('open');
+        });
+    });
+    // 语言
+    document.querySelectorAll('[data-lang]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.querySelectorAll('[data-lang]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentLang = btn.dataset.lang;
+            localStorage.setItem('dxos_lang', currentLang);
+            document.getElementById('popoverMenu').classList.remove('open');
+            loadDashboard();
+            loadKeys();
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+    // ========== WSL2 远程模型页面逻辑 ==========
+    async function loadWslGpu() {
+        try {
+            const resp = await fetch(`${API_BASE}/api/wsl/gpu`);
+            const data = await resp.json();
+            const el = document.getElementById('wslGpuContent');
+            if (!el) return;
+            if (data.error) {
+                el.innerHTML = `<span style="color:var(--red)">❌ ${data.error}: ${data.detail || ''}</span>`;
+                return;
+            }
+            if (!data.gpus || data.gpus.length === 0) {
+                el.innerHTML = '<span style="color:var(--text-secondary)">无 GPU 数据</span>';
+                return;
+            }
+            el.innerHTML = data.gpus.map(g => {
+                const pct = (g.used_mb / g.total_mb * 100).toFixed(1);
+                const color = pct > 85 ? 'var(--red)' : pct > 70 ? 'var(--yellow)' : 'var(--green)';
+                const usedGb = (g.used_mb / 1024).toFixed(1);
+                const totalGb = (g.total_mb / 1024).toFixed(1);
+                return `
+                    <div style="padding: 10px 0;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <b>GPU ${g.index}: ${g.name}</b>
+                            <span style="color:var(--text-secondary);font-size:12px;">${data.host}</span>
+                        </div>
+                        <div style="margin: 8px 0;color:var(--text-secondary);">
+                            VRAM: ${usedGb} / ${totalGb} GB (${pct}%) &nbsp;|&nbsp;
+                            利用率: ${g.utilization}% &nbsp;|&nbsp;
+                            温度: ${g.temperature}°C
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill" style="width:${pct}%;background:${color};"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        } catch (e) {
+            const el = document.getElementById('wslGpuContent');
+            if (el) el.innerHTML = `<span style="color:var(--red)">❌ 连接失败: ${e.message}</span>`;
+        }
+    }
+
+    async function loadWslModels() {
+        try {
+            const resp = await fetch(`${API_BASE}/api/models`);
+            const all = await resp.json();
+            const winModels = all.filter(m => m.pool === 'Pool-WIN');
+            const grid = document.getElementById('wslModelGrid');
+            if (!grid) return;
+            if (winModels.length === 0) {
+                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-secondary);padding:20px;">暂无远程模型</div>';
+                return;
+            }
+            grid.innerHTML = winModels.map(m => {
+                const isRunning = m.status === 'running';
+                const statusColor = isRunning ? 'var(--green)' : 'var(--text-secondary)';
+                return `
+                    <div class="model-card ${isRunning ? 'running' : 'stopped'}" id="wsl-card-${m.api_name}">
+                        <div class="model-top">
+                            <div class="model-name-group">
+                                <span class="status-dot" style="background:${statusColor};"></span>
+                                <span class="model-name">${m.container_name || m.api_name}</span>
+                            </div>
+                            <span class="pool-tag">Pool-WIN</span>
+                        </div>
+                        <div class="model-meta">
+                            <span>物理模型: ${m.physical_model || ''}</span>
+                            <span>端口: ${m.port}</span>
+                            <span>引擎: ${m.engine}</span>
+                            <span>状态: ${m.status}</span>
+                        </div>
+                        <div class="progress-track" id="wsl-progress-${m.api_name}" style="margin: 8px 0; display: ${m.status === 'starting' || m.status === 'loading' ? 'block' : 'none'};">
+                            <div class="progress-fill" id="wsl-progress-fill-${m.api_name}" style="width:${m.progress || 0}%;background:var(--yellow);transition:width 0.3s;"></div>
+                        </div>
+                        <div class="model-actions">
+                            <button class="btn-sm primary" onclick="startWslModel('${m.api_name}')" ${isRunning ? 'disabled' : ''}>启动</button>
+                            <button class="btn-sm danger" onclick="stopWslModel('${m.api_name}')" ${!isRunning ? 'disabled' : ''}>停止</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        } catch (e) {
+            console.error('loadWslModels error:', e);
+        }
+    }
+
+    async function startWslModel(name) {
+        if (!confirm(`确认启动 ${name}？`)) return;
+        try {
+            const resp = await fetch(`${API_BASE}/api/models/${name}/start`, { method: 'POST' });
+            const data = await resp.json();
+            alert(data.success ? '✅ 启动成功' : '❌ ' + (data.message || '启动失败'));
+            setTimeout(() => { loadWslModels(); loadWslGpu(); }, 3000);
+        } catch (e) {
+            alert('❌ ' + e.message);
+        }
+    }
+
+    async function stopWslModel(name) {
+        if (!confirm(`确认停止 ${name}？`)) return;
+        try {
+            const resp = await fetch(`${API_BASE}/api/models/${name}/stop`, { method: 'POST' });
+            const data = await resp.json();
+            alert(data.success ? '✅ 停止成功' : '❌ ' + (data.message || '停止失败'));
+            setTimeout(() => { loadWslModels(); loadWslGpu(); }, 3000);
+        } catch (e) {
+            alert('❌ ' + e.message);
+        }
+    }
+
+    // 按钮绑定
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('wslRefreshBtn')?.addEventListener('click', () => {
+            loadWslGpu(); loadWslModels();
+        });
+        document.getElementById('wslRestartGatewayBtn')?.addEventListener('click', async () => {
+            if (!confirm('确认重启 LiteLLM 网关？')) return;
+            try {
+                const resp = await fetch(`${API_BASE}/api/wsl/restart-gateway`, { method: 'POST' });
+                const data = await resp.json();
+                alert(data.success ? '✅ 网关重启成功' : '❌ 失败');
+            } catch (e) {
+                alert('❌ ' + e.message);
+            }
+        });
+        document.getElementById('wslCleanGpuBtn')?.addEventListener('click', async () => {
+            if (!confirm('确认清理 vLLM 显存？（会停止 vllm 容器）')) return;
+            try {
+                const resp = await fetch(`${API_BASE}/api/wsl/clean-gpu`, { method: 'POST' });
+                const data = await resp.json();
+                alert(data.success ? '✅ 已清理' : '❌ ' + (data.error || '失败'));
+                setTimeout(() => { loadWslModels(); loadWslGpu(); }, 3000);
+            } catch (e) {
+                alert('❌ ' + e.message);
+            }
+        });
+    });
+
+    var AGENT_CONFIGS = {
+        "claude-code": {"title": "💻 Claude Code", "type": "终端 CLI 工具", "port": "无（CLI 客户端）", "link": "https://docs.anthropic.com/claude/docs/claude-code", "config": "# 环境变量配置\nexport ANTHROPIC_BASE_URL=\"http://192.168.10.132:9982\"\nexport ANTHROPIC_API_KEY=\"REPLACE_WITH_PILOT_LLM_GATEWAY_KEY\"\nexport X_USER_ID=\"paxen\"\nunset ANTHROPIC_AUTH_TOKEN\n\n# 使用\nsource /root/.memory-gateway-env\ncd /your/project\nclaude"},
+        "hermes": {"title": "🤖 Hermes", "type": "Docker 客户端", "port": "6061", "link": "http://192.168.10.132:6061/", "config": "# Web UI\nhttp://192.168.10.132:6061/\n\n# 配置文件：/ai/Hermes_agent/config.yaml\ndefault: \"\"\nprovider: \"custom\"\nbase_url: \"http://192.168.10.132:9982/v1\"\napi_key: \"REPLACE_WITH_PILOT_LLM_GATEWAY_KEY\"\nmax_history: 10\ncontext_window: 8000\n\n# 重启\ndocker restart hermes"},
+        "openclaw": {"title": "🦅 OpenClaw", "type": "配置文件接入", "port": "无独立 Web UI", "link": "http://192.168.10.132:9982/v1", "config": "# 配置文件：~/.openclaw/config.yaml\nllm:\n  base_url: \"http://192.168.10.132:9982/v1\"\n  api_key: \"REPLACE_WITH_PILOT_LLM_GATEWAY_KEY\"\n  model: \"\"\n\nmemory:\n  enabled: true\n  backend: \"mem0\"\n  mem0_url: \"http://127.0.0.1:8888\""},
+        "codex": {"title": "💻 Codex CLI", "type": "CLI 工具（待装）", "port": "无（CLI 客户端）", "link": "https://github.com/openai/codex", "config": "# 安装\nnpm install -g @openai/codex\n\n# 配置文件：~/.codex/config.yaml\nmodel: \"\"\nprovider: openai\nbase_url: http://192.168.10.132:9982/v1\napi_key: REPLACE_WITH_PILOT_LLM_GATEWAY_KEY\nprotocol: responses"},
+        "pi": {"title": "∞ PI (Pi)", "type": "CLI 工具（待装）", "port": "无（CLI 客户端）", "link": "https://github.com/Pi-Project", "config": "# 配置文件：~/.pi/config.json\n{\n  \"llm\": {\n    \"provider\": \"openai\",\n    \"baseUrl\": \"http://192.168.10.132:9982/v1\",\n    \"apiKey\": \"REPLACE_WITH_PILOT_LLM_GATEWAY_KEY\",\n    \"model\": \"\"\n  }\n}"},
+        "cursor": {"title": "💻 Cursor", "type": "IDE 桌面软件（待装）", "port": "无（本地软件）", "link": "https://cursor.com", "config": "# Settings → Models → OpenAI API Key\n1. 打开 Cursor Settings\n2. 找到 Models 标签\n3. 配置：\n   - Override OpenAI Base URL: http://192.168.10.132:9982/v1\n   - API Key: REPLACE_WITH_PILOT_LLM_GATEWAY_KEY"},
+        "continue": {"title": "▶ Continue", "type": "IDE 插件（待装）", "port": "无（IDE 插件）", "link": "https://continue.dev", "config": "# 配置文件：~/.continue/config.json\n{\n  \"models\": [{\n    \"title\": \"Memory-Gateway\",\n    \"provider\": \"openai\",\n    \"model\": \"AUTODETECT\",\n    \"apiBase\": \"http://192.168.10.132:9982/v1\",\n    \"apiKey\": \"REPLACE_WITH_PILOT_LLM_GATEWAY_KEY\"\n  }]\n}"},
+        "cline": {"title": "📚 Cline", "type": "VS Code 插件（待装）", "port": "无（VS Code 插件）", "link": "https://github.com/cline/cline", "config": "# VS Code 插件设置\n1. 安装 Cline 插件\n2. 打开设置：\n   - API Provider: openai\n   - openAiBaseUrl: http://192.168.10.132:9982/v1\n   - openAiApiKey: REPLACE_WITH_PILOT_LLM_GATEWAY_KEY"}
+    };
+    
+    function showAgentModal(agentId) {
+        var info = AGENT_CONFIGS[agentId];
+        if (!info) { alert("未找到 " + agentId); return; }
+        document.getElementById("agentModalTitle").textContent = info.title;
+        var cfg = info.config.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var html = '<div class="meta">' +
+            '<div><b>类型：</b>' + info.type + '</div>' +
+            '<div><b>端口：</b>' + info.port + '</div>' +
+            '<div><b>官方链接：</b><a href="' + info.link + '" target="_blank" style="color:#0A84FF;">' + info.link + '</a></div>' +
+            '</div>' +
+            '<div style="position:relative;">' +
+            '<pre><code>' + cfg + '</code></pre>' +
+            '<button class="copy-btn" onclick="copyAgentConfig(\'' + agentId + '\')">复制</button>' +
+            '</div>';
+        document.getElementById("agentModalBody").innerHTML = html;
+        document.getElementById("agentModalBg").classList.add("active");
+    }
+    
+    function closeAgentModal() {
+        document.getElementById("agentModalBg").classList.remove("active");
+    }
+    
+    function copyAgentConfig(agentId) {
+        var info = AGENT_CONFIGS[agentId];
+        if (!info) return;
+        navigator.clipboard.writeText(info.config).then(function() {
+            alert("✅ 配置已复制");
+        }).catch(function() {
+            alert("❌ 复制失败，请手动选择");
+        });
+    }
+    
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape") closeAgentModal();
+    });
+</script>
+
+<script>
+/* ==================================================
+   Dxos_Pilot 主题 & 中英文切换
+   ================================================== */
+(function () {
+  'use strict';
+
+  var THEME_KEY = 'dxos_theme';
+  var LANG_KEY  = 'dxos_lang';
+
+  // ---------- 翻译字典 ----------
+  var I18N = {
+    zh: {}, // 中文就是原文，无需翻译
+    en: {
+      '总览': 'Overview',
+      '模型': 'Models',
+      '密钥管理': 'API Keys',
+      'GPU 监控': 'GPU Monitor',
+      '模型实例': 'Model Instances',
+      '系统状态': 'System Status',
+      '清理全部': 'Clean All',
+      '清理Pool-A': 'Clean Pool-A',
+      '清理Pool-B': 'Clean Pool-B',
+      '重启网关': 'Restart Gateway',
+      '清理vLLM显存': 'Clean vLLM VRAM',
+      '启动': 'Start',
+      '停止': 'Stop',
+      '运行中': 'Running',
+      '已停止': 'Stopped',
+      '端口': 'Port',
+      '引擎': 'Engine',
+      '物理模型': 'Physical Model',
+      '远程模型（Pool-WIN）': 'Remote Models (Pool-WIN)',
+      '远程模型(Pool-WIN)': 'Remote Models (Pool-WIN)',
+      '对话': 'Chat',
+      '嵌入': 'Embedding',
+      '重排': 'Rerank',
+      '图像生成': 'Image Gen',
+      '多模态': 'Multimodal',
+      '密钥': 'API Key',
+      '到期': 'Expires',
+      '状态': 'Status',
+      '操作': 'Actions',
+      '续期': 'Renew',
+      '模型名': 'Model Name',
+      '端点': 'Endpoint',
+      '子模型': 'Sub-model',
+      '主模型': 'Main Model',
+      '重置': 'Reset',
+      '刷新': 'Refresh',
+      '关闭': 'Close',
+      '确认': 'Confirm',
+      '取消': 'Cancel',
+      '复制': 'Copy',
+      '已复制': 'Copied',
+      '内存': 'Memory',
+      '显存': 'VRAM',
+      '磁盘': 'Disk',
+      '使用率': 'Usage',
+      '温度': 'Temp'
+    }
+  };
+
+  // ---------- 主题 ----------
+  function applyTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem(THEME_KEY, t);
+    var btn = document.getElementById('themeToggleBtn');
+    if (btn) btn.textContent = (t === 'light') ? '☀️ Light' : '🌙 Dark';
+  }
+
+  // ---------- 语言 ----------
+  function applyLang(lang) {
+    document.documentElement.setAttribute('data-lang', lang);
+    localStorage.setItem(LANG_KEY, lang);
+
+    // 1) data-i18n 属性
+    var map = I18N[lang] || {};
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n');
+      if (lang === 'en' && map[key]) {
+        if (!el.dataset._origZh) el.dataset._origZh = el.textContent;
+        el.textContent = map[key];
+      } else if (lang === 'zh' && el.dataset._origZh) {
+        el.textContent = el.dataset._origZh;
+      }
+    });
+
+    // 2) 纯文本节点替换（兜底）
+    var walker = document.createTreeWalker(
+      document.body,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode: function (node) {
+          var p = node.parentElement;
+          if (!p) return NodeFilter.FILTER_REJECT;
+          var tag = p.tagName;
+          if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT') {
+            return NodeFilter.FILTER_REJECT;
+          }
+          var t = node.nodeValue.trim();
+          if (!t) return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+    var nodes = [], n;
+    while ((n = walker.nextNode())) nodes.push(n);
+
+    nodes.forEach(function (node) {
+      var trimmed = node.nodeValue.trim();
+      var lead = node.nodeValue.match(/^\s*/)[0];
+      var tail = node.nodeValue.match(/\s*$/)[0];
+
+      if (lang === 'en' && map[trimmed]) {
+        if (!node._origZh) node._origZh = trimmed;
+        node.nodeValue = lead + map[trimmed] + tail;
+      } else if (lang === 'zh' && node._origZh) {
+        node.nodeValue = lead + node._origZh + tail;
+      }
+    });
+
+    var btn = document.getElementById('langToggleBtn');
+    if (btn) btn.textContent = (lang === 'en') ? 'EN / 中' : '中 / EN';
+  }
+
+  // ---------- 注入按钮 ----------
+  function injectControls() {
+    if (document.getElementById('themeLangControls')) return;
+
+    var bar = document.createElement('div');
+    bar.id = 'themeLangControls';
+    bar.innerHTML =
+      '<button id="themeToggleBtn" title="切换主题 / Toggle Theme">🌙 Dark</button>' +
+      '<button id="langToggleBtn"  title="切换语言 / Switch Language">中 / EN</button>';
+    document.body.appendChild(bar);
+
+    document.getElementById('themeToggleBtn').addEventListener('click', function () {
+      var cur = document.documentElement.getAttribute('data-theme') || 'dark';
+      applyTheme(cur === 'light' ? 'dark' : 'light');
+    });
+
+    document.getElementById('langToggleBtn').addEventListener('click', function () {
+      var cur = document.documentElement.getAttribute('data-lang') || 'zh';
+      applyLang(cur === 'en' ? 'zh' : 'en');
+    });
+  }
+
+  // ---------- 初始化 ----------
+  function init() {
+    injectControls();
+    var savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
+    var savedLang  = localStorage.getItem(LANG_KEY)  || 'zh';
+    applyTheme(savedTheme);
+    applyLang(savedLang);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // ---------- 动态内容监听（模型卡片等）----------
+  if (window.MutationObserver) {
+    var timer = null;
+    var observer = new MutationObserver(function () {
+      var lang = document.documentElement.getAttribute('data-lang');
+      if (lang !== 'en') return;
+      clearTimeout(timer);
+      timer = setTimeout(function () { applyLang('en'); }, 150);
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+      observer.observe(document.body, { childList: true, subtree: true });
+    });
+  }
+})();
+
+</script>
+<!-- theme-i18n-patch-end -->
+
+<div id="networkModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.65);align-items:center;justify-content:center;">
+  <div style="width:92vw;height:90vh;background:#111;border:1px solid #333;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;">
+    <div style="height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#1b1b1b;color:#eee;">
+      <strong>网络控制</strong>
+      <button onclick="closeNetworkModal()" style="background:#333;color:#fff;border:0;border-radius:6px;padding:6px 12px;cursor:pointer;">关闭</button>
+    </div>
+    <iframe src="http://192.168.10.132:9984/network.html" style="flex:1;width:100%;border:0;background:#fff;"></iframe>
+  </div>
+</div>
+<script>
+function openNetworkModal(e){if(e){e.preventDefault();e.stopPropagation();}var m=document.getElementById('networkModal');if(m)m.style.display='flex';return false;}
+function closeNetworkModal(){var m=document.getElementById('networkModal');if(m)m.style.display='none';}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeNetworkModal();});
+</script>
+
+</body>
+</html>

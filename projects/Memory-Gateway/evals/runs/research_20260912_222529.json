@@ -1,0 +1,99 @@
+{
+  "aggregate": {
+    "n_questions": 15,
+    "n_valid": 0
+  },
+  "details": [
+    {
+      "id": "q1",
+      "query": "重庆今天气温",
+      "error": "'choices'",
+      "latency": 1.5602729320526123
+    },
+    {
+      "id": "q2",
+      "query": "最新 Python 版本",
+      "error": "'choices'",
+      "latency": 1.3149559497833252
+    },
+    {
+      "id": "q4",
+      "query": "今天重庆有雨吗",
+      "error": "'choices'",
+      "latency": 1.1136605739593506
+    },
+    {
+      "id": "q6",
+      "query": "今天的日期",
+      "error": "'choices'",
+      "latency": 1.222247838973999
+    },
+    {
+      "id": "q7",
+      "query": "最近有什么 AI 新闻",
+      "error": "'choices'",
+      "latency": 1.2126116752624512
+    },
+    {
+      "id": "q3",
+      "query": "Qdrant 是什么向量数据库",
+      "error": "'choices'",
+      "latency": 1.123565435409546
+    },
+    {
+      "id": "q5",
+      "query": "2026年国庆节放假安排",
+      "error": "'choices'",
+      "latency": 1.110395908355713
+    },
+    {
+      "id": "q8",
+      "query": "bge-m3 是什么模型",
+      "error": "'choices'",
+      "latency": 1.027799367904663
+    },
+    {
+      "id": "q9",
+      "query": "Meilisearch 支持中文吗",
+      "error": "'choices'",
+      "latency": 1.1234679222106934
+    },
+    {
+      "id": "q13",
+      "query": "RAG 是什么",
+      "error": "'choices'",
+      "latency": 1.1320698261260986
+    },
+    {
+      "id": "q10",
+      "query": "Qdrant 和 Milvus 哪个更好",
+      "error": "'choices'",
+      "latency": 0.4998781681060791
+    },
+    {
+      "id": "q11",
+      "query": "如何安装 Docker",
+      "error": "'choices'",
+      "latency": 0.5260000228881836
+    },
+    {
+      "id": "q12",
+      "query": "2026年中秋节是哪天",
+      "error": "'choices'",
+      "latency": 1.2457473278045654
+    },
+    {
+      "id": "q14",
+      "query": "张三昨天中午吃了什么",
+      "error": "'choices'",
+      "latency": 0.5496528148651123
+    },
+    {
+      "id": "q15",
+      "query": "2027年诺贝尔奖得主是谁",
+      "error": "'choices'",
+      "latency": 1.0895814895629883
+    }
+  ],
+  "timestamp": "2026-09-12T22:25:29.815823"
+}

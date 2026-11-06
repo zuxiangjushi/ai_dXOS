@@ -1,0 +1,66 @@
+{
+  "log": {
+    "level": "info"
+  },
+  "dns": {
+    "servers": [
+      {
+        "address": "1.1.1.1",
+        "detour": "direct"
+      },
+      {
+        "address": "8.8.8.8",
+        "detour": "direct"
+      }
+    ]
+  },
+  "inbounds": [
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "0.0.0.0",
+      "listen_port": 12334,
+      "sniff": true,
+      "sniff_override_destination": false
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "vless",
+      "tag": "[Vless] CF电信优选1",
+      "server": "8.35.211.115",
+      "server_port": 443,
+      "uuid": "f6eb428d-1024-4774-8846-a78ebacc4fea",
+      "tls": {
+        "enabled": true,
+        "server_name": "paxengray.ccwu.cc",
+        "insecure": true,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/edu/proxyip=ProxyIP.US.CMLiussss.Net ProxyIP.SG.CMLiussss.Net ProxyIP.JP.CMLiussss.Net?ed=2560",
+        "headers": {
+          "Host": "paxengray.ccwu.cc"
+        }
+      },
+      "packet_encoding": "xudp"
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "protocol": "dns",
+        "outbound": "direct"
+      }
+    ],
+    "final": "[Vless] CF电信优选1"
+  }
+}

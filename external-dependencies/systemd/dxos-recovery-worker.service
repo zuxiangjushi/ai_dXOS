@@ -1,0 +1,18 @@
+[Unit]
+Description=Dxos_Pilot Recovery Worker - Paused
+After=network.target
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=root
+ExecStart=/ai/ai_dxos/scripts/scheduler/recovery_worker.sh
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+TimeoutStopSec=10
+
+[Install]
+WantedBy=multi-user.target

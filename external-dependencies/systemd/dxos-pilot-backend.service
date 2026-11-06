@@ -1,0 +1,17 @@
+[Unit]
+Description=Dxos_Pilot Backend
+After=network.target docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/ai/dxos_pilot/backend
+ExecStart=/usr/bin/python3 /ai/dxos_pilot/backend/main.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,17 @@
+[Unit]
+Description=Network Controller (Memory-Gateway)
+After=network.target sing-box.service
+Wants=sing-box.service
+
+[Service]
+Type=simple
+WorkingDirectory=/ai/Memory-Gateway/network_controller
+Environment=PYTHONPATH=/ai/Memory-Gateway/network_controller
+ExecStart=/ai/Memory-Gateway/.venv/bin/python -m uvicorn controller:app --host 0.0.0.0 --port 9983
+Restart=on-failure
+RestartSec=5
+StandardOutput=append:/ai/Memory-Gateway/logs/network_controller.log
+StandardError=append:/ai/Memory-Gateway/logs/network_controller.log
+
+[Install]
+WantedBy=multi-user.target

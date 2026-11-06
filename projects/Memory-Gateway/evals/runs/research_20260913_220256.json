@@ -1,0 +1,220 @@
+{
+  "aggregate": {
+    "n_questions": 15,
+    "n_valid": 11,
+    "by_category": {
+      "realtime": {
+        "n": 5,
+        "citation_precision": 1.0,
+        "refusal_precision": null,
+        "avg_citations": 9.2,
+        "avg_latency": 5.62
+      },
+      "factual": {
+        "n": 5,
+        "citation_precision": 1.0,
+        "refusal_precision": null,
+        "avg_citations": 11.6,
+        "avg_latency": 7.03
+      },
+      "compare": {
+        "n": 1,
+        "citation_precision": 1.0,
+        "refusal_precision": 1.0,
+        "avg_citations": 0.0,
+        "avg_latency": 4.75
+      }
+    },
+    "citation_precision": 1.0,
+    "refusal_precision": 1.0,
+    "groundedness": 0.909,
+    "avg_citations": 9.45,
+    "avg_answer_len": 1323.2,
+    "latency_p50": 5.45,
+    "latency_p95": 9.44,
+    "latency_avg": 6.18,
+    "avg_prompt_tokens": 657.0,
+    "avg_completion_tokens": 172.0
+  },
+  "details": [
+    {
+      "id": "q1",
+      "query": "重庆今天气温",
+      "category": "realtime",
+      "expect_citation": true,
+      "answer_len": 878,
+      "has_citation": true,
+      "citation_count": 7,
+      "citation_correct": true,
+      "latency": 5.446825742721558,
+      "prompt_tokens": 788,
+      "completion_tokens": 128,
+      "answer_preview": "根据搜索结果，2026年9月13日重庆（以九龙坡区为例）的天气预报显示，今天白天多云，最高气温为30℃，最低气温为24℃ [1](https://m.tianqi.com/tianqi/jiulongpo/20260913.html?qd=tq7) 。\n\n需要注意的是，另一条来源显示重庆9月13日的"
+    },
+    {
+      "id": "q2",
+      "query": "最新 Python 版本",
+      "category": "realtime",
+      "expect_citation": true,
+      "answer_len": 1204,
+      "has_citation": true,
+      "citation_count": 10,
+      "citation_correct": true,
+      "latency": 4.97176194190979,
+      "prompt_tokens": 628,
+      "completion_tokens": 115,
+      "answer_preview": "根据搜索结果，目前 Python 的最新版本情况如下：\n\n*   **预发布版本**：Python 3.15 目前处于预发布（pre-release）阶段，计划于 2026 年 10 月 1 日发布 [1](https://www.python.org/getit/) 。\n*   **最新稳定版本*"
+    },
+    {
+      "id": "q4",
+      "query": "今天重庆有雨吗",
+      "category": "realtime",
+      "expect_citation": true,
+      "answer_len": 1366,
+      "has_citation": true,
+      "citation_count": 12,
+      "citation_correct": true,
+      "latency": 7.215123176574707,
+      "prompt_tokens": 789,
+      "completion_tokens": 209,
+      "answer_preview": "根据搜索结果，今天（2026年9月13日）重庆**有雨**，具体表现为**阵雨或雷雨** [2](http://www.cq.chinanews.com.cn/news/2021/0912/39-26713.html) 。\n\n*   **天气状况**：重庆市中西部地区预计多阵雨或雷雨 [2](htt"
+    },
+    {
+      "id": "q6",
+      "query": "今天的日期",
+      "category": "realtime",
+      "expect_citation": true,
+      "answer_len": 366,
+      "has_citation": true,
+      "citation_count": 4,
+      "citation_correct": true,
+      "latency": 2.7569751739501953,
+      "prompt_tokens": 744,
+      "completion_tokens": 16,
+      "answer_preview": "今天是2026年9月13日 [1](https://m.rili.com.cn/wannianli/2026/0913.html) 。\n\n─────\n**参考来源：**\n- [1] [社区] [万年历2026年9月13日日历查询_日历网](https://m.rili.com.cn/wannianl"
+    },
+    {
+      "id": "q7",
+      "query": "最近有什么 AI 新闻",
+      "category": "realtime",
+      "expect_citation": true,
+      "answer_len": 1910,
+      "has_citation": true,
+      "citation_count": 13,
+      "citation_correct": true,
+      "latency": 7.71811056137085,
+      "prompt_tokens": 741,
+      "completion_tokens": 249,
+      "answer_preview": "根据提供的搜索结果，以下是近期（2026年6月至7月）的一些 AI 相关新闻：\n\n1.  **美团开源大模型**：美团开源了万亿参数大模型 LongCat-2.0，据报道这是全球首个全链路国产算力训练的大模型 [3](https://www.toutiao.com/article/765936596"
+    },
+    {
+      "id": "q3",
+      "query": "Qdrant 是什么向量数据库",
+      "category": "factual",
+      "expect_citation": true,
+      "answer_len": 1842,
+      "has_citation": true,
+      "citation_count": 15,
+      "citation_correct": true,
+      "latency": 8.218355417251587,
+      "prompt_tokens": 724,
+      "completion_tokens": 249,
+      "answer_preview": "Qdrant 是一个专为 AI 应用设计的开源向量数据库与相似度搜索引擎 [1](https://blog.csdn.net/u013380694/article/details/161900472) 。它使用 Rust 语言编写，旨在高效地存储和检索高维向量数据，并提供生产就绪的服务 [2](ht"
+    },
+    {
+      "id": "q5",
+      "query": "2026年国庆节放假安排",
+      "category": "factual",
+      "expect_citation": true,
+      "answer_len": 2906,
+      "has_citation": true,
+      "citation_count": 11,
+      "citation_correct": true,
+      "latency": 9.43655776977539,
+      "prompt_tokens": 686,
+      "completion_tokens": 335,
+      "answer_preview": "根据2026年9月13日的实时搜索结果，2026年国庆节放假安排如下：\n\n**1. 放假时间与天数**\n2026年国庆节放假时间为 **10月1日（周四）至 10月7日（周三）**，共 **7天** [1](https://sh.bendibao.com/news/2025115/302110.sh"
+    },
+    {
+      "id": "q8",
+      "query": "bge-m3 是什么模型",
+      "category": "factual",
+      "expect_citation": true,
+      "answer_len": 1547,
+      "has_citation": true,
+      "citation_count": 16,
+      "citation_correct": true,
+      "latency": 8.139883756637573,
+      "prompt_tokens": 692,
+      "completion_tokens": 247,
+      "answer_preview": "BGE-M3 是由北京智源人工智能研究院（BAAI）推出的一款多功能、多语言、多粒度的文本嵌入模型 [1](https://cloud.baidu.com/article/3367620) 。该模型旨在将文本转换为低维稠密向量，以便进行高效的计算和分析 [1](https://cloud.baidu"
+    },
+    {
+      "id": "q9",
+      "query": "Meilisearch 支持中文吗",
+      "category": "factual",
+      "expect_citation": true,
+      "answer_len": 1389,
+      "has_citation": true,
+      "citation_count": 9,
+      "citation_correct": true,
+      "latency": 4.458861589431763,
+      "prompt_tokens": 664,
+      "completion_tokens": 80,
+      "answer_preview": "Meilisearch 支持中文搜索 [1](https://blog.csdn.net/cnn8visionary/article/details/152202688) 。\n\n根据相关资料显示，Meilisearch 对中文有良好的支持，且不需要额外的配置 [3](https://blog.csd"
+    },
+    {
+      "id": "q13",
+      "query": "RAG 是什么",
+      "category": "factual",
+      "expect_citation": true,
+      "answer_len": 859,
+      "has_citation": true,
+      "citation_count": 7,
+      "citation_correct": true,
+      "latency": 4.878547430038452,
+      "prompt_tokens": 607,
+      "completion_tokens": 107,
+      "answer_preview": "RAG 是 **Retrieval Augmented Generation**（检索增强生成）的缩写 [1](https://developer.aliyun.com/article/1662485) 。\n\n它是一种优化大型语言模型（LLM）输出的方法，使模型在生成响应之前，能够引用训练数据来源之"
+    },
+    {
+      "id": "q10",
+      "query": "Qdrant 和 Milvus 哪个更好",
+      "category": "compare",
+      "expect_citation": false,
+      "answer_len": 288,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": true,
+      "latency": 4.753117799758911,
+      "prompt_tokens": 160,
+      "completion_tokens": 162,
+      "answer_preview": "Qdrant 与 Milvus 各有优势，选择取决于具体场景：\n\n*   **性能与易用性**：Qdrant 基于 Rust，单机性能极高，API 简洁，部署轻量，适合中小规模或追求快速迭代的场景。\n*   **规模与生态**：Milvus 基于 C++，专为超大规模向量设计，分布式架构成熟，支持多"
+    },
+    {
+      "id": "q11",
+      "query": "如何安装 Docker",
+      "error": "'choices'",
+      "latency": 4.954878330230713
+    },
+    {
+      "id": "q12",
+      "query": "2026年中秋节是哪天",
+      "error": "'choices'",
+      "latency": 1.6705851554870605
+    },
+    {
+      "id": "q14",
+      "query": "张三昨天中午吃了什么",
+      "error": "'choices'",
+      "latency": 0.9942545890808105
+    },
+    {
+      "id": "q15",
+      "query": "2027年诺贝尔奖得主是谁",
+      "error": "'choices'",
+      "latency": 0.9997744560241699
+    }
+  ],
+  "timestamp": "2026-09-13T22:02:56.292657"
+}

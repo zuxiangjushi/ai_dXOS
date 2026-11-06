@@ -1,0 +1,84 @@
+name: mg-g0
+services:
+  meili:
+    environment:
+      MEILI_MASTER_KEY: <REDACTED_MASTER_KEY> .env.g0 填 MEILISEARCH_API_KEY}
+    image: getmeili/meilisearch:v1.12
+    ports:
+    - 7700:7700
+    restart: unless-stopped
+    volumes:
+    - /ai/Memory-Gateway/data/meili:/meili_data
+  pg_hdd:
+    environment:
+      POSTGRES_DB: probe
+      POSTGRES_PASSWORD: probe
+      POSTGRES_USER: probe
+    image: postgres:16-alpine
+    ports:
+    - 5434:5432
+    restart: unless-stopped
+    volumes:
+    - /backup/mg_g0/pg:/var/lib/postgresql/data
+  pg_ssd:
+    command:
+    - postgres
+    - -c
+    - max_wal_size=8GB
+    - -c
+    - checkpoint_timeout=30min
+    environment:
+      POSTGRES_DB: probe
+      POSTGRES_PASSWORD: probe
+      POSTGRES_USER: probe
+    image: postgres:16-alpine
+    ports:
+    - 5433:5432
+    restart: unless-stopped
+    volumes:
+    - /ai/Memory-Gateway/data/pg_ssd:/var/lib/postgresql/data
+  qdrant:
+    image: qdrant/qdrant:v1.12.5
+    ports:
+    - 6333:6333
+    restart: unless-stopped
+    ulimits:
+      nofile:
+        soft: 1048576
+        hard: 1048576
+    volumes:
+    - /ai/Memory-Gateway/data/qdrant:/qdrant/storage
+  redis:
+    command:
+    - redis-server
+    - --appendonly
+    - 'no'
+    - --save
+    - '""'
+    image: redis:7-alpine
+    ports:
+    - 6379:6379
+    restart: unless-stopped
+
+  langfuse:
+    image: langfuse/langfuse:2
+    restart: unless-stopped
+    ports:
+      - "3108:3000"
+    environment:
+      DATABASE_URL: postgres://<REDACTED_DSN>
+      NEXTAUTH_SECRET: ${LANGFUSE_SECRET}
+      SALT: ${LANGFUSE_SALT}
+      NEXTAUTH_URL: http://192.168.10.132:3108
+      TELEMETRY_ENABLED: "false"
+      LANGFUSE_INIT_ORG_ID: default-org
+      LANGFUSE_INIT_ORG_NAME: Default Org
+      LANGFUSE_INIT_PROJECT_ID: default-project
+      LANGFUSE_INIT_PROJECT_NAME: Default Project
+      LANGFUSE_INIT_PROJECT_PUBLIC_KEY: ${LANGFUSE_PUBLIC_KEY}
+      LANGFUSE_INIT_PROJECT_SECRET_KEY: ${LANGFUSE_SECRET_KEY}
+      LANGFUSE_INIT_USER_EMAIL: admin@example.com
+      LANGFUSE_INIT_USER_NAME: admin
+      LANGFUSE_INIT_USER_PASSWORD: admin123
+    depends_on:
+      - pg_ssd

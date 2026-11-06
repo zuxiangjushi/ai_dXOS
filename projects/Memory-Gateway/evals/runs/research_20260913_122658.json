@@ -1,0 +1,246 @@
+{
+  "aggregate": {
+    "n_questions": 15,
+    "n_valid": 15,
+    "by_category": {
+      "realtime": {
+        "n": 5,
+        "citation_precision": 1.0,
+        "avg_citations": 11.8,
+        "avg_latency": 8.86
+      },
+      "factual": {
+        "n": 6,
+        "citation_precision": 1.0,
+        "avg_citations": 10.67,
+        "avg_latency": 8.56
+      },
+      "compare": {
+        "n": 1,
+        "citation_precision": 1.0,
+        "avg_citations": 0.0,
+        "avg_latency": 10.95
+      },
+      "howto": {
+        "n": 1,
+        "citation_precision": 1.0,
+        "avg_citations": 0.0,
+        "avg_latency": 12.87
+      },
+      "unanswerable": {
+        "n": 2,
+        "citation_precision": 1.0,
+        "avg_citations": 0.0,
+        "avg_latency": 2.37
+      }
+    },
+    "citation_precision": 1.0,
+    "refusal_precision": null,
+    "groundedness": 0.733,
+    "avg_citations": 8.2,
+    "avg_answer_len": 1193.3,
+    "latency_p50": 8.53,
+    "latency_p95": 14.43,
+    "latency_avg": 8.28,
+    "avg_prompt_tokens": 561.0,
+    "avg_completion_tokens": 165.0
+  },
+  "details": [
+    {
+      "id": "q1",
+      "query": "重庆今天气温",
+      "category": "realtime",
+      "answer_len": 1620,
+      "has_citation": true,
+      "citation_count": 13,
+      "citation_correct": true,
+      "latency": 10.17138385772705,
+      "prompt_tokens": 760,
+      "completion_tokens": 179,
+      "answer_preview": "根据搜索结果，2026年9月13日重庆的气温情况如下：\n\n1.  **中心城区**：今日白天预计最高气温在 **30℃** [1](http://www.cq.gov.cn/ywdt/bmts/202309/t20230914_12338724.html) 。\n2.  **大部地区**：受持续高温影"
+    },
+    {
+      "id": "q2",
+      "query": "最新 Python 版本",
+      "category": "realtime",
+      "answer_len": 1283,
+      "has_citation": true,
+      "citation_count": 10,
+      "citation_correct": true,
+      "latency": 8.530813455581665,
+      "prompt_tokens": 605,
+      "completion_tokens": 163,
+      "answer_preview": "截至当前（2026年9月13日），Python 的最新版本情况如下：\n\n1.  **预发布版本**：根据 Python 官方网站的信息，**Python 3.15** 的预发布版本（pre-release）正在提供下载，其正式发布日期计划为 **2026年10月1日** [1](https://ww"
+    },
+    {
+      "id": "q4",
+      "query": "今天重庆有雨吗",
+      "category": "realtime",
+      "answer_len": 1318,
+      "has_citation": true,
+      "citation_count": 11,
+      "citation_correct": true,
+      "latency": 7.6332221031188965,
+      "prompt_tokens": 764,
+      "completion_tokens": 148,
+      "answer_preview": "根据实时搜索结果，今天（2026年9月13日）重庆部分地区有雨，具体情况如下：\n\n1.  **中西部地区**：预计今天（9月13日）重庆市中西部地区多阵雨或雷雨 [2](http://www.cq.chinanews.com.cn/news/2021/0912/39-26713.html) 。\n2."
+    },
+    {
+      "id": "q6",
+      "query": "今天的日期",
+      "category": "realtime",
+      "answer_len": 836,
+      "has_citation": true,
+      "citation_count": 8,
+      "citation_correct": true,
+      "latency": 3.546978712081909,
+      "prompt_tokens": 950,
+      "completion_tokens": 45,
+      "answer_preview": "今天的日期是 **2026年9月13日** [1](https://m.rili.com.cn/wannianli/2026/0913.html) 。\n\n根据黄历显示，这一天是农历丙午年（马年）八月初三，星期日 [2](https://www.timecha.com/rili/2026/09-13."
+    },
+    {
+      "id": "q7",
+      "query": "最近有什么 AI 新闻",
+      "category": "realtime",
+      "answer_len": 2378,
+      "has_citation": true,
+      "citation_count": 17,
+      "citation_correct": true,
+      "latency": 14.429812908172607,
+      "prompt_tokens": 710,
+      "completion_tokens": 279,
+      "answer_preview": "基于当前日期（2026年9月13日）及提供的搜索结果，以下是近期（2026年中）的一些主要 AI 新闻动态：\n\n**1. 大模型与基础软件**\n*   **美团开源 LongCat-2.0**：美团开源了万亿参数的大模型 LongCat-2.0，被称为全球首个全链路国产算力训练的大模型 [3](ht"
+    },
+    {
+      "id": "q3",
+      "query": "Qdrant 是什么向量数据库",
+      "category": "factual",
+      "answer_len": 1875,
+      "has_citation": true,
+      "citation_count": 15,
+      "citation_correct": true,
+      "latency": 12.887251377105713,
+      "prompt_tokens": 690,
+      "completion_tokens": 281,
+      "answer_preview": "Qdrant（发音为 /kwɑːrənt/，源自 Quadrant）是一款专为人工智能（AI）应用设计的**开源向量数据库**和**相似度搜索引擎** [1](https://blog.csdn.net/u013380694/article/details/161900472) 。\n\n以下是关于 Q"
+    },
+    {
+      "id": "q5",
+      "query": "2026年国庆节放假安排",
+      "category": "factual",
+      "answer_len": 1622,
+      "has_citation": true,
+      "citation_count": 8,
+      "citation_correct": true,
+      "latency": 7.0122904777526855,
+      "prompt_tokens": 730,
+      "completion_tokens": 133,
+      "answer_preview": "2026年国庆节放假安排如下：\n\n*   **放假时间**：10月1日（周四）至10月7日（周三），共放假7天 [1](https://sh.bendibao.com/news/2025115/302110.shtm) 。\n*   **调休上班**：9月20日（周日）和10月10日（周六）需要正常上"
+    },
+    {
+      "id": "q8",
+      "query": "bge-m3 是什么模型",
+      "category": "factual",
+      "answer_len": 1589,
+      "has_citation": true,
+      "citation_count": 15,
+      "citation_correct": true,
+      "latency": 13.382163286209106,
+      "prompt_tokens": 676,
+      "completion_tokens": 292,
+      "answer_preview": "BGE-M3 是由**北京智源人工智能研究院（BAAI）**推出的一系列文本嵌入（Embedding）模型中的一个重要版本 [1](https://cloud.baidu.com/article/3367620) 。它旨在将文本转换为低维稠密向量，以便进行高效的语义计算和分析 [1](https:/"
+    },
+    {
+      "id": "q9",
+      "query": "Meilisearch 支持中文吗",
+      "category": "factual",
+      "answer_len": 1459,
+      "has_citation": true,
+      "citation_count": 10,
+      "citation_correct": true,
+      "latency": 5.239606142044067,
+      "prompt_tokens": 652,
+      "completion_tokens": 84,
+      "answer_preview": "是的，Meilisearch 支持中文搜索 [3](https://blog.csdn.net/lizhongde112/article/details/140353436) 。\n\n根据搜索结果，Meilisearch 对中文有良好的支持，且通常不需要额外的配置即可实现中文搜索 [3](https:"
+    },
+    {
+      "id": "q13",
+      "query": "RAG 是什么",
+      "category": "factual",
+      "answer_len": 1062,
+      "has_citation": true,
+      "citation_count": 9,
+      "citation_correct": true,
+      "latency": 8.567736148834229,
+      "prompt_tokens": 595,
+      "completion_tokens": 174,
+      "answer_preview": "RAG 全称为 **Retrieval-Augmented Generation**，中文译为**检索增强生成** [1](https://developer.aliyun.com/article/1662485) 。\n\n它是一种用于优化大型语言模型（LLM）输出的技术方法。其核心原理是让模型在生成"
+    },
+    {
+      "id": "q10",
+      "query": "Qdrant 和 Milvus 哪个更好",
+      "category": "compare",
+      "answer_len": 503,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": true,
+      "latency": 10.948532581329346,
+      "prompt_tokens": 132,
+      "completion_tokens": 254,
+      "answer_preview": "Qdrant 与 Milvus 各有侧重，选择取决于具体场景：\n\n*   **架构与部署**：\n    *   **Qdrant**：基于 Rust 构建，单体架构，部署极简，资源占用低，适合中小规模或边缘计算。\n    *   **Milvus**：基于 C++/Go，微服务架构，支持大规模分布式"
+    },
+    {
+      "id": "q11",
+      "query": "如何安装 Docker",
+      "category": "howto",
+      "answer_len": 937,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": true,
+      "latency": 12.865864038467407,
+      "prompt_tokens": 120,
+      "completion_tokens": 304,
+      "answer_preview": "以下是 Ubuntu/Debian 系统安装 Docker 的关键步骤：\n\n1. **更新包索引**\n   ```bash\n   sudo apt-get update\n   ```\n\n2. **安装依赖包**\n   ```bash\n   sudo apt-get install ca-certif"
+    },
+    {
+      "id": "q12",
+      "query": "2026年中秋节是哪天",
+      "category": "factual",
+      "answer_len": 1296,
+      "has_citation": true,
+      "citation_count": 7,
+      "citation_correct": true,
+      "latency": 4.2480432987213135,
+      "prompt_tokens": 764,
+      "completion_tokens": 65,
+      "answer_preview": "2026年中秋节是**9月25日（周五）** [1](https://m.cq.bendibao.com/news/157279.shtm) 。\n\n根据相关安排，2026年中秋节假期为**9月25日（周五）至9月27日（周日）**，共放假3天，无需调休 [2](http://nc.bendibao."
+    },
+    {
+      "id": "q14",
+      "query": "张三昨天中午吃了什么",
+      "category": "unanswerable",
+      "answer_len": 85,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": true,
+      "latency": 2.7026731967926025,
+      "prompt_tokens": 95,
+      "completion_tokens": 45,
+      "answer_preview": "根据长期记忆，您之前问过**张三昨天中午吃了什么**，但记忆中并未记录具体的答案。\n\n因此，基于现有信息，答案是：**未知**（需要您提供更多信息或查看之前的对话记录）。"
+    },
+    {
+      "id": "q15",
+      "query": "2027年诺贝尔奖得主是谁",
+      "category": "unanswerable",
+      "answer_len": 36,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": true,
+      "latency": 2.0325980186462402,
+      "prompt_tokens": 169,
+      "completion_tokens": 28,
+      "answer_preview": "今天是2026年9月13日，2027年诺贝尔奖尚未公布，故暂时无法回答。"
+    }
+  ],
+  "timestamp": "2026-09-13T12:26:58.622375"
+}

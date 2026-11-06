@@ -1,0 +1,488 @@
+{
+  "by_type": {
+    "compare": [
+      {
+        "query": "bge-m3 vs Qwen3-Embedding 哪个好",
+        "A": {
+          "query": "bge-m3 vs Qwen3-Embedding 哪个好",
+          "hits": 9,
+          "sources": 9,
+          "latency_ms": 15513,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "bge-m3 vs Qwen3-Embedding 哪个好",
+          "type": "compare",
+          "queries": [
+            "bge-m3 特点 优势",
+            "Qwen3-Embedding 哪个好 特点 优势",
+            "bge-m3 vs Qwen3-Embedding 哪个好 对比"
+          ],
+          "hits": 24,
+          "sources": 24,
+          "latency_ms": 11016,
+          "n_queries": 3
+        },
+        "delta_pct": 166.7
+      },
+      {
+        "query": "PostgreSQL 和 MySQL 哪个更适合 OLAP",
+        "A": {
+          "query": "PostgreSQL 和 MySQL 哪个更适合 OLAP",
+          "hits": 5,
+          "sources": 5,
+          "latency_ms": 15254,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "PostgreSQL 和 MySQL 哪个更适合 OLAP",
+          "type": "compare",
+          "queries": [
+            "PostgreSQL 特点 优势",
+            "MySQL 特点 优势",
+            "PostgreSQL vs MySQL 对比"
+          ],
+          "hits": 15,
+          "sources": 15,
+          "latency_ms": 10787,
+          "n_queries": 3
+        },
+        "delta_pct": 200.0
+      },
+      {
+        "query": "RAG 和长上下文哪个更好",
+        "A": {
+          "query": "RAG 和长上下文哪个更好",
+          "hits": 9,
+          "sources": 9,
+          "latency_ms": 15398,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "RAG 和长上下文哪个更好",
+          "type": "compare",
+          "queries": [
+            "RAG 特点 优势",
+            "长上下文 特点 优势",
+            "RAG vs 长上下文 对比"
+          ],
+          "hits": 28,
+          "sources": 28,
+          "latency_ms": 11208,
+          "n_queries": 3
+        },
+        "delta_pct": 211.1
+      },
+      {
+        "query": "SGLang 对比 vLLM 性能差异",
+        "A": {
+          "query": "SGLang 对比 vLLM 性能差异",
+          "hits": 10,
+          "sources": 10,
+          "latency_ms": 15468,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "SGLang 对比 vLLM 性能差异",
+          "type": "compare",
+          "queries": [
+            "SGLang 特点 优势",
+            "vLLM 性能差异 特点 优势",
+            "SGLang vs vLLM 性能差异 对比"
+          ],
+          "hits": 26,
+          "sources": 26,
+          "latency_ms": 11047,
+          "n_queries": 3
+        },
+        "delta_pct": 160.0
+      }
+    ],
+    "howto": [
+      {
+        "query": "SGLang NCCL 报错怎么办",
+        "A": {
+          "query": "SGLang NCCL 报错怎么办",
+          "hits": 8,
+          "sources": 8,
+          "latency_ms": 15362,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "SGLang NCCL 报错怎么办",
+          "type": "howto",
+          "queries": [
+            "SGLang NCCL 报错 解决方案",
+            "SGLang NCCL 报错 排查步骤",
+            "SGLang NCCL 报错 官方文档"
+          ],
+          "hits": 23,
+          "sources": 23,
+          "latency_ms": 11040,
+          "n_queries": 3
+        },
+        "delta_pct": 187.5
+      },
+      {
+        "query": "vLLM OOM 怎么解决",
+        "A": {
+          "query": "vLLM OOM 怎么解决",
+          "hits": 7,
+          "sources": 7,
+          "latency_ms": 15329,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "vLLM OOM 怎么解决",
+          "type": "howto",
+          "queries": [
+            "vLLM OOM 解决方案",
+            "vLLM OOM 排查步骤",
+            "vLLM OOM 官方文档"
+          ],
+          "hits": 21,
+          "sources": 21,
+          "latency_ms": 10975,
+          "n_queries": 3
+        },
+        "delta_pct": 200.0
+      },
+      {
+        "query": "CUDA out of memory 如何处理",
+        "A": {
+          "query": "CUDA out of memory 如何处理",
+          "hits": 10,
+          "sources": 10,
+          "latency_ms": 15433,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "CUDA out of memory 如何处理",
+          "type": "howto",
+          "queries": [
+            "CUDA out of memory 解决方案",
+            "CUDA out of memory 排查步骤",
+            "CUDA out of memory 官方文档"
+          ],
+          "hits": 30,
+          "sources": 30,
+          "latency_ms": 11270,
+          "n_queries": 3
+        },
+        "delta_pct": 200.0
+      },
+      {
+        "query": "docker 端口冲突怎么办",
+        "A": {
+          "query": "docker 端口冲突怎么办",
+          "hits": 8,
+          "sources": 8,
+          "latency_ms": 15372,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "docker 端口冲突怎么办",
+          "type": "howto",
+          "queries": [
+            "docker 端口冲突 解决方案",
+            "docker 端口冲突 排查步骤",
+            "docker 端口冲突 官方文档"
+          ],
+          "hits": 24,
+          "sources": 24,
+          "latency_ms": 11070,
+          "n_queries": 3
+        },
+        "delta_pct": 200.0
+      },
+      {
+        "query": "Python import 失败怎么排查",
+        "A": {
+          "query": "Python import 失败怎么排查",
+          "hits": 9,
+          "sources": 9,
+          "latency_ms": 15405,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "Python import 失败怎么排查",
+          "type": "howto",
+          "queries": [
+            "Python import 失败 解决方案",
+            "Python import 失败 排查步骤",
+            "Python import 失败 官方文档"
+          ],
+          "hits": 27,
+          "sources": 27,
+          "latency_ms": 11168,
+          "n_queries": 3
+        },
+        "delta_pct": 200.0
+      },
+      {
+        "query": "pip 安装超时怎么办",
+        "A": {
+          "query": "pip 安装超时怎么办",
+          "hits": 7,
+          "sources": 7,
+          "latency_ms": 15327,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "pip 安装超时怎么办",
+          "type": "howto",
+          "queries": [
+            "pip 安装超时 解决方案",
+            "pip 安装超时 排查步骤",
+            "pip 安装超时 官方文档"
+          ],
+          "hits": 24,
+          "sources": 24,
+          "latency_ms": 11066,
+          "n_queries": 3
+        },
+        "delta_pct": 242.9
+      }
+    ],
+    "realtime": [
+      {
+        "query": "今天重庆天气",
+        "A": {
+          "query": "今天重庆天气",
+          "hits": 9,
+          "sources": 9,
+          "latency_ms": 15392,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "今天重庆天气",
+          "type": "realtime",
+          "queries": [
+            "重庆天气 最新",
+            "重庆天气 2026年10月"
+          ],
+          "hits": 20,
+          "sources": 20,
+          "latency_ms": 11582,
+          "n_queries": 2
+        },
+        "delta_pct": 122.2
+      },
+      {
+        "query": "最新 OpenAI 模型",
+        "A": {
+          "query": "最新 OpenAI 模型",
+          "hits": 6,
+          "sources": 6,
+          "latency_ms": 15323,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "最新 OpenAI 模型",
+          "type": "realtime",
+          "queries": [
+            "OpenAI 模型 最新",
+            "OpenAI 模型 2026年10月"
+          ],
+          "hits": 16,
+          "sources": 16,
+          "latency_ms": 10739,
+          "n_queries": 2
+        },
+        "delta_pct": 166.7
+      },
+      {
+        "query": "最近的英伟达股价",
+        "A": {
+          "query": "最近的英伟达股价",
+          "hits": 8,
+          "sources": 8,
+          "latency_ms": 15375,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "最近的英伟达股价",
+          "type": "realtime",
+          "queries": [
+            "英伟达股价 最新",
+            "英伟达股价 2026年10月"
+          ],
+          "hits": 18,
+          "sources": 18,
+          "latency_ms": 10828,
+          "n_queries": 2
+        },
+        "delta_pct": 125.0
+      },
+      {
+        "query": "2026年诺贝尔奖",
+        "A": {
+          "query": "2026年诺贝尔奖",
+          "hits": 9,
+          "sources": 9,
+          "latency_ms": 15418,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "2026年诺贝尔奖",
+          "type": "general",
+          "queries": [
+            "2026年诺贝尔奖"
+          ],
+          "hits": 9,
+          "sources": 9,
+          "latency_ms": 10423,
+          "n_queries": 1
+        },
+        "delta_pct": 0.0
+      }
+    ],
+    "list": [
+      {
+        "query": "Python 有哪些新特性",
+        "A": {
+          "query": "Python 有哪些新特性",
+          "hits": 8,
+          "sources": 8,
+          "latency_ms": 15375,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "Python 有哪些新特性",
+          "type": "list",
+          "queries": [
+            "Python 列表",
+            "Python 完整清单"
+          ],
+          "hits": 20,
+          "sources": 20,
+          "latency_ms": 10870,
+          "n_queries": 2
+        },
+        "delta_pct": 150.0
+      },
+      {
+        "query": "Qwen 系列有哪些版本",
+        "A": {
+          "query": "Qwen 系列有哪些版本",
+          "hits": 8,
+          "sources": 8,
+          "latency_ms": 15407,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "Qwen 系列有哪些版本",
+          "type": "list",
+          "queries": [
+            "Qwen 系列 列表",
+            "Qwen 系列 完整清单"
+          ],
+          "hits": 16,
+          "sources": 16,
+          "latency_ms": 10754,
+          "n_queries": 2
+        },
+        "delta_pct": 100.0
+      },
+      {
+        "query": "向量数据库有哪些选择",
+        "A": {
+          "query": "向量数据库有哪些选择",
+          "hits": 9,
+          "sources": 9,
+          "latency_ms": 15431,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "向量数据库有哪些选择",
+          "type": "list",
+          "queries": [
+            "向量数据库 列表",
+            "向量数据库 完整清单"
+          ],
+          "hits": 16,
+          "sources": 16,
+          "latency_ms": 10772,
+          "n_queries": 2
+        },
+        "delta_pct": 77.8
+      }
+    ],
+    "general": [
+      {
+        "query": "地球到月球的距离",
+        "A": {
+          "query": "地球到月球的距离",
+          "hits": 9,
+          "sources": 9,
+          "latency_ms": 15406,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "地球到月球的距离",
+          "type": "general",
+          "queries": [
+            "地球到月球的距离"
+          ],
+          "hits": 9,
+          "sources": 9,
+          "latency_ms": 10419,
+          "n_queries": 1
+        },
+        "delta_pct": 0.0
+      },
+      {
+        "query": "中国的国土面积",
+        "A": {
+          "query": "中国的国土面积",
+          "hits": 10,
+          "sources": 10,
+          "latency_ms": 15440,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "中国的国土面积",
+          "type": "general",
+          "queries": [
+            "中国的国土面积"
+          ],
+          "hits": 10,
+          "sources": 10,
+          "latency_ms": 10458,
+          "n_queries": 1
+        },
+        "delta_pct": 0.0
+      },
+      {
+        "query": "什么是量子计算",
+        "A": {
+          "query": "什么是量子计算",
+          "hits": 9,
+          "sources": 9,
+          "latency_ms": 15413,
+          "n_queries": 1
+        },
+        "B": {
+          "query": "什么是量子计算",
+          "type": "general",
+          "queries": [
+            "什么是量子计算"
+          ],
+          "hits": 9,
+          "sources": 9,
+          "latency_ms": 10423,
+          "n_queries": 1
+        },
+        "delta_pct": 0.0
+      }
+    ]
+  },
+  "summary": {
+    "n_queries": 20,
+    "total_a_hits": 167,
+    "total_b_hits": 385,
+    "avg_delta_pct": 130.5,
+    "avg_a_latency_ms": 15392,
+    "avg_b_latency_ms": 10895
+  }
+}

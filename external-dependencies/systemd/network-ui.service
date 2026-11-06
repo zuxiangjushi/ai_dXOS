@@ -1,0 +1,15 @@
+[Unit]
+Description=Dxos Network Control UI (Static)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/ai/Memory-Gateway/static
+ExecStart=/usr/bin/python3 -m http.server 9984 --bind 0.0.0.0 --directory /ai/Memory-Gateway/static
+Restart=always
+RestartSec=5
+StandardOutput=append:/var/log/network-ui.log
+StandardError=append:/var/log/network-ui.log
+
+[Install]
+WantedBy=multi-user.target

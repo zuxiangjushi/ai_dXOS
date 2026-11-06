@@ -1,0 +1,20 @@
+{"id":"cn_fact_001","query":"英伟达5090有多少CUDA Core","category":"cn_fact"}
+{"id":"cn_fact_002","query":"重庆市人口多少","category":"cn_fact"}
+{"id":"cn_fact_003","query":"Python 3.13 发布时间","category":"cn_fact"}
+{"id":"cn_fact_004","query":"中国的国土面积","category":"cn_fact"}
+{"id":"cn_fact_005","query":"地球到月球的距离","category":"cn_fact"}
+{"id":"cn_fresh_001","query":"2026年OpenAI最新模型","category":"cn_fresh"}
+{"id":"cn_fresh_002","query":"今天重庆天气","category":"cn_fresh"}
+{"id":"cn_fresh_003","query":"2026年10月科技新闻","category":"cn_fresh"}
+{"id":"cn_fresh_004","query":"最近的英伟达股价","category":"cn_fresh"}
+{"id":"cn_fresh_005","query":"2026年诺贝尔奖","category":"cn_fresh"}
+{"id":"en_tech_001","query":"SGLang TP2 NCCL error fix","category":"en_tech"}
+{"id":"en_tech_002","query":"vLLM OOM troubleshooting","category":"en_tech"}
+{"id":"en_tech_003","query":"Qwen3.8 27B FP8 benchmark","category":"en_tech"}
+{"id":"en_tech_004","query":"RTX 3090 4-way tensor parallel","category":"en_tech"}
+{"id":"en_tech_005","query":"llama.cpp KV cache context size","category":"en_tech"}
+{"id":"tech_debug_001","query":"为什么vLLM报OOM错误","category":"tech_debug"}
+{"id":"tech_debug_002","query":"SGLang启动失败怎么办","category":"tech_debug"}
+{"id":"tech_debug_003","query":"CUDA out of memory解决","category":"tech_debug"}
+{"id":"compare_001","query":"Qwen3.8 27B vs Qwen3 32B 哪个更适合4x3090","category":"compare"}
+{"id":"compare_002","query":"bge-m3 vs Qwen3-Embedding 对比","category":"compare"}

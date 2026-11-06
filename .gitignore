@@ -1,0 +1,62 @@
+# ===== Regenerable build noise =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# ===== Virtual environments / node =====
+venv/
+.venv/
+env/
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# ===== Secrets / local env (none present; defence in depth) =====
+.env
+.env.*
+*.env
+secrets/
+*.pem
+*.key
+id_rsa
+id_ed25519
+*.p12
+*.pfx
+
+# ===== Databases / logs / runtime (none present) =====
+*.db
+*.sqlite
+*.sqlite3
+*.log
+*.core
+*.lck
+
+# ===== Model weights & large binaries (none present) =====
+*.safetensors
+*.gguf
+*.ckpt
+*.pt
+*.pth
+
+# ===== Historical backup files (none in archive) =====
+*.bak
+*.bak.*
+
+# ===== OS / editor =====
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# NOTE: projects/ai_dxos/Strata/.gitignore (nested, faithful copy) contains `*` and
+# excludes the whole Strata build from git. That is upstream build-tooling behavior,
+# NOT a backup decision. Do NOT "fix" it by editing the nested file; the Strata
+# binaries are tracked in this backup's manifests/SHA256SUMS.txt and stay out of git
+# on purpose (see docs/git_archive_supplement_20261106.md §5).

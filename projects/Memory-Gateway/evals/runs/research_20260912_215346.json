@@ -1,0 +1,83 @@
+{
+  "aggregate": {
+    "n_questions": 5,
+    "n_valid": 5,
+    "citation_precision": 0.0,
+    "groundedness": 0.0,
+    "avg_citations": 0.0,
+    "avg_answer_len": 509.2,
+    "latency_p50": 6.25,
+    "latency_p95": 6.29,
+    "latency_avg": 6.16,
+    "avg_prompt_tokens": 14.0,
+    "avg_completion_tokens": 393.0
+  },
+  "details": [
+    {
+      "id": "q1",
+      "query": "重庆今天气温",
+      "category": "realtime",
+      "answer_len": 727,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 6.268193006515503,
+      "prompt_tokens": 11,
+      "completion_tokens": 400,
+      "answer_preview": "<think>\n好的，用户问的是重庆今天的气温。首先，我需要确认用户的需求是什么。他们可能想知道当前的天气情况，或者接下来的天气预报，或者是今天的最高最低气温。不过问题里明确提到“今天”，所以应该是指当前的实时气温或者今天的天气概况。\n\n接下来，我需要考虑如何获取最新的天气数据。由于天气信息变化较快"
+    },
+    {
+      "id": "q2",
+      "query": "最新 Python 版本",
+      "category": "realtime",
+      "answer_len": 671,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 6.225470304489136,
+      "prompt_tokens": 13,
+      "completion_tokens": 400,
+      "answer_preview": "<think>\n好的，用户问的是最新的Python版本，我需要先确认当前的最新版本是什么。首先，我应该回忆一下Python的版本发布情况。Python有两个主要分支，Python 2和Python 3，但Python 2在2020年已经停止支持了，所以现在主流都是Python 3。现在最新的Pyth"
+    },
+    {
+      "id": "q3",
+      "query": "Qdrant 是什么向量数据库",
+      "category": "factual",
+      "answer_len": 742,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 6.2491748332977295,
+      "prompt_tokens": 16,
+      "completion_tokens": 400,
+      "answer_preview": "<think>\n好的，我现在需要回答用户关于Qdrant是什么的问题。首先，我应该先回想一下自己对Qdrant的了解。Qdrant是一个向量数据库，对吧？我记得它主要用于处理高维向量数据，可能和机器学习或者自然语言处理有关。用户可能想知道它的基本功能、特点，以及与其他类似数据库的区别。\n\n首先，我需"
+    },
+    {
+      "id": "q4",
+      "query": "今天重庆有雨吗",
+      "category": "realtime",
+      "answer_len": 298,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 5.773335218429565,
+      "prompt_tokens": 13,
+      "completion_tokens": 367,
+      "answer_preview": "根据最新的天气预报信息，重庆今天（2023年10月）的天气情况如下：\n\n- **天气状况**：今天重庆大部地区有分散性阵雨或雷阵雨，局部地区雨量可能较大。\n- **气温**：白天最高气温约22-25℃，夜间最低气温16-18℃。\n- **建议**：外出时建议携带雨具，注意交通安全，山区或低洼地带需防"
+    },
+    {
+      "id": "q5",
+      "query": "2026年国庆节放假安排",
+      "category": "factual",
+      "answer_len": 108,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 6.288575887680054,
+      "prompt_tokens": 17,
+      "completion_tokens": 400,
+      "answer_preview": "截至我知识更新的时间（2023年12月），**2026年国庆节的放假安排尚未由官方正式公布**。中国的节假日调休安排通常由国务院在每年年底或次年初发布，具体日期和调休方案会根据实际情况调整。\n\n### 一般规律参考："
+    }
+  ],
+  "timestamp": "2026-09-12T21:53:46.751899"
+}

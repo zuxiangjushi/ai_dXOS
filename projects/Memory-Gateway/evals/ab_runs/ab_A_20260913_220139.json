@@ -1,0 +1,57 @@
+{
+  "group": "A",
+  "mode": "参数调优 ON（分类场景化）",
+  "duration_s": 77.48,
+  "result_file": "/ai/Memory-Gateway/evals/runs/research_20260913_220139.json",
+  "aggregate": {
+    "n_questions": 15,
+    "n_valid": 15,
+    "by_category": {
+      "realtime": {
+        "n": 5,
+        "citation_precision": 1.0,
+        "refusal_precision": null,
+        "avg_citations": 8.6,
+        "avg_latency": 5.5
+      },
+      "factual": {
+        "n": 6,
+        "citation_precision": 1.0,
+        "refusal_precision": null,
+        "avg_citations": 10.83,
+        "avg_latency": 5.24
+      },
+      "compare": {
+        "n": 1,
+        "citation_precision": 1.0,
+        "refusal_precision": 1.0,
+        "avg_citations": 0.0,
+        "avg_latency": 5.25
+      },
+      "howto": {
+        "n": 1,
+        "citation_precision": 1.0,
+        "refusal_precision": 1.0,
+        "avg_citations": 0.0,
+        "avg_latency": 7.06
+      },
+      "unanswerable": {
+        "n": 2,
+        "citation_precision": 1.0,
+        "refusal_precision": 1.0,
+        "avg_citations": 0.0,
+        "avg_latency": 2.97
+      }
+    },
+    "citation_precision": 1.0,
+    "refusal_precision": 1.0,
+    "groundedness": 0.733,
+    "avg_citations": 7.2,
+    "avg_answer_len": 1073.4,
+    "latency_p50": 5.25,
+    "latency_p95": 7.91,
+    "latency_avg": 5.15,
+    "avg_prompt_tokens": 548.0,
+    "avg_completion_tokens": 141.0
+  }
+}

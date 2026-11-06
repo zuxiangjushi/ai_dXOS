@@ -1,0 +1,19 @@
+[Unit]
+Description=Memory-Gateway (无限记忆上下文网关)
+After=network.target docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/ai/Memory-Gateway
+ExecStartPre=/bin/bash -c 'docker compose -f /ai/Memory-Gateway/deploy/docker-compose.g0.yml up -d; docker compose -f /ai/Memory-Gateway/deploy/docker-compose.mem0.yml up -d'
+ExecStart=/bin/bash -c 'set -a; source /ai/Memory-Gateway/.env.g0; set +a; exec /ai/Memory-Gateway/.venv/bin/python /ai/Memory-Gateway/fastapi_gateway.py'
+Restart=always
+RestartSec=5
+StandardOutput=append:/ai/Memory-Gateway/logs/systemd_gateway.log
+StandardError=append:/ai/Memory-Gateway/logs/systemd_gateway.log
+EnvironmentFile=/ai/Memory-Gateway/.env.g0
+
+[Install]
+WantedBy=multi-user.target

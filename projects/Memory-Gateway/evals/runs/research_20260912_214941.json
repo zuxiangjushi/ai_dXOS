@@ -1,0 +1,83 @@
+{
+  "aggregate": {
+    "n_questions": 5,
+    "n_valid": 5,
+    "citation_precision": 0.6,
+    "groundedness": 0.6,
+    "avg_citations": 0.8,
+    "avg_answer_len": 327.8,
+    "latency_p50": 6.84,
+    "latency_p95": 8.91,
+    "latency_avg": 7.32,
+    "avg_prompt_tokens": 336.0,
+    "avg_completion_tokens": 199.0
+  },
+  "details": [
+    {
+      "id": "q1",
+      "query": "重庆今天气温",
+      "category": "realtime",
+      "answer_len": 56,
+      "has_citation": true,
+      "citation_count": 1,
+      "citation_correct": true,
+      "latency": 7.692388534545898,
+      "prompt_tokens": 538,
+      "completion_tokens": 43,
+      "answer_preview": "今天是2026年9月12日，重庆市辖区秀山土家族苗族自治县的天气为多云，最高气温27℃，最低气温20℃ [1]。"
+    },
+    {
+      "id": "q2",
+      "query": "最新 Python 版本",
+      "category": "realtime",
+      "answer_len": 114,
+      "has_citation": true,
+      "citation_count": 1,
+      "citation_correct": true,
+      "latency": 6.3876824378967285,
+      "prompt_tokens": 397,
+      "completion_tokens": 70,
+      "answer_preview": "截至2026年9月12日，根据最新的信息，Python 的最新版本是 Python 3.15，它计划于2026年10月1日发布 [1]。不过，请注意实际的发布日期可能会有所变动，建议访问 Python 官方网站获取最准确的信息。"
+    },
+    {
+      "id": "q3",
+      "query": "Qdrant 是什么向量数据库",
+      "category": "factual",
+      "answer_len": 736,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 6.785219192504883,
+      "prompt_tokens": 16,
+      "completion_tokens": 400,
+      "answer_preview": "<think>\n好的，我现在需要回答用户关于Qdrant是什么的问题。首先，我应该回忆一下之前学过的知识，可能Qdrant是一个向量数据库，用于处理高维向量数据的存储和检索。向量数据库通常用于推荐系统、图像搜索、自然语言处理等领域，因为这些场景需要处理大量的向量数据，并快速找到相似的向量。\n\n接下来"
+    },
+    {
+      "id": "q4",
+      "query": "今天重庆有雨吗",
+      "category": "realtime",
+      "answer_len": 124,
+      "has_citation": true,
+      "citation_count": 2,
+      "citation_correct": true,
+      "latency": 8.909097671508789,
+      "prompt_tokens": 662,
+      "completion_tokens": 82,
+      "answer_preview": "根据现有信息，2026年9月12日重庆的天气情况显示，九龙坡区和开县等地以多云为主，并未提到有降雨 [2]。然而，部分地区的强降雨可能集中在重庆东南部及东北部 [3]。因此，是否降雨可能因具体位置而异。建议进一步查看当地实时天气预报以获取准确信息。"
+    },
+    {
+      "id": "q5",
+      "query": "2026年国庆节放假安排",
+      "category": "factual",
+      "answer_len": 609,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 6.8399317264556885,
+      "prompt_tokens": 65,
+      "completion_tokens": 400,
+      "answer_preview": "<think>\n好的，用户问的是2026年国庆节的放假安排。首先，我需要确认2026年的国庆节是哪一天。国庆节是10月1日，所以2026年的国庆节是10月1日。接下来，我需要了解中国通常的国庆节放假安排。一般来说，国庆节会连休7天，调休周末形成长假。但具体的调休安排每年都会有所不同，需要根据国务院发"
+    }
+  ],
+  "timestamp": "2026-09-12T21:49:41.137355"
+}

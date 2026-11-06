@@ -1,0 +1,37 @@
+services:
+  litellm-gateway:
+    image: ghcr.io/berriai/litellm:main-latest
+    container_name: litellm-gateway
+    ports:
+      - "9980:4000"
+    volumes:
+      - ../configs/litellm_config.yaml:/app/config.yaml
+      - ../secrets/keys.conf:/app/keys.conf
+    environment:
+      - LITELLM_MASTER_KEY=<REDACTED_MASTER_KEY>
+      - LITELLM_CONFIG=/app/config.yaml
+    command: --config /app/config.yaml --port 4000
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    ports:
+      - "3000:8080"
+    environment:
+      - OLLAMA_BASE_URL=http://host.docker.internal:9980
+      - OPENAI_API_BASE_URL=http://host.docker.internal:9980/v1
+      - OPENAI_API_KEY=<REDACTED_API_KEY>
+      - OPENAI_MODEL_NAMES=qwen3_32b,deepseek_70b,gemma_4,yy35b_q6,qwen38_27b_f8,yy38_27b,yy35b_q8,qwen3_30b,deepseek_V25,emb_bge_m3
+      - WEBUI_AUTH=false
+      - WEBUI_NAME=Dxos_Pilot
+    volumes:
+      - open-webui:/app/backend/data
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  open-webui:

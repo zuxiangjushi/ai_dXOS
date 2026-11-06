@@ -1,0 +1,16 @@
+[Unit]
+Description=Sing-Box Proxy Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/tmp
+ExecStart=/usr/local/bin/sing-box run -c /ai/Memory-Gateway/network_controller/singbox_config.json
+Restart=always
+RestartSec=5
+StandardOutput=append:/var/log/sing-box.log
+StandardError=append:/var/log/sing-box.log
+
+[Install]
+WantedBy=multi-user.target

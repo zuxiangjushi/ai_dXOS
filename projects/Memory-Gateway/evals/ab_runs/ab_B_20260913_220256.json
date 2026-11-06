@@ -1,0 +1,43 @@
+{
+  "group": "B",
+  "mode": "参数调优 OFF（统一 temp=0.7）",
+  "duration_s": 76.89,
+  "result_file": "/ai/Memory-Gateway/evals/runs/research_20260913_220256.json",
+  "aggregate": {
+    "n_questions": 15,
+    "n_valid": 11,
+    "by_category": {
+      "realtime": {
+        "n": 5,
+        "citation_precision": 1.0,
+        "refusal_precision": null,
+        "avg_citations": 9.2,
+        "avg_latency": 5.62
+      },
+      "factual": {
+        "n": 5,
+        "citation_precision": 1.0,
+        "refusal_precision": null,
+        "avg_citations": 11.6,
+        "avg_latency": 7.03
+      },
+      "compare": {
+        "n": 1,
+        "citation_precision": 1.0,
+        "refusal_precision": 1.0,
+        "avg_citations": 0.0,
+        "avg_latency": 4.75
+      }
+    },
+    "citation_precision": 1.0,
+    "refusal_precision": 1.0,
+    "groundedness": 0.909,
+    "avg_citations": 9.45,
+    "avg_answer_len": 1323.2,
+    "latency_p50": 5.45,
+    "latency_p95": 9.44,
+    "latency_avg": 6.18,
+    "avg_prompt_tokens": 657.0,
+    "avg_completion_tokens": 172.0
+  }
+}

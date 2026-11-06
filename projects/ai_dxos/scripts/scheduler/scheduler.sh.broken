@@ -1,0 +1,71 @@
+#!/bin/bash
+# /ai/ai_dxos/scripts/scheduler/scheduler.sh
+# 统一入口 - 仅调用独立模型脚本
+
+set -euo pipefail
+
+case "${1:-}" in
+    start)
+        shift
+        if [ -z "${1:-}" ]; then
+            echo "用法: $0 start <model_name>"
+            exit 1
+        fi
+        /ai/ai_dxos/scripts/model_actions/start_${1}.sh
+        ;;
+    stop)
+        shift
+        if [ -z "${1:-}" ]; then
+            echo "用法: $0 stop <model_name>"
+            exit 1
+        fi
+        /ai/ai_dxos/scripts/model_actions/stop_${1}.sh
+        ;;
+    switch)
+        shift
+        if [ -z "${1:-}" ]; then
+            echo "用法: $0 switch <model_name>"
+            exit 1
+        fi
+        /ai/ai_dxos/scripts/model_actions/start_${1}.sh
+        ;;
+    stop_all)
+        echo "正在停止所有 GPU 模型..."
+        for script in /ai/ai_dxos/scripts/model_actions/stop_*.sh; do
+            if [ -f "$script" ] && [[ "$script" != *"common"* ]]; then
+                echo "执行: $script"
+                bash "$script"
+            fi
+        done
+        echo "所有模型已停止，执行 GPU 清理..."
+        /ai/ai_dxos/scripts/actions/clean_gpu.sh all --force
+        ;;
+    status)
+    reconcile)
+        /ai/ai_dxos/scripts/common/state.sh reconcile
+        ;;
+        cat /ai/ai_dxos/configs/state/state.json | python3 -c "
+import json, sys
+data = json.load(sys.stdin)
+models = data.get('running_models', {})
+if not models:
+    print('暂无运行中的模型')
+else:
+    for model, info in models.items():
+        print(f'{model}: {info.get(\"status\", \"unknown\")} (端口: {info.get(\"port\", \"?\")})')
+"
+        ;;
+    *)
+        echo "用法: $0 {start|stop|switch|stop_all|status} [model]"
+        echo "  start <model>   - 启动指定模型"
+        echo "  stop <model>    - 停止指定模型"
+        echo "  switch <model>  - 切换/启动模型（自动处理冲突）"
+        echo "  stop_all        - 停止所有模型并清理 GPU"
+        echo "  status          - 显示所有模型状态"
+        echo "  reconcile       - 对账 state.json 与 Docker 容器"
+        echo ""
+        echo "可用模型:"
+        grep -v "^#" /ai/ai_dxos/configs/models.conf | grep -v "^$" | cut -d'|' -f1
+        exit 1
+        ;;
+esac

@@ -1,0 +1,6 @@
+emb_dim: 1024
+emb_field: input
+emb_mode: infinity_native
+emb_model: models/bge-m3
+emb_url: http://192.168.10.132:8003/embeddings
+judge_model: 38FN_Q4

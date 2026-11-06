@@ -1,0 +1,110 @@
+# Memory-Gateway 模型参数基线
+# 用途：按模型 + 分类调整生成参数（不改模型能力，只适配场景）
+# 优先级：用户显式 > 模型基线 × 分类系数
+
+models:
+  # ===== 生成模型（8 个）=====
+  "qwen38_27b_f8":
+    temp: 0.7
+    top_p: 0.9
+    top_k: 40
+    repetition_penalty: 1.0
+    note: "Qwen3.8-27B-FP8 通用（SGLang Pool-B）"
+
+  "gemma_4":
+    temp: 0.7
+    top_p: 0.9
+    top_k: 40
+    repetition_penalty: 1.0
+    note: "gemma-4-31b 通用（llama.cpp Pool-A）"
+
+  "yy38_27b":
+    temp: 0.6
+    top_p: 0.9
+    top_k: 40
+    repetition_penalty: 1.05
+    note: "Qwen3.8-27B-Uncensored 稍低避免发散"
+
+  "yy35b_q6":
+    temp: 0.7
+    top_p: 0.9
+    top_k: 40
+    repetition_penalty: 1.0
+    note: "Qwen3.6-35B-A3B MoE（llama.cpp Pool-A）"
+
+  "38FN_Q4":
+    temp: 0.5
+    top_p: 0.85
+    top_k: 30
+    repetition_penalty: 1.0
+    note: "Flash-Next 极速优先（llama.cpp Pool-ALL）"
+
+  "deepseek_70b":
+    temp: 0.6
+    top_p: 0.95
+    top_k: 40
+    repetition_penalty: 1.0
+    note: "R1-Distill-70B 推理（SGLang Pool-ALL）"
+
+  "qwen3_30b":
+    temp: 0.7
+    top_p: 0.9
+    top_k: 40
+    repetition_penalty: 1.0
+    note: "Qwen3-30B-Instruct（SGLang Pool-ALL）"
+
+  "deepseek_V25":
+    temp: 0.6
+    top_p: 0.95
+    top_k: 40
+    repetition_penalty: 1.0
+    note: "DeepSeek-V2.5 推理（KTransformers Pool-ALL）"
+
+  # ===== 非生成模型（跳过）=====
+  "qwen3_emb_8b":
+    skip: true
+    note: "Embedding 模型，不生成"
+
+  "bge_reranke_v2":
+    skip: true
+    note: "Reranker，不生成"
+
+
+categories:
+  # 分类系数（乘在模型基线上）
+  realtime:
+    temp_coef: 0.4
+    top_p_coef: 0.9
+    note: "实时数据要精确"
+
+  factual:
+    temp_coef: 0.5
+    top_p_coef: 0.95
+    note: "事实类要准确"
+
+  howto:
+    temp_coef: 0.8
+    top_p_coef: 1.0
+    note: "操作类要清晰"
+
+  compare:
+    temp_coef: 1.0
+    top_p_coef: 1.0
+    note: "对比类要灵活"
+
+  unanswerable:
+    temp_coef: 0.4
+    top_p_coef: 0.9
+    note: "拒答要稳定"
+
+
+safety:
+  # 安全边界（超出则 clamp）
+  temp_min: 0.0
+  temp_max: 1.2
+  top_p_min: 0.5
+  top_p_max: 1.0
+  top_k_min: 1
+  top_k_max: 100
+  rp_min: 1.0
+  rp_max: 1.3

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dxos 网络控制</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #0d1117;
+    color: #e6edf3;
+    padding: 20px;
+  }
+  .container { max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 24px; margin-bottom: 8px; color: #58a6ff; }
+  .subtitle { color: #8b949e; font-size: 13px; margin-bottom: 24px; }
+  .card {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card h2 { font-size: 16px; margin: 0 0 16px 0; color: #e6edf3; }
+  .status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #21262d;
+  }
+  .status-row:last-child { border-bottom: none; }
+  .label { color: #8b949e; }
+  .value { font-weight: 600; }
+  .value.ok { color: #3fb950; }
+  .value.fail { color: #f85149; }
+  .buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 8px;
+  }
+  button {
+    background: #238636;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  button:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  button.stop { background: #da3633; }
+  button.restart { background: #1f6feb; }
+  button.switch { background: #8957e5; grid-column: 1 / -1; margin-top: 8px; }
+  button.add { background: #1f6feb; }
+  button.del { background: #da3633; padding: 6px 12px; font-size: 12px; margin-left: 8px; }
+  input, textarea, select {
+    width: 100%;
+    background: #0d1117;
+    color: #e6edf3;
+    border: 1px solid #30363d;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+  }
+  input:focus, textarea:focus, select:focus { outline: 2px solid #58a6ff; }
+  textarea { resize: vertical; min-height: 70px; }
+  .node-info {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #8b949e;
+  }
+  .node-info strong { color: #e6edf3; }
+  .msg {
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    display: none;
+  }
+  .msg.ok { background: #1a2f1a; color: #3fb950; display: block; }
+  .msg.fail { background: #2f1a1a; color: #f85149; display: block; }
+  .msg.info { background: #1a1f2f; color: #58a6ff; display: block; }
+  .footer {
+    text-align: center;
+    color: #6e7681;
+    font-size: 12px;
+    margin-top: 30px;
+  }
+  .refresh { float: right; font-size: 12px; color: #58a6ff; cursor: pointer; }
+  .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; background: #30363d; color: #e6edf3; }
+  .badge.custom { background: #8957e5; }
+  .badge.hiddify { background: #1f6feb; }
+  .custom-list { margin-top: 12px; max-height: 200px; overflow-y: auto; }
+  .custom-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #0d1117;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .custom-item .tag { font-weight: 600; }
+  .custom-item .server { color: #8b949e; font-size: 12px; margin-left: 8px; }
+  .section-divider {
+    margin: 16px 0 12px;
+    padding-top: 16px;
+    border-top: 1px solid #21262d;
+  }
+  .section-divider strong { color: #e6edf3; }
+  .section-divider .hint { font-size: 12px; color: #8b949e; margin-left: 8px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🌐 Dxos 网络控制</h1>
+  <div class="subtitle">
+    Hiddify / sing-box · <span id="last-update">-</span>
+    · <span class="badge" id="api-status">API: -</span>
+  </div>
+
+  <!-- 状态卡片 -->
+  <div class="card">
+    <div class="header-row">
+      <h2>📊 状态</h2>
+      <span class="refresh" onclick="loadAll()">🔄 刷新</span>
+    </div>
+    <div class="status-row">
+      <span class="label">sing-box 服务</span>
+      <span class="value" id="svc-status">-</span>
+    </div>
+    <div class="status-row">
+      <span class="label">代理端口 (12334)</span>
+      <span class="value" id="port-status">-</span>
+    </div>
+    <div class="status-row">
+      <span class="label">Google 可达</span>
+      <span class="value" id="google-status">-</span>
+    </div>
+    <div class="status-row">
+      <span class="label">DuckDuckGo 可达</span>
+      <span class="value" id="ddg-status">-</span>
+    </div>
+    <div class="status-row">
+      <span class="label">百度直连</span>
+      <span class="value" id="baidu-status">-</span>
+    </div>
+  </div>
+
+  <!-- 代理控制 -->
+  <div class="card">
+    <h2>⚙️ 代理控制</h2>
+    <div class="buttons">
+      <button onclick="doAction('start')">▶ 启动代理</button>
+      <button class="stop" onclick="doAction('stop')">⏸ 停止代理</button>
+      <button class="restart" onclick="doAction('restart')">🔄 重启代理</button>
+    </div>
+    <div class="msg" id="msg-action"></div>
+  </div>
+
+  <!-- 节点管理 -->
+  <div class="card">
+    <h2>🌍 节点管理</h2>
+    <div class="node-info">
+      当前节点：<strong id="current-node">-</strong>
+      <span id="node-count" style="margin-left: 12px;"></span>
+    </div>
+
+    <div class="section-divider">
+      <strong>选择节点</strong>
+      <span class="hint">从 Hiddify 或自定义节点切换</span>
+    </div>
+    <select id="node-select">
+      <option>加载中...</option>
+    </select>
+    <button class="switch" onclick="switchNode()" style="margin-top: 12px;">🔄 切换到选中节点</button>
+    <div class="msg" id="msg-node"></div>
+
+    <!-- 添加自定义节点 -->
+    <div class="section-divider">
+      <strong>➕ 添加自定义节点</strong>
+      <span class="hint">支持 vless:// 链接</span>
+    </div>
+    <textarea id="node-url-input" placeholder="vless://uuid@server:port?type=ws&security=tls&sni=xxx&path=/xxx#节点名称"></textarea>
+    <div style="display: flex; gap: 8px; margin-top: 8px;">
+      <button class="add" style="flex: 1;" onclick="addCustomNode()">➕ 添加节点</button>
+      <button style="flex: 0.3; background: #6e7681;" onclick="clearInput()">🗑️ 清空</button>
+    </div>
+    <div class="msg" id="msg-add"></div>
+
+    <!-- 自定义节点列表 -->
+    <div class="section-divider" id="custom-section" style="display: none;">
+      <strong>📋 自定义节点</strong>
+      <span class="hint" id="custom-count"></span>
+    </div>
+    <div class="custom-list" id="custom-list"></div>
+  </div>
+
+  <div class="footer">
+    192.168.10.132:9984 · API 9983
+  </div>
+</div>
+
+<script>
+const API = 'http://192.168.10.132:9983';
+
+// ─────── 状态 ───────
+async function loadStatus() {
+  try {
+    const r = await fetch(`${API}/network/status`);
+    const d = await r.json();
+
+    const apiEl = document.getElementById('api-status');
+    apiEl.textContent = 'API: ✓';
+    apiEl.style.background = '#1a2f1a';
+    apiEl.style.color = '#3fb950';
+
+    const svcActive = d.singbox?.service_active;
+    setValue('svc-status', svcActive ? '运行中' : '已停止', svcActive);
+
+    const portOk = d.singbox?.port_listening;
+    setValue('port-status', portOk ? '监听中' : '未监听', portOk);
+
+    setNodeCurrent(d.singbox?.current_node);
+
+    const gOk = d.proxy?.google?.ok;
+    setValue('google-status', gOk ? `✅ ${d.proxy.google.latency_ms}ms` : '❌ 不可达', gOk);
+
+    const ddgOk = d.proxy?.duckduckgo?.ok;
+    setValue('ddg-status', ddgOk ? `✅ ${d.proxy.duckduckgo.latency_ms}ms` : '❌ 不可达', ddgOk);
+
+    const bOk = d.direct?.baidu?.ok;
+    setValue('baidu-status', bOk ? `✅ ${d.direct.baidu.latency_ms}ms` : '❌ 不可达', bOk);
+
+    document.getElementById('last-update').textContent = new Date().toLocaleTimeString();
+  } catch (e) {
+    const apiEl = document.getElementById('api-status');
+    apiEl.textContent = 'API: ✗';
+    apiEl.style.background = '#2f1a1a';
+    apiEl.style.color = '#f85149';
+  }
+}
+
+function setValue(id, text, ok) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'value ' + (ok ? 'ok' : 'fail');
+}
+
+function setNodeCurrent(node) {
+  const el = document.getElementById('current-node');
+  if (el) el.textContent = node || '-';
+}
+
+// ─────── 节点列表 ───────
+async function loadNodes() {
+  const sel = document.getElementById('node-select');
+  try {
+    const r = await fetch(`${API}/network/nodes`);
+    const d = await r.json();
+
+    const current = d.current || '';
+    const nodes = d.nodes || [];
+
+    setNodeCurrent(current);
+    document.getElementById('node-count').textContent = `（共 ${nodes.length} 个节点）`;
+
+    sel.innerHTML = '';
+
+    if (nodes.length === 0) {
+      sel.innerHTML = '<option>无可用节点</option>';
+      return;
+    }
+
+    for (const n of nodes) {
+      const opt = document.createElement('option');
+      opt.value = n.tag;
+      const prefix = n.source === 'custom' ? '⭐ ' : '';
+      const suffix = n.tag === current ? ' ✓' : '';
+      opt.textContent = `${prefix}${n.tag} — ${n.server}:${n.port}${suffix}`;
+      if (n.tag === current) opt.selected = true;
+      sel.appendChild(opt);
+    }
+  } catch (e) {
+    sel.innerHTML = `<option>加载失败：${e.message}</option>`;
+  }
+}
+
+// ─────── 自定义节点列表 ───────
+async function loadCustomNodes() {
+  try {
+    const r = await fetch(`${API}/network/nodes/custom`);
+    const d = await r.json();
+    const nodes = d.nodes || [];
+
+    const section = document.getElementById('custom-section');
+    const list = document.getElementById('custom-list');
+    const count = document.getElementById('custom-count');
+
+    if (nodes.length === 0) {
+      section.style.display = 'none';
+      list.innerHTML = '';
+      return;
+    }
+
+    section.style.display = 'block';
+    count.textContent = `（${nodes.length} 个）`;
+    list.innerHTML = '';
+
+    for (const n of nodes) {
+      const item = document.createElement('div');
+      item.className = 'custom-item';
+      item.innerHTML = `
+        <span>
+          <span class="tag">⭐ ${n.tag}</span>
+          <span class="server">${n.server}:${n.server_port}</span>
+        </span>
+        <button class="del" onclick="removeCustomNode('${n.tag.replace(/'/g, "\\'")}')">🗑️ 删除</button>
+      `;
+      list.appendChild(item);
+    }
+  } catch (e) {
+    console.error('loadCustomNodes failed', e);
+  }
+}
+
+// ─────── 添加自定义节点 ───────
+async function addCustomNode() {
+  const input = document.getElementById('node-url-input');
+  const url = input.value.trim();
+
+  if (!url) {
+    showMsg('msg-add', '请输入 vless:// 链接', 'fail');
+    return;
+  }
+  if (!url.startsWith('vless://')) {
+    showMsg('msg-add', '仅支持 vless:// 链接', 'fail');
+    return;
+  }
+
+  showMsg('msg-add', '正在添加...', 'info');
+
+  try {
+    const r = await fetch(`${API}/network/nodes/add`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: url }),
+    });
+    const d = await r.json();
+
+    if (d.ok) {
+      showMsg('msg-add', `✅ 已添加：${d.tag} (${d.server})`, 'ok');
+      input.value = '';
+      setTimeout(() => { loadNodes(); loadCustomNodes(); }, 500);
+    } else {
+      showMsg('msg-add', `❌ 添加失败：${d.msg || d.error || '未知'}`, 'fail');
+    }
+  } catch (e) {
+    showMsg('msg-add', `❌ 请求失败：${e.message}`, 'fail');
+  }
+}
+
+// ─────── 删除自定义节点 ───────
+async function removeCustomNode(tag) {
+  if (!confirm(`确定删除节点「${tag}」？`)) return;
+
+  try {
+    const r = await fetch(`${API}/network/nodes/custom/${encodeURIComponent(tag)}`, {
+      method: 'DELETE',
+    });
+    const d = await r.json();
+
+    if (d.ok) {
+      setTimeout(() => { loadNodes(); loadCustomNodes(); }, 500);
+    } else {
+      alert(`删除失败：${d.msg || d.error}`);
+    }
+  } catch (e) {
+    alert(`请求失败：${e.message}`);
+  }
+}
+
+function clearInput() {
+  document.getElementById('node-url-input').value = '';
+  showMsg('msg-add', '', '');
+}
+
+// ─────── 切换节点 ───────
+async function switchNode() {
+  const sel = document.getElementById('node-select');
+  const tag = sel.value;
+
+  if (!tag) {
+    showMsg('msg-node', '请先选择节点', 'fail');
+    return;
+  }
+  if (!confirm(`确定切换到节点：\n${tag}？\n\n切换后 sing-box 会重启（约 3 秒）。`)) {
+    return;
+  }
+
+  showMsg('msg-node', `正在切换到 ${tag}...`, 'info');
+
+  try {
+    const r = await fetch(`${API}/network/proxy/switch`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tag: tag }),
+    });
+    const d = await r.json();
+
+    if (d.ok) {
+      showMsg('msg-node', `✅ 已切换到 ${tag}（端口监听: ${d.port_listening}）`, 'ok');
+      setTimeout(() => { loadStatus(); loadNodes(); }, 3000);
+    } else {
+      showMsg('msg-node', `❌ 切换失败：${d.msg || d.error || '未知'}`, 'fail');
+    }
+  } catch (e) {
+    showMsg('msg-node', `❌ 请求失败：${e.message}`, 'fail');
+  }
+}
+
+// ─────── 代理控制 ───────
+async function doAction(action) {
+  const btn = event.target;
+  btn.disabled = true;
+  showMsg('msg-action', `正在 ${action}...`, 'info');
+
+  try {
+    const r = await fetch(`${API}/network/proxy/${action}`, { method: 'POST' });
+    const d = await r.json();
+    if (d.ok) {
+      showMsg('msg-action', `✅ ${action} 成功`, 'ok');
+      setTimeout(() => { loadStatus(); loadNodes(); }, 3000);
+    } else {
+      showMsg('msg-action', `❌ ${action} 失败: ${d.msg || d.error || '未知'}`, 'fail');
+    }
+  } catch (e) {
+    showMsg('msg-action', `❌ 请求失败：${e.message}`, 'fail');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function showMsg(id, text, type) {
+  const m = document.getElementById(id);
+  if (!m) return;
+  if (!text) {
+    m.className = 'msg';
+    m.textContent = '';
+    return;
+  }
+  m.textContent = text;
+  m.className = 'msg ' + type;
+}
+
+// ─────── 初始化 ───────
+function loadAll() {
+  loadStatus();
+  loadNodes();
+  loadCustomNodes();
+}
+
+loadAll();
+setInterval(loadStatus, 30000);
+</script>
+</body>
+</html>

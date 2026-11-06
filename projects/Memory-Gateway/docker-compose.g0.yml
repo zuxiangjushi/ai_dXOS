@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  meilisearch:
+    image: getmeili/meilisearch:v1.12
+    container_name: memgw-meilisearch
+    restart: always
+    ports:
+      - "127.0.0.1:7700:7700"
+    environment:
+      MEILI_MASTER_KEY: ${MEILISEARCH_API_KEY}
+    volumes:
+      - ./data/meili:/meili_data
+
+  qdrant:
+    image: qdrant/qdrant:v1.12.1
+    container_name: memgw-qdrant
+    restart: always
+    ports:
+      - "127.0.0.1:6333:6333"
+    volumes:
+      - ./data/qdrant:/qdrant/storage

@@ -1,0 +1,10 @@
+{
+  "note": "P0 探测结果，后续可手动修正",
+  "engines": {
+    "google":     {"language": true, "time_range": true, "proxy_required": true},
+    "baidu":      {"language": true, "time_range": "partial", "proxy_required": false},
+    "bing":       {"language": true, "time_range": true, "proxy_required": true},
+    "sogou":      {"language": true, "time_range": false, "proxy_required": false},
+    "360search":  {"language": true, "time_range": false, "proxy_required": false}
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "aggregate": {
+    "n_questions": 5,
+    "n_valid": 5,
+    "citation_precision": 0.4,
+    "groundedness": 0.4,
+    "avg_citations": 0.4,
+    "avg_answer_len": 61.8,
+    "latency_p50": 7.38,
+    "latency_p95": 8.38,
+    "latency_avg": 7.12,
+    "avg_prompt_tokens": 688.0,
+    "avg_completion_tokens": 42.0
+  },
+  "details": [
+    {
+      "id": "q1",
+      "query": "重庆今天气温",
+      "category": "realtime",
+      "answer_len": 39,
+      "has_citation": true,
+      "citation_count": 1,
+      "citation_correct": true,
+      "latency": 7.536070823669434,
+      "prompt_tokens": 702,
+      "completion_tokens": 33,
+      "answer_preview": "重庆今天（2026年9月12日）的最高气温为27℃，最低气温为20℃ [1]。"
+    },
+    {
+      "id": "q2",
+      "query": "最新 Python 版本",
+      "category": "realtime",
+      "answer_len": 55,
+      "has_citation": true,
+      "citation_count": 1,
+      "citation_correct": true,
+      "latency": 5.2475104331970215,
+      "prompt_tokens": 560,
+      "completion_tokens": 40,
+      "answer_preview": "目前最新的 Python 版本是 3.15，该版本处于预发布状态，计划于 2026-10-01 发布 [1]。"
+    },
+    {
+      "id": "q3",
+      "query": "Qdrant 是什么向量数据库",
+      "category": "factual",
+      "answer_len": 139,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 8.382221221923828,
+      "prompt_tokens": 672,
+      "completion_tokens": 81,
+      "answer_preview": "Qdrant 是一个开源的向量相似度搜索引擎和向量数据库，专为高效存储和检索高维向量数据而设计[N]。它不仅是一个检索库，还旨在构建一个功能完整的数据库服务，用于存储、管理和查询向量数据[N]。Qdrant 使用 Rust 语言编写，提供了生产就绪的服务和便捷的 API[N]。"
+    },
+    {
+      "id": "q4",
+      "query": "今天重庆有雨吗",
+      "category": "realtime",
+      "answer_len": 33,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 7.047983884811401,
+      "prompt_tokens": 811,
+      "completion_tokens": 20,
+      "answer_preview": "今天重庆部分地区有降雨，特别是夜间到13日白天，降雨将持续[N]。"
+    },
+    {
+      "id": "q5",
+      "query": "2026年国庆节放假安排",
+      "category": "factual",
+      "answer_len": 43,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 7.379849672317505,
+      "prompt_tokens": 696,
+      "completion_tokens": 37,
+      "answer_preview": "2026年国庆节的放假安排是：10月1日（周四）至7日（周三）放假调休，共7天[N]。"
+    }
+  ],
+  "timestamp": "2026-09-12T22:01:40.595172"
+}

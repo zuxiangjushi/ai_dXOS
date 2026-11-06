@@ -1,0 +1,245 @@
+{
+  "aggregate": {
+    "n_questions": 15,
+    "n_valid": 15,
+    "by_category": {
+      "realtime": {
+        "n": 5,
+        "citation_precision": 1.0,
+        "avg_citations": 3.0,
+        "avg_latency": 7.51
+      },
+      "factual": {
+        "n": 6,
+        "citation_precision": 1.0,
+        "avg_citations": 5.17,
+        "avg_latency": 9.02
+      },
+      "compare": {
+        "n": 1,
+        "citation_precision": 0.0,
+        "avg_citations": 0.0,
+        "avg_latency": 17.09
+      },
+      "howto": {
+        "n": 1,
+        "citation_precision": 0.0,
+        "avg_citations": 0.0,
+        "avg_latency": 17.04
+      },
+      "unanswerable": {
+        "n": 2,
+        "citation_precision": 0.5,
+        "avg_citations": 0.5,
+        "avg_latency": 14.0
+      }
+    },
+    "citation_precision": 0.8,
+    "groundedness": 0.8,
+    "avg_citations": 3.13,
+    "avg_answer_len": 213.6,
+    "latency_p50": 9.37,
+    "latency_p95": 17.09,
+    "latency_avg": 10.26,
+    "avg_prompt_tokens": 532.0,
+    "avg_completion_tokens": 206.0
+  },
+  "details": [
+    {
+      "id": "q1",
+      "query": "重庆今天气温",
+      "category": "realtime",
+      "answer_len": 55,
+      "has_citation": true,
+      "citation_count": 1,
+      "citation_correct": true,
+      "latency": 4.485642671585083,
+      "prompt_tokens": 659,
+      "completion_tokens": 39,
+      "answer_preview": "根据搜索结果，2026年9月12日重庆秀山土家族苗族自治县的气温为最高气温 27℃，最低气温 20℃ [1]。"
+    },
+    {
+      "id": "q2",
+      "query": "最新 Python 版本",
+      "category": "realtime",
+      "answer_len": 87,
+      "has_citation": true,
+      "citation_count": 2,
+      "citation_correct": true,
+      "latency": 4.456451892852783,
+      "prompt_tokens": 542,
+      "completion_tokens": 55,
+      "answer_preview": "根据最新的搜索结果，Python 的最新稳定版本为 **3.14** [2]。\n\n此外，官方计划于 **2026年10月1日** 发布 **3.15** 预发布版本 [1]。"
+    },
+    {
+      "id": "q4",
+      "query": "今天重庆有雨吗",
+      "category": "realtime",
+      "answer_len": 286,
+      "has_citation": true,
+      "citation_count": 6,
+      "citation_correct": true,
+      "latency": 9.368574142456055,
+      "prompt_tokens": 760,
+      "completion_tokens": 179,
+      "answer_preview": "根据最新的天气预报数据，今天（2026年9月12日）重庆部分地区的天气以**多云**为主，但未来一周预计**多阵雨** [1] [2]。\n\n具体来看：\n*   **九龙坡区**：今天白天多云，最高气温30℃，最低气温24℃ [2]。\n*   **开县**：今天白天多云，最高气温31℃，最低气温23℃"
+    },
+    {
+      "id": "q6",
+      "query": "今天的日期",
+      "category": "realtime",
+      "answer_len": 41,
+      "has_citation": true,
+      "citation_count": 1,
+      "citation_correct": true,
+      "latency": 3.7150063514709473,
+      "prompt_tokens": 851,
+      "completion_tokens": 34,
+      "answer_preview": "今天的日期是 2026 年 9 月 12 日，星期六，农历丙午年八月初二 [1]。"
+    },
+    {
+      "id": "q7",
+      "query": "最近有什么 AI 新闻",
+      "category": "realtime",
+      "answer_len": 570,
+      "has_citation": true,
+      "citation_count": 5,
+      "citation_correct": true,
+      "latency": 15.540931224822998,
+      "prompt_tokens": 647,
+      "completion_tokens": 332,
+      "answer_preview": "截至 2026 年 9 月，根据最近的联网搜索结果，以下是近期值得关注的一些 AI 领域动态：\n\n1. **美团开源万亿参数大模型 LongCat-2.0**\n   在 2026 年 7 月初的新闻简报中，提到美团开源了 LongCat-2.0，这被称为全球首个全链路国产算力训练的大模型 [3][5"
+    },
+    {
+      "id": "q3",
+      "query": "Qdrant 是什么向量数据库",
+      "category": "factual",
+      "answer_len": 440,
+      "has_citation": true,
+      "citation_count": 9,
+      "citation_correct": true,
+      "latency": 11.722990989685059,
+      "prompt_tokens": 627,
+      "completion_tokens": 241,
+      "answer_preview": "Qdrant 是一个专为人工智能（AI）应用设计的开源向量数据库与相似度搜索引擎 [1]。\n\n它主要具备以下核心特点：\n\n1.  **高性能与高维数据处理**：Qdrant 专为高效存储和检索高维向量数据而设计，能够迅速在数据库中找到与查询向量最相似的结果，常用于语义搜索等场景 [2] [3]。\n2"
+    },
+    {
+      "id": "q5",
+      "query": "2026年国庆节放假安排",
+      "category": "factual",
+      "answer_len": 245,
+      "has_citation": true,
+      "citation_count": 4,
+      "citation_correct": true,
+      "latency": 8.852320194244385,
+      "prompt_tokens": 608,
+      "completion_tokens": 169,
+      "answer_preview": "2026年国庆节放假调休安排如下：\n\n2026年10月1日（周四）至10月7日（周三）放假调休，共7天 [1]。\n\n这意味着：\n- **法定假日**：10月1日、2日、3日 [4]。\n- **调休补班**：具体补班日期通常由国务院办公厅通知确定，根据常规调休逻辑及搜索结果中的“调休”提示，9月30日"
+    },
+    {
+      "id": "q8",
+      "query": "bge-m3 是什么模型",
+      "category": "factual",
+      "answer_len": 463,
+      "has_citation": true,
+      "citation_count": 7,
+      "citation_correct": true,
+      "latency": 12.363330364227295,
+      "prompt_tokens": 616,
+      "completion_tokens": 258,
+      "answer_preview": "BGE-M3 是由北京智源人工智能研究院（BAAI）推出的一系列文本嵌入（Embedding）模型之一 [1]。它旨在将文本转换为低维稠密向量，以便进行高效的计算和分析 [1]。\n\nBGE-M3 的主要特点包括：\n\n1. **多功能检索**：它能同时支持密集检索（Dense Retrieval）、多"
+    },
+    {
+      "id": "q9",
+      "query": "Meilisearch 支持中文吗",
+      "category": "factual",
+      "answer_len": 311,
+      "has_citation": true,
+      "citation_count": 4,
+      "citation_correct": true,
+      "latency": 8.848586559295654,
+      "prompt_tokens": 589,
+      "completion_tokens": 167,
+      "answer_preview": "是的，Meilisearch 支持中文搜索，且通常不需要额外的配置即可直接使用 [3]。\n\n具体特点如下：\n\n1.  **原生支持**：MeiliSearch 对中文有良好的支持，用户无需添加额外的分词器或进行复杂配置即可实现中文搜索功能 [5]。\n2.  **实战效果**：在实际应用（如 PHP "
+    },
+    {
+      "id": "q13",
+      "query": "RAG 是什么",
+      "category": "factual",
+      "answer_len": 316,
+      "has_citation": true,
+      "citation_count": 5,
+      "citation_correct": true,
+      "latency": 8.868655681610107,
+      "prompt_tokens": 535,
+      "completion_tokens": 169,
+      "answer_preview": "RAG 全称 **Retrieval-Augmented Generation**（检索增强生成），是一种优化大型语言模型（LLM）输出的技术方法 [3]。\n\n其核心原理是让大模型在生成回答之前，先从一个**外部知识库**中检索相关的权威信息，然后结合这些信息来生成响应 [3]。这样做主要解决了大模"
+    },
+    {
+      "id": "q10",
+      "query": "Qdrant 和 Milvus 哪个更好",
+      "category": "compare",
+      "answer_len": 0,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 17.090692043304443,
+      "prompt_tokens": 107,
+      "completion_tokens": 400,
+      "answer_preview": ""
+    },
+    {
+      "id": "q11",
+      "query": "如何安装 Docker",
+      "category": "howto",
+      "answer_len": 0,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": false,
+      "latency": 17.042455673217773,
+      "prompt_tokens": 95,
+      "completion_tokens": 400,
+      "answer_preview": ""
+    },
+    {
+      "id": "q12",
+      "query": "2026年中秋节是哪天",
+      "category": "factual",
+      "answer_len": 29,
+      "has_citation": true,
+      "citation_count": 2,
+      "citation_correct": true,
+      "latency": 3.493034601211548,
+      "prompt_tokens": 701,
+      "completion_tokens": 24,
+      "answer_preview": "2026年中秋节是**9月25日**（周五）[1][2]。"
+    },
+    {
+      "id": "q14",
+      "query": "张三昨天中午吃了什么",
+      "category": "unanswerable",
+      "answer_len": 0,
+      "has_citation": false,
+      "citation_count": 0,
+      "citation_correct": true,
+      "latency": 16.924099683761597,
+      "prompt_tokens": 93,
+      "completion_tokens": 400,
+      "answer_preview": ""
+    },
+    {
+      "id": "q15",
+      "query": "2027年诺贝尔奖得主是谁",
+      "category": "unanswerable",
+      "answer_len": 361,
+      "has_citation": true,
+      "citation_count": 1,
+      "citation_correct": false,
+      "latency": 11.08438777923584,
+      "prompt_tokens": 548,
+      "completion_tokens": 227,
+      "answer_preview": "基于当前日期 **2026年9月12日**，**2027年诺贝尔奖**通常会在 **2027年10月** 才陆续揭晓，因此目前（2026年9月）官方尚未正式公布2027年的最终得主名单。\n\n不过，根据诺贝尔奖的历史公布规律（10月上旬至中旬陆续公布），2027年的得主将在一年后公布。\n\n如果您是想了"
+    }
+  ],
+  "timestamp": "2026-09-12T22:41:29.271525"
+}

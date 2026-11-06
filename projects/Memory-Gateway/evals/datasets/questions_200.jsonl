@@ -1,0 +1,180 @@
+{"id": "q_00_00", "persona": "后端工程师-00", "question": "我们项目的 消息队列 现在用什么？", "gold": "RabbitMQ", "conflict_type": "preference_flip"}
+{"id": "q_00_01", "persona": "后端工程师-00", "question": "我们项目的 Web 框架 现在用什么？", "gold": "Django", "conflict_type": "preference_flip"}
+{"id": "q_00_02", "persona": "后端工程师-00", "question": "我们项目的 UI 库 现在用什么？", "gold": "shadcn/ui", "conflict_type": "preference_flip"}
+{"id": "q_00_03", "persona": "后端工程师-00", "question": "我们的 API 网关 是什么？", "gold": "Kong", "conflict_type": "none"}
+{"id": "q_00_04", "persona": "后端工程师-00", "question": "我们的 向量库 是什么？", "gold": "Milvus", "conflict_type": "none"}
+{"id": "q_00_05", "persona": "后端工程师-00", "question": "我们项目的 Embedding 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_00_06", "persona": "后端工程师-00", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_00_07", "persona": "后端工程师-00", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_00_08", "persona": "后端工程师-00", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_01_00", "persona": "前端工程师-01", "question": "我们项目的 API 网关 现在用什么？", "gold": "APISIX", "conflict_type": "preference_flip"}
+{"id": "q_01_01", "persona": "前端工程师-01", "question": "我们项目的 消息队列 现在用什么？", "gold": "RabbitMQ", "conflict_type": "preference_flip"}
+{"id": "q_01_02", "persona": "前端工程师-01", "question": "我们项目的 监控系统 现在用什么？", "gold": "VictoriaMetrics", "conflict_type": "preference_flip"}
+{"id": "q_01_03", "persona": "前端工程师-01", "question": "我们的 打包工具 是什么？", "gold": "Webpack", "conflict_type": "none"}
+{"id": "q_01_04", "persona": "前端工程师-01", "question": "我们的 Embedding 是什么？", "gold": "bge-m3", "conflict_type": "none"}
+{"id": "q_01_05", "persona": "前端工程师-01", "question": "我们项目的 数据库 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_01_06", "persona": "前端工程师-01", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_01_07", "persona": "前端工程师-01", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_01_08", "persona": "前端工程师-01", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_02_00", "persona": "运维工程师-02", "question": "我们项目的 缓存 现在用什么？", "gold": "KeyDB", "conflict_type": "preference_flip"}
+{"id": "q_02_01", "persona": "运维工程师-02", "question": "我们项目的 Reranker 现在用什么？", "gold": "bge-reranker-v2-m3", "conflict_type": "preference_flip"}
+{"id": "q_02_02", "persona": "运维工程师-02", "question": "我们项目的 K8s 版本 现在用什么？", "gold": "1.27", "conflict_type": "preference_flip"}
+{"id": "q_02_03", "persona": "运维工程师-02", "question": "我们的 数据仓库 是什么？", "gold": "ClickHouse", "conflict_type": "none"}
+{"id": "q_02_04", "persona": "运维工程师-02", "question": "我们的 打包工具 是什么？", "gold": "Webpack", "conflict_type": "none"}
+{"id": "q_02_05", "persona": "运维工程师-02", "question": "我们项目的 向量库 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_02_06", "persona": "运维工程师-02", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_02_07", "persona": "运维工程师-02", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_02_08", "persona": "运维工程师-02", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_03_00", "persona": "算法工程师-03", "question": "我们项目的 K8s 版本 现在用什么？", "gold": "1.27", "conflict_type": "preference_flip"}
+{"id": "q_03_01", "persona": "算法工程师-03", "question": "我们项目的 消息队列 现在用什么？", "gold": "RabbitMQ", "conflict_type": "preference_flip"}
+{"id": "q_03_02", "persona": "算法工程师-03", "question": "我们项目的 打包工具 现在用什么？", "gold": "Vite", "conflict_type": "preference_flip"}
+{"id": "q_03_03", "persona": "算法工程师-03", "question": "我们的 缓存 是什么？", "gold": "Redis", "conflict_type": "none"}
+{"id": "q_03_04", "persona": "算法工程师-03", "question": "我们的 UI 库 是什么？", "gold": "Ant Design", "conflict_type": "none"}
+{"id": "q_03_05", "persona": "算法工程师-03", "question": "我们项目的 前端框架 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_03_06", "persona": "算法工程师-03", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_03_07", "persona": "算法工程师-03", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_03_08", "persona": "算法工程师-03", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_04_00", "persona": "数据工程师-04", "question": "我们项目的 打包工具 现在用什么？", "gold": "Vite", "conflict_type": "preference_flip"}
+{"id": "q_04_01", "persona": "数据工程师-04", "question": "我们项目的 监控系统 现在用什么？", "gold": "VictoriaMetrics", "conflict_type": "preference_flip"}
+{"id": "q_04_02", "persona": "数据工程师-04", "question": "我们项目的 CI 系统 现在用什么？", "gold": "GitHub Actions", "conflict_type": "preference_flip"}
+{"id": "q_04_03", "persona": "数据工程师-04", "question": "我们的 UI 库 是什么？", "gold": "Ant Design", "conflict_type": "none"}
+{"id": "q_04_04", "persona": "数据工程师-04", "question": "我们的 API 网关 是什么？", "gold": "Kong", "conflict_type": "none"}
+{"id": "q_04_05", "persona": "数据工程师-04", "question": "我们项目的 前端框架 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_04_06", "persona": "数据工程师-04", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_04_07", "persona": "数据工程师-04", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_04_08", "persona": "数据工程师-04", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_05_00", "persona": "测试工程师-05", "question": "我们项目的 数据仓库 现在用什么？", "gold": "Doris", "conflict_type": "preference_flip"}
+{"id": "q_05_01", "persona": "测试工程师-05", "question": "我们项目的 调度器 现在用什么？", "gold": "Dagster", "conflict_type": "preference_flip"}
+{"id": "q_05_02", "persona": "测试工程师-05", "question": "我们项目的 数据库 现在用什么？", "gold": "MySQL", "conflict_type": "preference_flip"}
+{"id": "q_05_03", "persona": "测试工程师-05", "question": "我们的 API 网关 是什么？", "gold": "Kong", "conflict_type": "none"}
+{"id": "q_05_04", "persona": "测试工程师-05", "question": "我们的 RPC 框架 是什么？", "gold": "gRPC", "conflict_type": "none"}
+{"id": "q_05_05", "persona": "测试工程师-05", "question": "我们项目的 CI 系统 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_05_06", "persona": "测试工程师-05", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_05_07", "persona": "测试工程师-05", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_05_08", "persona": "测试工程师-05", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_06_00", "persona": "架构工程师-06", "question": "我们项目的 打包工具 现在用什么？", "gold": "Vite", "conflict_type": "preference_flip"}
+{"id": "q_06_01", "persona": "架构工程师-06", "question": "我们项目的 数据仓库 现在用什么？", "gold": "Doris", "conflict_type": "preference_flip"}
+{"id": "q_06_02", "persona": "架构工程师-06", "question": "我们项目的 训练方式 现在用什么？", "gold": "QLoRA", "conflict_type": "preference_flip"}
+{"id": "q_06_03", "persona": "架构工程师-06", "question": "我们的 消息队列 是什么？", "gold": "Kafka", "conflict_type": "none"}
+{"id": "q_06_04", "persona": "架构工程师-06", "question": "我们的 向量库 是什么？", "gold": "Milvus", "conflict_type": "none"}
+{"id": "q_06_05", "persona": "架构工程师-06", "question": "我们项目的 缓存 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_06_06", "persona": "架构工程师-06", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_06_07", "persona": "架构工程师-06", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_06_08", "persona": "架构工程师-06", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_07_00", "persona": "安全工程师-07", "question": "我们项目的 调度器 现在用什么？", "gold": "Dagster", "conflict_type": "preference_flip"}
+{"id": "q_07_01", "persona": "安全工程师-07", "question": "我们项目的 K8s 版本 现在用什么？", "gold": "1.27", "conflict_type": "preference_flip"}
+{"id": "q_07_02", "persona": "安全工程师-07", "question": "我们项目的 缓存 现在用什么？", "gold": "KeyDB", "conflict_type": "preference_flip"}
+{"id": "q_07_03", "persona": "安全工程师-07", "question": "我们的 UI 库 是什么？", "gold": "Ant Design", "conflict_type": "none"}
+{"id": "q_07_04", "persona": "安全工程师-07", "question": "我们的 CI 系统 是什么？", "gold": "GitLab CI", "conflict_type": "none"}
+{"id": "q_07_05", "persona": "安全工程师-07", "question": "我们项目的 Web 框架 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_07_06", "persona": "安全工程师-07", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_07_07", "persona": "安全工程师-07", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_07_08", "persona": "安全工程师-07", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_08_00", "persona": "平台工程师-08", "question": "我们项目的 RPC 框架 现在用什么？", "gold": "Thrift", "conflict_type": "preference_flip"}
+{"id": "q_08_01", "persona": "平台工程师-08", "question": "我们项目的 训练方式 现在用什么？", "gold": "QLoRA", "conflict_type": "preference_flip"}
+{"id": "q_08_02", "persona": "平台工程师-08", "question": "我们项目的 UI 库 现在用什么？", "gold": "shadcn/ui", "conflict_type": "preference_flip"}
+{"id": "q_08_03", "persona": "平台工程师-08", "question": "我们的 调度器 是什么？", "gold": "Airflow", "conflict_type": "none"}
+{"id": "q_08_04", "persona": "平台工程师-08", "question": "我们的 Web 框架 是什么？", "gold": "FastAPI", "conflict_type": "none"}
+{"id": "q_08_05", "persona": "平台工程师-08", "question": "我们项目的 API 网关 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_08_06", "persona": "平台工程师-08", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_08_07", "persona": "平台工程师-08", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_08_08", "persona": "平台工程师-08", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_09_00", "persona": "中台工程师-09", "question": "我们项目的 CI 系统 现在用什么？", "gold": "GitHub Actions", "conflict_type": "preference_flip"}
+{"id": "q_09_01", "persona": "中台工程师-09", "question": "我们项目的 数据仓库 现在用什么？", "gold": "Doris", "conflict_type": "preference_flip"}
+{"id": "q_09_02", "persona": "中台工程师-09", "question": "我们项目的 向量库 现在用什么？", "gold": "Qdrant", "conflict_type": "preference_flip"}
+{"id": "q_09_03", "persona": "中台工程师-09", "question": "我们的 消息队列 是什么？", "gold": "Kafka", "conflict_type": "none"}
+{"id": "q_09_04", "persona": "中台工程师-09", "question": "我们的 缓存 是什么？", "gold": "Redis", "conflict_type": "none"}
+{"id": "q_09_05", "persona": "中台工程师-09", "question": "我们项目的 API 网关 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_09_06", "persona": "中台工程师-09", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_09_07", "persona": "中台工程师-09", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_09_08", "persona": "中台工程师-09", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_10_00", "persona": "后端工程师-10", "question": "我们项目的 Web 框架 现在用什么？", "gold": "Django", "conflict_type": "preference_flip"}
+{"id": "q_10_01", "persona": "后端工程师-10", "question": "我们项目的 消息队列 现在用什么？", "gold": "RabbitMQ", "conflict_type": "preference_flip"}
+{"id": "q_10_02", "persona": "后端工程师-10", "question": "我们项目的 UI 库 现在用什么？", "gold": "shadcn/ui", "conflict_type": "preference_flip"}
+{"id": "q_10_03", "persona": "后端工程师-10", "question": "我们的 监控系统 是什么？", "gold": "Prometheus", "conflict_type": "none"}
+{"id": "q_10_04", "persona": "后端工程师-10", "question": "我们的 Reranker 是什么？", "gold": "bge-reranker-base", "conflict_type": "none"}
+{"id": "q_10_05", "persona": "后端工程师-10", "question": "我们项目的 向量库 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_10_06", "persona": "后端工程师-10", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_10_07", "persona": "后端工程师-10", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_10_08", "persona": "后端工程师-10", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_11_00", "persona": "前端工程师-11", "question": "我们项目的 Reranker 现在用什么？", "gold": "bge-reranker-v2-m3", "conflict_type": "preference_flip"}
+{"id": "q_11_01", "persona": "前端工程师-11", "question": "我们项目的 数据仓库 现在用什么？", "gold": "Doris", "conflict_type": "preference_flip"}
+{"id": "q_11_02", "persona": "前端工程师-11", "question": "我们项目的 监控系统 现在用什么？", "gold": "VictoriaMetrics", "conflict_type": "preference_flip"}
+{"id": "q_11_03", "persona": "前端工程师-11", "question": "我们的 调度器 是什么？", "gold": "Airflow", "conflict_type": "none"}
+{"id": "q_11_04", "persona": "前端工程师-11", "question": "我们的 缓存 是什么？", "gold": "Redis", "conflict_type": "none"}
+{"id": "q_11_05", "persona": "前端工程师-11", "question": "我们项目的 CI 系统 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_11_06", "persona": "前端工程师-11", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_11_07", "persona": "前端工程师-11", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_11_08", "persona": "前端工程师-11", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_12_00", "persona": "运维工程师-12", "question": "我们项目的 调度器 现在用什么？", "gold": "Dagster", "conflict_type": "preference_flip"}
+{"id": "q_12_01", "persona": "运维工程师-12", "question": "我们项目的 数据仓库 现在用什么？", "gold": "Doris", "conflict_type": "preference_flip"}
+{"id": "q_12_02", "persona": "运维工程师-12", "question": "我们项目的 Reranker 现在用什么？", "gold": "bge-reranker-v2-m3", "conflict_type": "preference_flip"}
+{"id": "q_12_03", "persona": "运维工程师-12", "question": "我们的 API 网关 是什么？", "gold": "Kong", "conflict_type": "none"}
+{"id": "q_12_04", "persona": "运维工程师-12", "question": "我们的 前端框架 是什么？", "gold": "Vue3", "conflict_type": "none"}
+{"id": "q_12_05", "persona": "运维工程师-12", "question": "我们项目的 监控系统 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_12_06", "persona": "运维工程师-12", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_12_07", "persona": "运维工程师-12", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_12_08", "persona": "运维工程师-12", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_13_00", "persona": "算法工程师-13", "question": "我们项目的 RPC 框架 现在用什么？", "gold": "Thrift", "conflict_type": "preference_flip"}
+{"id": "q_13_01", "persona": "算法工程师-13", "question": "我们项目的 训练方式 现在用什么？", "gold": "QLoRA", "conflict_type": "preference_flip"}
+{"id": "q_13_02", "persona": "算法工程师-13", "question": "我们项目的 前端框架 现在用什么？", "gold": "React 18", "conflict_type": "preference_flip"}
+{"id": "q_13_03", "persona": "算法工程师-13", "question": "我们的 UI 库 是什么？", "gold": "Ant Design", "conflict_type": "none"}
+{"id": "q_13_04", "persona": "算法工程师-13", "question": "我们的 数据库 是什么？", "gold": "PostgreSQL", "conflict_type": "none"}
+{"id": "q_13_05", "persona": "算法工程师-13", "question": "我们项目的 向量库 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_13_06", "persona": "算法工程师-13", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_13_07", "persona": "算法工程师-13", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_13_08", "persona": "算法工程师-13", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_14_00", "persona": "数据工程师-14", "question": "我们项目的 训练方式 现在用什么？", "gold": "QLoRA", "conflict_type": "preference_flip"}
+{"id": "q_14_01", "persona": "数据工程师-14", "question": "我们项目的 Web 框架 现在用什么？", "gold": "Django", "conflict_type": "preference_flip"}
+{"id": "q_14_02", "persona": "数据工程师-14", "question": "我们项目的 监控系统 现在用什么？", "gold": "VictoriaMetrics", "conflict_type": "preference_flip"}
+{"id": "q_14_03", "persona": "数据工程师-14", "question": "我们的 CI 系统 是什么？", "gold": "GitLab CI", "conflict_type": "none"}
+{"id": "q_14_04", "persona": "数据工程师-14", "question": "我们的 RPC 框架 是什么？", "gold": "gRPC", "conflict_type": "none"}
+{"id": "q_14_05", "persona": "数据工程师-14", "question": "我们项目的 Reranker 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_14_06", "persona": "数据工程师-14", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_14_07", "persona": "数据工程师-14", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_14_08", "persona": "数据工程师-14", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_15_00", "persona": "测试工程师-15", "question": "我们项目的 前端框架 现在用什么？", "gold": "React 18", "conflict_type": "preference_flip"}
+{"id": "q_15_01", "persona": "测试工程师-15", "question": "我们项目的 Reranker 现在用什么？", "gold": "bge-reranker-v2-m3", "conflict_type": "preference_flip"}
+{"id": "q_15_02", "persona": "测试工程师-15", "question": "我们项目的 Web 框架 现在用什么？", "gold": "Django", "conflict_type": "preference_flip"}
+{"id": "q_15_03", "persona": "测试工程师-15", "question": "我们的 消息队列 是什么？", "gold": "Kafka", "conflict_type": "none"}
+{"id": "q_15_04", "persona": "测试工程师-15", "question": "我们的 向量库 是什么？", "gold": "Milvus", "conflict_type": "none"}
+{"id": "q_15_05", "persona": "测试工程师-15", "question": "我们项目的 监控系统 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_15_06", "persona": "测试工程师-15", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_15_07", "persona": "测试工程师-15", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_15_08", "persona": "测试工程师-15", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_16_00", "persona": "架构工程师-16", "question": "我们项目的 Web 框架 现在用什么？", "gold": "Django", "conflict_type": "preference_flip"}
+{"id": "q_16_01", "persona": "架构工程师-16", "question": "我们项目的 数据仓库 现在用什么？", "gold": "Doris", "conflict_type": "preference_flip"}
+{"id": "q_16_02", "persona": "架构工程师-16", "question": "我们项目的 训练方式 现在用什么？", "gold": "QLoRA", "conflict_type": "preference_flip"}
+{"id": "q_16_03", "persona": "架构工程师-16", "question": "我们的 前端框架 是什么？", "gold": "Vue3", "conflict_type": "none"}
+{"id": "q_16_04", "persona": "架构工程师-16", "question": "我们的 Reranker 是什么？", "gold": "bge-reranker-base", "conflict_type": "none"}
+{"id": "q_16_05", "persona": "架构工程师-16", "question": "我们项目的 缓存 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_16_06", "persona": "架构工程师-16", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_16_07", "persona": "架构工程师-16", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_16_08", "persona": "架构工程师-16", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_17_00", "persona": "安全工程师-17", "question": "我们项目的 RPC 框架 现在用什么？", "gold": "Thrift", "conflict_type": "preference_flip"}
+{"id": "q_17_01", "persona": "安全工程师-17", "question": "我们项目的 Reranker 现在用什么？", "gold": "bge-reranker-v2-m3", "conflict_type": "preference_flip"}
+{"id": "q_17_02", "persona": "安全工程师-17", "question": "我们项目的 缓存 现在用什么？", "gold": "KeyDB", "conflict_type": "preference_flip"}
+{"id": "q_17_03", "persona": "安全工程师-17", "question": "我们的 数据仓库 是什么？", "gold": "ClickHouse", "conflict_type": "none"}
+{"id": "q_17_04", "persona": "安全工程师-17", "question": "我们的 UI 库 是什么？", "gold": "Ant Design", "conflict_type": "none"}
+{"id": "q_17_05", "persona": "安全工程师-17", "question": "我们项目的 向量库 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_17_06", "persona": "安全工程师-17", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_17_07", "persona": "安全工程师-17", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_17_08", "persona": "安全工程师-17", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_18_00", "persona": "平台工程师-18", "question": "我们项目的 消息队列 现在用什么？", "gold": "RabbitMQ", "conflict_type": "preference_flip"}
+{"id": "q_18_01", "persona": "平台工程师-18", "question": "我们项目的 Reranker 现在用什么？", "gold": "bge-reranker-v2-m3", "conflict_type": "preference_flip"}
+{"id": "q_18_02", "persona": "平台工程师-18", "question": "我们项目的 打包工具 现在用什么？", "gold": "Vite", "conflict_type": "preference_flip"}
+{"id": "q_18_03", "persona": "平台工程师-18", "question": "我们的 前端框架 是什么？", "gold": "Vue3", "conflict_type": "none"}
+{"id": "q_18_04", "persona": "平台工程师-18", "question": "我们的 缓存 是什么？", "gold": "Redis", "conflict_type": "none"}
+{"id": "q_18_05", "persona": "平台工程师-18", "question": "我们项目的 向量库 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_18_06", "persona": "平台工程师-18", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_18_07", "persona": "平台工程师-18", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_18_08", "persona": "平台工程师-18", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_19_00", "persona": "中台工程师-19", "question": "我们项目的 RPC 框架 现在用什么？", "gold": "Thrift", "conflict_type": "preference_flip"}
+{"id": "q_19_01", "persona": "中台工程师-19", "question": "我们项目的 监控系统 现在用什么？", "gold": "VictoriaMetrics", "conflict_type": "preference_flip"}
+{"id": "q_19_02", "persona": "中台工程师-19", "question": "我们项目的 调度器 现在用什么？", "gold": "Dagster", "conflict_type": "preference_flip"}
+{"id": "q_19_03", "persona": "中台工程师-19", "question": "我们的 前端框架 是什么？", "gold": "Vue3", "conflict_type": "none"}
+{"id": "q_19_04", "persona": "中台工程师-19", "question": "我们的 向量库 是什么？", "gold": "Milvus", "conflict_type": "none"}
+{"id": "q_19_05", "persona": "中台工程师-19", "question": "我们项目的 API 网关 用什么？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_19_06", "persona": "中台工程师-19", "question": "我叫什么名字？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_19_07", "persona": "中台工程师-19", "question": "我们团队有多少人？", "gold": "无法确定", "conflict_type": "should_reject"}
+{"id": "q_19_08", "persona": "中台工程师-19", "question": "我们的办公地点在哪？", "gold": "无法确定", "conflict_type": "should_reject"}

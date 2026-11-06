@@ -1,0 +1,43 @@
+model_list:
+- model_name: 38FN_Q4
+  litellm_params:
+    model: openai/38FN_Q4
+    api_base: http://192.168.10.132:9980
+    api_key: ${PILOT_KEY_M00}
+- model_name: qwen3_32b
+  litellm_params:
+    model: openai/qwen3_32b
+    api_base: http://192.168.10.132:9980
+    api_key: ${PILOT_KEY_M00}
+- model_name: Qwen3_Embedding_06B
+  litellm_params:
+    model: openai/Qwen3_Embedding_06B
+    api_base: http://192.168.10.208:8002/v1
+    api_key: dummy
+  model_info:
+    mode: embedding
+- model_name: Qwythos-9B-Claude-Mythos-5-1M
+  litellm_params:
+    model: openai/Qwythos-9B-Claude-Mythos-5-1M
+    api_base: http://127.0.0.1:8019/v1
+    api_key: dummy
+  model_info:
+    mode: chat
+    max_input_tokens: 1048576
+    max_output_tokens: 8192
+- model_name: memory-llm
+  litellm_params:
+    model: openai/Qwythos-9B-Claude-Mythos-5-1M
+    api_base: http://127.0.0.1:8019/v1
+    api_key: dummy
+  model_info:
+    mode: chat
+litellm_settings:
+  store_model_in_db: false
+  callbacks:
+  - hooks.MemoryHooks
+  drop_params: true
+  set_verbose: false
+general_settings:
+  disable_auth: true
+  database_url: null

@@ -1,0 +1,19 @@
+[Unit]
+Description=Dxos_Pilot Backend v6
+After=network.target docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/ai/dxos_pilot/backend
+ExecStart=/usr/bin/python3 /ai/dxos_pilot/backend/main.py
+Restart=always
+RestartSec=10
+StandardOutput=append:/ai/dxos_pilot/logs/backend.log
+StandardError=append:/ai/dxos_pilot/logs/backend.log
+TimeoutStopSec=30
+Environment="LITELLM_MASTER_KEY=<REDACTED_MASTER_KEY>
+
+[Install]
+WantedBy=multi-user.target

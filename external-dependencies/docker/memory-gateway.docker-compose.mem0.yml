@@ -1,0 +1,38 @@
+name: mg-mem0
+
+services:
+  mem0:
+    image: mem0-api-server:local
+    container_name: mem0-api
+    ports:
+      - "127.0.0.1:8888:8000"
+    environment:
+      # LLM
+      OPENAI_API_KEY: <REDACTED_API_KEY>
+      OPENAI_BASE_URL: http://192.168.10.132:9900/v1
+      OPENAI_MODEL: capability/memory-extraction
+      # Embedding（用 embed-proxy 3101）
+      EMBEDDING_MODEL: models/bge-m3
+      EMBEDDING_BASE_URL: http://192.168.10.132:3101/v1
+      EMBEDDING_DIMS: "1024"
+      # Vector Store
+      VECTOR_STORE_PROVIDER: qdrant
+      QDRANT_HOST: 192.168.10.132
+      QDRANT_PORT: "6333"
+      QDRANT_COLLECTION_NAME: mem0_memories
+      # PostgreSQL
+      POSTGRES_HOST: 192.168.10.132
+      POSTGRES_PORT: "5433"
+      POSTGRES_DB: mem0_app
+      POSTGRES_USER: probe
+      POSTGRES_PASSWORD: probe
+      # History（本地 SQLite）
+      HISTORY_DB_PATH: /app/data/mem0_history.db
+      MEM0_HISTORY_DB_PATH: /app/data/mem0_history.db
+      # Auth
+      JWT_SECRET: ${MEM0_JWT_SECRET}
+      ADMIN_API_KEY: <REDACTED_API_KEY>
+      MEM0_TELEMETRY: "false"
+    volumes:
+      - /ai/Memory-Gateway/data/mem0:/app/data
+    restart: unless-stopped

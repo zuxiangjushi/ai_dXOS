@@ -1,0 +1,13 @@
+[Unit]
+Description=Dxos_Pilot Reconcile v6
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/ai/ai_dxos/scripts/reconcile/boot_reconcile.sh
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target

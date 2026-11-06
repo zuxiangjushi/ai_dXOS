@@ -1,0 +1,32 @@
+{
+  "compare": [
+    "bge-m3 vs Qwen3-Embedding 哪个好",
+    "PostgreSQL 和 MySQL 哪个更适合 OLAP",
+    "RAG 和长上下文哪个更好",
+    "SGLang 对比 vLLM 性能差异"
+  ],
+  "howto": [
+    "SGLang NCCL 报错怎么办",
+    "vLLM OOM 怎么解决",
+    "CUDA out of memory 如何处理",
+    "docker 端口冲突怎么办",
+    "Python import 失败怎么排查",
+    "pip 安装超时怎么办"
+  ],
+  "realtime": [
+    "今天重庆天气",
+    "最新 OpenAI 模型",
+    "最近的英伟达股价",
+    "2026年诺贝尔奖"
+  ],
+  "list": [
+    "Python 有哪些新特性",
+    "Qwen 系列有哪些版本",
+    "向量数据库有哪些选择"
+  ],
+  "general": [
+    "地球到月球的距离",
+    "中国的国土面积",
+    "什么是量子计算"
+  ]
+}

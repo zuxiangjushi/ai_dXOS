@@ -1,0 +1,4 @@
+  File [35m"<string>"[0m, line [35m7[0m
+    print[1;31m([0mf
+         [1;31m^[0m
+[1;35mSyntaxError[0m: [35m'(' was never closed[0m

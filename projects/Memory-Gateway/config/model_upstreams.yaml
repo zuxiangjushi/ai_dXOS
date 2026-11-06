@@ -1,0 +1,26 @@
+# 底座每个模型的端口映射（来自 /root/fix_gateway_v3.sh）
+upstreams:
+  - model: emb_bge_m3
+    port: 8003
+  - model: qwen3_32b
+  - model: yy35b_q6
+    port: 8001
+  - model: qwen38_27b_f8
+    port: 8002
+  - model: gemma_4
+    port: 8004
+  - model: yy38_27b
+    port: 8005
+  - model: yy35b_q6
+    port: 8006
+  - model: 38FN_Q4
+    port: 8007
+  - model: deepseek_70b
+    port: 8008
+  - model: qwen3_30b
+    port: 8009
+
+probe:
+  host: 192.168.10.132
+  timeout_ms: 500    # 单端口探测超时（快速失败）
+  cache_ttl_s: 10    # 探测结果缓存 10 秒，避免每次请求都扫端口

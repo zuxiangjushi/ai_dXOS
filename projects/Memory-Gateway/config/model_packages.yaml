@@ -1,0 +1,4 @@
+"38FN_Q4": {pool: Pool-ALL, engine: llama_cpp, cold_start_seconds: 300, safe_default: true}
+"qwen3_32b": {pool: Pool-A, engine: sglang, cold_start_seconds: 95}
+"yy35b_q6": {pool: Pool-A, engine: sglang, cold_start_seconds: 95}
+"qwen38_27b_f8": {pool: Pool-B, engine: sglang, cold_start_seconds: 80}
