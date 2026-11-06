@@ -40,3 +40,25 @@
 - 本地: 完成 (init + commit + 验收见 task_records/task2_github_backup_checkpoint.md)
 - 远端: 未配置, 未 push — 等待用户授权 (账号 zuxiangjushi, 私有仓库 ai-dxos-backup,
   按 B3.5 流程: 建库 → remote add → 非 force push; 凭证不入任何文件)
+
+## 5. 排除项澄清与验收 (11-06 commit 后)
+
+### 5.1 git 树 vs 磁盘差异 (2225 入库 / 2587 磁盘, 差 362)
+- 357 个: `projects/ai_dxos/Strata/**` — 被其自带的嵌套 `.gitignore`
+  (`*` + `!.gitignore`, 上游构建工具规则, 忠实拷贝, 未修改) 排除。
+  这些文件全部在 manifests/SHA256SUMS.txt 中有哈希, 归档完整性不受影响;
+  只是不入 git 版本库。如需 Strata 二进制入 git, 需在授权后处理该嵌套规则。
+- 5 个: `projects/Memory-Gateway/.pytest_cache/**` — 可再生测试缓存, 按 B3.2 排除。
+- 另有 2 个空目录 (`scripts/`, `external-dependencies/scripts/`) git 不跟踪 (git 不存空目录), 无内容损失。
+
+### 5.2 commit 验收 (实际执行)
+- HEAD: 5551862b05fd1405ae8559b1aa8e33c82de3ec4f (main, 单 commit)
+- `git ls-files` = 2225
+- `git archive HEAD` 解包后与磁盘逐文件 SHA256 比对: **2225/2225 完全一致, 0 差异**
+- 特殊文件状态: `projects/Memory-Gateway/=` 与 `===` 已入库; 尾换行文件名
+  `{m[litellm_params][model]})\n` 已入库 (git 支持); 11-05 清单哈希不变
+- committer: 仓库局部 zuxiangjushi <zuxiangjushi@users.noreply.github.com> (未改全局)
+
+### 5.3 远端
+未配置 remote, 未 push。等待用户授权后按 B3.5 执行 (建私有库 ai-dxos-backup
+→ remote add → 非 force push → B3.6 复验)。
