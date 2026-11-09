@@ -1069,6 +1069,10 @@ a.nav-item:hover {
           <i class="fas fa-globe"></i><span>网络控制</span>
         </a>
 
+        
+        <a class="nav-item" href="http://192.168.10.132:3001/monitor.html" target="_blank" style="text-decoration: none;">
+          <i class="fas fa-chart-pie"></i><span>资源监控</span>
+        </a>
         <div class="nav-spacer"></div>
         <div class="user-profile">
             <div class="user-avatar">AD</div>
@@ -1112,6 +1116,7 @@ a.nav-item:hover {
         <!-- 服务入口栏 -->
         <div class="service-bar">
             <a class="svc-btn svc-ccweb" href="http://192.168.10.132" target="_blank"><i class="fas fa-terminal"></i> OpenClaw</a>
+<a class="svc-btn" style="background: linear-gradient(135deg, #2DC08D, #1FA370);" href="http://192.168.10.132:37579/paxenadmin" target="_blank"><i class="fas fa-server"></i> 1Panel</a>
             <a class="svc-btn svc-langfuse" href="http://192.168.10.132:3108" target="_blank"><i class="fas fa-chart-line"></i> Langfuse</a>
             <a class="svc-btn svc-searxng" href="http://192.168.10.132:3180" target="_blank"><i class="fas fa-search"></i> SearXNG</a>
             <a class="svc-btn svc-qdrant" href="http://192.168.10.132:6333/dashboard" target="_blank"><i class="fas fa-database"></i> Qdrant</a>
@@ -1965,14 +1970,14 @@ document.addEventListener('DOMContentLoaded', init);
     });
 
     var AGENT_CONFIGS = {
-        "claude-code": {"title": "💻 Claude Code", "type": "终端 CLI 工具", "port": "无（CLI 客户端）", "link": "https://docs.anthropic.com/claude/docs/claude-code", "config": "# 环境变量配置\nexport ANTHROPIC_BASE_URL=\"http://192.168.10.132:9982\"\nexport ANTHROPIC_API_KEY=\"REPLACE_WITH_PILOT_LLM_GATEWAY_KEY\"\nexport X_USER_ID=\"paxen\"\nunset ANTHROPIC_AUTH_TOKEN\n\n# 使用\nsource /root/.memory-gateway-env\ncd /your/project\nclaude"},
-        "hermes": {"title": "🤖 Hermes", "type": "Docker 客户端", "port": "6061", "link": "http://192.168.10.132:6061/", "config": "# Web UI\nhttp://192.168.10.132:6061/\n\n# 配置文件：/ai/Hermes_agent/config.yaml\ndefault: \"\"\nprovider: \"custom\"\nbase_url: \"http://192.168.10.132:9982/v1\"\napi_key: \"REPLACE_WITH_PILOT_LLM_GATEWAY_KEY\"\nmax_history: 10\ncontext_window: 8000\n\n# 重启\ndocker restart hermes"},
-        "openclaw": {"title": "🦅 OpenClaw", "type": "配置文件接入", "port": "无独立 Web UI", "link": "http://192.168.10.132:9982/v1", "config": "# 配置文件：~/.openclaw/config.yaml\nllm:\n  base_url: \"http://192.168.10.132:9982/v1\"\n  api_key: \"REPLACE_WITH_PILOT_LLM_GATEWAY_KEY\"\n  model: \"\"\n\nmemory:\n  enabled: true\n  backend: \"mem0\"\n  mem0_url: \"http://127.0.0.1:8888\""},
-        "codex": {"title": "💻 Codex CLI", "type": "CLI 工具（待装）", "port": "无（CLI 客户端）", "link": "https://github.com/openai/codex", "config": "# 安装\nnpm install -g @openai/codex\n\n# 配置文件：~/.codex/config.yaml\nmodel: \"\"\nprovider: openai\nbase_url: http://192.168.10.132:9982/v1\napi_key: REPLACE_WITH_PILOT_LLM_GATEWAY_KEY\nprotocol: responses"},
-        "pi": {"title": "∞ PI (Pi)", "type": "CLI 工具（待装）", "port": "无（CLI 客户端）", "link": "https://github.com/Pi-Project", "config": "# 配置文件：~/.pi/config.json\n{\n  \"llm\": {\n    \"provider\": \"openai\",\n    \"baseUrl\": \"http://192.168.10.132:9982/v1\",\n    \"apiKey\": \"REPLACE_WITH_PILOT_LLM_GATEWAY_KEY\",\n    \"model\": \"\"\n  }\n}"},
-        "cursor": {"title": "💻 Cursor", "type": "IDE 桌面软件（待装）", "port": "无（本地软件）", "link": "https://cursor.com", "config": "# Settings → Models → OpenAI API Key\n1. 打开 Cursor Settings\n2. 找到 Models 标签\n3. 配置：\n   - Override OpenAI Base URL: http://192.168.10.132:9982/v1\n   - API Key: REPLACE_WITH_PILOT_LLM_GATEWAY_KEY"},
-        "continue": {"title": "▶ Continue", "type": "IDE 插件（待装）", "port": "无（IDE 插件）", "link": "https://continue.dev", "config": "# 配置文件：~/.continue/config.json\n{\n  \"models\": [{\n    \"title\": \"Memory-Gateway\",\n    \"provider\": \"openai\",\n    \"model\": \"AUTODETECT\",\n    \"apiBase\": \"http://192.168.10.132:9982/v1\",\n    \"apiKey\": \"REPLACE_WITH_PILOT_LLM_GATEWAY_KEY\"\n  }]\n}"},
-        "cline": {"title": "📚 Cline", "type": "VS Code 插件（待装）", "port": "无（VS Code 插件）", "link": "https://github.com/cline/cline", "config": "# VS Code 插件设置\n1. 安装 Cline 插件\n2. 打开设置：\n   - API Provider: openai\n   - openAiBaseUrl: http://192.168.10.132:9982/v1\n   - openAiApiKey: REPLACE_WITH_PILOT_LLM_GATEWAY_KEY"}
+        "claude-code": {"title": "💻 Claude Code", "type": "终端 CLI 工具", "port": "无（CLI 客户端）", "link": "https://docs.anthropic.com/claude/docs/claude-code", "config": "# 环境变量配置\nexport ANTHROPIC_BASE_URL=\"http://192.168.10.132:9982\"\nexport ANTHROPIC_API_KEY=\"sk-256db03b67b5c1918d0c5c00de813f61\"\nexport X_USER_ID=\"paxen\"\nunset ANTHROPIC_AUTH_TOKEN\n\n# 使用\nsource /root/.memory-gateway-env\ncd /your/project\nclaude"},
+        "hermes": {"title": "🤖 Hermes", "type": "Docker 客户端", "port": "6061", "link": "http://192.168.10.132:6061/", "config": "# Web UI\nhttp://192.168.10.132:6061/\n\n# 配置文件：/ai/Hermes_agent/config.yaml\ndefault: \"\"\nprovider: \"custom\"\nbase_url: \"http://192.168.10.132:9982/v1\"\napi_key: \"sk-256db03b67b5c1918d0c5c00de813f61\"\nmax_history: 10\ncontext_window: 8000\n\n# 重启\ndocker restart hermes"},
+        "openclaw": {"title": "🦅 OpenClaw", "type": "配置文件接入", "port": "无独立 Web UI", "link": "http://192.168.10.132:9982/v1", "config": "# 配置文件：~/.openclaw/config.yaml\nllm:\n  base_url: \"http://192.168.10.132:9982/v1\"\n  api_key: \"sk-256db03b67b5c1918d0c5c00de813f61\"\n  model: \"\"\n\nmemory:\n  enabled: true\n  backend: \"mem0\"\n  mem0_url: \"http://127.0.0.1:8888\""},
+        "codex": {"title": "💻 Codex CLI", "type": "CLI 工具（待装）", "port": "无（CLI 客户端）", "link": "https://github.com/openai/codex", "config": "# 安装\nnpm install -g @openai/codex\n\n# 配置文件：~/.codex/config.yaml\nmodel: \"\"\nprovider: openai\nbase_url: http://192.168.10.132:9982/v1\napi_key: sk-256db03b67b5c1918d0c5c00de813f61\nprotocol: responses"},
+        "pi": {"title": "∞ PI (Pi)", "type": "CLI 工具（待装）", "port": "无（CLI 客户端）", "link": "https://github.com/Pi-Project", "config": "# 配置文件：~/.pi/config.json\n{\n  \"llm\": {\n    \"provider\": \"openai\",\n    \"baseUrl\": \"http://192.168.10.132:9982/v1\",\n    \"apiKey\": \"sk-256db03b67b5c1918d0c5c00de813f61\",\n    \"model\": \"\"\n  }\n}"},
+        "cursor": {"title": "💻 Cursor", "type": "IDE 桌面软件（待装）", "port": "无（本地软件）", "link": "https://cursor.com", "config": "# Settings → Models → OpenAI API Key\n1. 打开 Cursor Settings\n2. 找到 Models 标签\n3. 配置：\n   - Override OpenAI Base URL: http://192.168.10.132:9982/v1\n   - API Key: sk-256db03b67b5c1918d0c5c00de813f61"},
+        "continue": {"title": "▶ Continue", "type": "IDE 插件（待装）", "port": "无（IDE 插件）", "link": "https://continue.dev", "config": "# 配置文件：~/.continue/config.json\n{\n  \"models\": [{\n    \"title\": \"Memory-Gateway\",\n    \"provider\": \"openai\",\n    \"model\": \"AUTODETECT\",\n    \"apiBase\": \"http://192.168.10.132:9982/v1\",\n    \"apiKey\": \"sk-256db03b67b5c1918d0c5c00de813f61\"\n  }]\n}"},
+        "cline": {"title": "📚 Cline", "type": "VS Code 插件（待装）", "port": "无（VS Code 插件）", "link": "https://github.com/cline/cline", "config": "# VS Code 插件设置\n1. 安装 Cline 插件\n2. 打开设置：\n   - API Provider: openai\n   - openAiBaseUrl: http://192.168.10.132:9982/v1\n   - openAiApiKey: sk-256db03b67b5c1918d0c5c00de813f61"}
     };
     
     function showAgentModal(agentId) {

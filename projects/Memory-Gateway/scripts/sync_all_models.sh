@@ -1,8 +1,8 @@
 #!/bin/bash
 # 底座模型自动同步：按能力分级选最优模型
 source /ai/Memory-Gateway/.env.g0 2>/dev/null
-export MEM0_JWT_SECRET="${MEM0_JWT_SECRET:-«redacted:mem0-jwt-secret»}"
-export MEM0_ADMIN_KEY="${MEM0_ADMIN_KEY:-«redacted:mem0-admin-key»}"
+export MEM0_JWT_SECRET="${MEM0_JWT_SECRET:-hbSpi7cc6rGopw42ZaOJ7pjpPjVZ0L09xKY4/37kuYQoKnR9IJK/wr+qze2I1cEH}"
+export MEM0_ADMIN_KEY="${MEM0_ADMIN_KEY:-sk-mem0-cc034cabecc3e8a56c3d2ca749c754a6}"
 
 # ★ 能力分级（越大越强，适合记忆抽取）
 # tier1: 70B+（最强，慢）

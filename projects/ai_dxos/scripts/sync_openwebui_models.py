@@ -2,7 +2,7 @@
 import requests, os
 OPENWEBUI_URL = "http://localhost:3000"
 BACKEND_URL = "http://localhost:9981/api/dashboard"
-TOKEN = os.popen('curl -s -X POST http://localhost:3000/api/v1/auths/signin -H "Content-Type: application/json" -d \'{"email":"REPLACE_FROM_ENV_OPENWEBUI_USER","password":"REPLACE_FROM_ENV_OPENWEBUI_PASS"}\' | jq -r ".token"').read().strip()
+TOKEN = os.popen('curl -s -X POST http://localhost:3000/api/v1/auths/signin -H "Content-Type: application/json" -d \'{"email":"yanpengbin@163.com","password":"738104"}\' | jq -r ".token"').read().strip()
 MODELS = ["qwen3_32b","qwen38_27b_f8","gemma_4","yy38_27b","yy35b_q6","38FN_Q4","deepseek_70b","qwen3_30b"]
 
 def get_status():

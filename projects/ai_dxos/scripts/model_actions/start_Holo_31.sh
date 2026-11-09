@@ -75,7 +75,9 @@ docker run -d \
   -m "/models/Holo_3,1/q4_k_m.gguf" \
   --mmproj "/models/Holo_3,1/mmproj.f16.gguf" \
   --host 0.0.0.0 \
-  --port 8002 \
+      --metrics \
+    --slots \
+    --port 8002 \
   --n-gpu-layers 999 \
   --ctx-size 65536 \
   --threads 8 \

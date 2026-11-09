@@ -43,7 +43,8 @@ docker run -d --name M12_36_27B --restart unless-stopped --gpus all --shm-size 3
   --entrypoint python3 lmsysorg/sglang:v0.5.17-cu130-runtime \
   -m sglang.launch_server --model-path /models/Qwen3.6-27B \
   --served-model-name qwen36_27b --port 8016 --host 0.0.0.0 --tp 4 \
-  --trust-remote-code --mem-fraction-static 0.75 --context-length 262144 \
+  --trust-remote-code \
+    --enable-metrics \ --mem-fraction-static 0.75 --context-length 262144 \
   --max-running-requests 8 --disable-custom-all-reduce --cuda-graph-max-bs 4 \
   --mm-feature-transport cpu \
   --reasoning-parser qwen3 \

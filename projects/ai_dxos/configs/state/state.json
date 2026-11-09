@@ -32,16 +32,6 @@
       "updated_at": "2026-10-20T00:14:30.682014",
       "progress": 100
     },
-    "jev_decision": {
-      "status": "running",
-      "container": "M16_Jev",
-      "port": 8021,
-      "gpu": "CPU",
-      "pool": "L0",
-      "engine": "llama.cpp",
-      "updated_at": "2026-11-03T02:22:28.488228",
-      "progress": 100
-    },
     "qwen2.5_3b": {
       "status": "running",
       "container": "M19",
@@ -59,7 +49,7 @@
       "gpu": "0,1,2,3",
       "pool": "Pool-ALL",
       "engine": "sglang",
-      "updated_at": "2026-11-04T00:08:23.779479",
+      "updated_at": "2026-11-08T10:38:57.310558",
       "progress": 100
     }
   },

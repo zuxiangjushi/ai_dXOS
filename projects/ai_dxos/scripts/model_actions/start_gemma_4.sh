@@ -92,7 +92,9 @@ docker run -d \
   ghcr.io/ggml-org/llama.cpp:server-cuda13 \
   -m /models/Gemma-4/gemma-4-31b-jang-crack-Q4_K_M.gguf \
   --host 0.0.0.0 \
-  --port 8004 \
+      --metrics \
+    --slots \
+    --port 8004 \
   --n-gpu-layers 999 \
   --ctx-size 131072 \
   --threads 4 \

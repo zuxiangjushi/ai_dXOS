@@ -4,7 +4,7 @@
 
 1. Settings → Connections → OpenAI API
 2. API Base URL: `http://192.168.10.132:9982/v1`
-3. API Key: `<从 Memory-Gateway 管理端获取, 勿提交真实值>`
+3. API Key: `sk-HRuNFAWWlF1PTW-w1-eFVg`
 4. Add Custom Header: `X-User-Id: <你的名字拼音>`
 5. Save
 

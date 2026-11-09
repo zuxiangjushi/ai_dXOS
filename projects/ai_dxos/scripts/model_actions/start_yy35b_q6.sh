@@ -95,7 +95,9 @@ docker run -d \
   --reasoning-format deepseek \
   --chat-template-kwargs '{"enable_thinking": false}' \
   --host 0.0.0.0 \
-  --port 8006 \
+      --metrics \
+    --slots \
+    --port 8006 \
   --n-gpu-layers 999 \
   --ctx-size 262144 \
   --threads 4 \

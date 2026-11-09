@@ -42,6 +42,8 @@ docker run -d \
     --port "$PORT" \
     --n-gpu-layers 0 \
     --ctx-size 32768 \
+        --metrics \
+    --slots \
     --jinja
 
 # 5. 健康检查（复用 common_pool.sh 里的通用检查）

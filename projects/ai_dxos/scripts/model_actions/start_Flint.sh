@@ -59,6 +59,7 @@ docker run -d --name "$CONTAINER_NAME" \
   --quantization moe_wna16 \
   --tp 4 \
   --trust-remote-code \
+    --enable-metrics \ \
   --dtype bfloat16 \
   --enable-fp32-lm-head \
   --attention-backend triton \

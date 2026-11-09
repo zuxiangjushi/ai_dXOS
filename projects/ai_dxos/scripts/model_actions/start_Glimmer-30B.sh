@@ -53,7 +53,8 @@ docker run -d --name M14--Glimmer-30B --restart unless-stopped --gpus all --shm-
   --entrypoint python3 lmsysorg/sglang:dev-muse-glimmer \
   -m sglang.launch_server --model-path /models/Muse-Glimmer-30B \
   --served-model-name Glimmer-30B --port 8018 --host 0.0.0.0 --tp 4 \
-  --trust-remote-code --mem-fraction-static 0.85 --context-length 131072 \
+  --trust-remote-code \
+    --enable-metrics \ --mem-fraction-static 0.85 --context-length 131072 \
   --max-running-requests 4 --disable-custom-all-reduce --cuda-graph-max-bs 2 \
   --mm-feature-transport cpu \
   --reasoning-parser muse \

@@ -8,7 +8,7 @@ services:
       - ../configs/litellm_config.yaml:/app/config.yaml
       - ../secrets/keys.conf:/app/keys.conf
     environment:
-      - LITELLM_MASTER_KEY=«redacted:litellm-master-key»
+      - LITELLM_MASTER_KEY=<REDACTED_LITELLM_MASTER_KEY>
       - LITELLM_CONFIG=/app/config.yaml
     command: --config /app/config.yaml --port 4000
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
     environment:
       - OLLAMA_BASE_URL=http://host.docker.internal:9980
       - OPENAI_API_BASE_URL=http://host.docker.internal:9980/v1
-      - OPENAI_API_KEY=«redacted:litellm-master-key»
+      - OPENAI_API_KEY=sk-master-key-change-me
       - OPENAI_MODEL_NAMES=qwen3_32b,deepseek_70b,gemma_4,yy35b_q6,qwen38_27b_f8,yy38_27b,yy35b_q8,qwen3_30b,deepseek_V25,emb_bge_m3
       - WEBUI_AUTH=false
       - WEBUI_NAME=Dxos_Pilot

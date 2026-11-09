@@ -34,11 +34,11 @@ UPSTREAM = os.environ.get("UPSTREAM_BASE", "http://192.168.10.132:9980")
 M19_UPSTREAM = os.environ.get("M19_UPSTREAM_BASE", "http://127.0.0.1:8023")
 M19_PUBLIC_NAME = "qwen2.5_3b"
 M19_MODEL_ID = "qwen2.5-3b-instruct-q5_k_m.gguf"
-LITELLM_KEY = os.environ.get("LITELLM_MASTER_KEY", "sk-REDACTED")
+LITELLM_KEY = os.environ.get("LITELLM_MASTER_KEY", "<REDACTED_LITELLM_MASTER_KEY>")
 
 # ★ 3080 Ti 摘要节点（Pool-WIN，独立资源域）
 SUMMARIZER_BASE_URL = os.environ.get("SUMMARIZER_BASE_URL", "http://192.168.10.208:8001/v1")
-SUMMARIZER_API_KEY = os.environ.get("SUMMARIZER_API_KEY", "sk-REDACTED")
+SUMMARIZER_API_KEY = os.environ.get("SUMMARIZER_API_KEY", "sk-summarizer-local")
 SUMMARIZER_MODEL = os.environ.get("SUMMARIZER_MODEL", "qwen25_coder_7b_awq")
 SUMMARIZER_TIMEOUT = float(os.environ.get("SUMMARIZER_TIMEOUT", "60"))
 SUMMARIZER_MAX_CONCURRENT = int(os.environ.get("SUMMARIZER_MAX_CONCURRENT", "4"))
@@ -86,7 +86,7 @@ def _strip_think(text: str) -> str:
 GATEWAY_PORT = int(os.environ.get("GATEWAY_PORT", "9982"))
 MEMORY_INJECT_ENABLED = os.environ.get("MEMORY_INJECT_ENABLED", "false").lower() == "true"
 MEMORY_WRITEBACK_ENABLED = os.environ.get("MEMORY_WRITEBACK_ENABLED", "false").lower() == "true"
-PG_DSN = os.environ.get("PG_PROBE_DSN") or "postgresql://probe:probe@127.0.0.1:5433/probe"
+PG_DSN = os.environ.get("PG_PROBE_DSN") or "postgresql://<REDACTED_USER>:postgresql://<REDACTED_PASS>@127.0.0.1:5433/probe"
 
 # ================= 内部任务过滤 =================
 INTERNAL_TASK_MARKERS = (
@@ -250,7 +250,9 @@ def _spawn_bg(coro):
 
 # ================= 上下文窗口检查 =================
 # 每个模型的物理窗口大小（token）
-MODEL_CONTEXT_WINDOWS = {
+# 模型能力注册表：上下文窗口与输出上限集中维护。
+# context_window 为物理上下文窗口；max_output_tokens 为 Gateway 允许的输出上限。
+_MODEL_CONTEXT_WINDOWS_BASE = {
     "deepseek_v41_flash": 8192,
     "deepseek-v4.1-flash": 8192,
     "Flint": 262144,
@@ -258,14 +260,14 @@ MODEL_CONTEXT_WINDOWS = {
 
     "Qwythos-9B-Claude-Mythos-5-1M": 1048576,  # v5.3.3: 1M 原生窗口
 
-    "qwen38_27b": 262144,
+    "qwen38_27b": 180000,
     "gemma_4": 131072,
     "yy38_27b": 131072,
     "yy35b_q6": 262144,
     "38FN_Q4": 131072,
     "deepseek_70b": 131072,
     "qwen3_30b": 262144,
-    "Qwen3.8-27B": 262144,  # v5.3.6: qwen38_27b 的别名
+    "Qwen3.8-27B": 180000,  # 与 qwen38_27b 共用已验证的 65536 窗口
     "Qwen3.6-27B": 262144,  # v5.3.6: qwen36_27b 的别名
     "Qwen3.6-35B": 262144,  # v5.3.6: qwen36_35b 的别名
     "Qwen3-32B-AWQ": 40960,           # v5.3.6: 从 config.json 补入
@@ -282,6 +284,43 @@ MODEL_CONTEXT_WINDOWS = {
     "Holo_31": 65536,
 }
 
+MODEL_CAPABILITIES = {
+    name: {
+        "context_window": int(window),
+        "max_output_tokens": (
+            65536 if "flint" in name.lower()
+            else 4096 if any(k in name.lower() for k in ("glimmer", "gemma_4", "gemma-4"))
+            else 8192
+        ),
+    }
+    for name, window in _MODEL_CONTEXT_WINDOWS_BASE.items()
+}
+
+# 兼容旧代码读取窗口字典；能力数据的唯一来源是 MODEL_CAPABILITIES。
+MODEL_CONTEXT_WINDOWS = {
+    name: spec["context_window"] for name, spec in MODEL_CAPABILITIES.items()
+}
+
+
+def _get_model_capability(model: str) -> dict:
+    """按解析后的物理模型名取得能力；未知模型不猜测默认窗口。"""
+    if not isinstance(model, str) or not model:
+        raise ValueError("模型名为空，无法读取模型能力")
+    spec = MODEL_CAPABILITIES.get(model)
+    if spec is None:
+        folded = model.casefold()
+        matches = [v for k, v in MODEL_CAPABILITIES.items() if k.casefold() == folded]
+        if matches and all(item == matches[0] for item in matches):
+            spec = matches[0]
+    if not isinstance(spec, dict):
+        raise KeyError(f"模型能力注册表未登记：{model}")
+    window = int(spec.get("context_window", 0))
+    output_cap = int(spec.get("max_output_tokens", 0))
+    if window < 1024 or output_cap < 1:
+        raise ValueError(f"模型能力配置无效：{model}={spec}")
+    return {"context_window": window, "max_output_tokens": output_cap}
+
+
 
 # ================= 动态模型路由 =================
 import threading as _th_routing
@@ -295,13 +334,13 @@ _TOOL_MODEL_PRIORITY = ["yy35b_q6", "yy35b_q6", "qwen38_27b", "deepseek_70b", "q
 _REASON_MODEL_PRIORITY = ["yy35b_q6", "qwen38_27b"]
 
 _MODEL_KEYS = {
-    "yy35b_q6": "sk-REDACTED",
-    "qwen38_27b": "sk-REDACTED",
-    "deepseek_70b": "sk-REDACTED",
-    "qwen3_30b": "sk-REDACTED",
-    "gemma_4": "sk-REDACTED",
-    "yy38_27b": "sk-REDACTED",
-    "yy35b_q6": "sk-REDACTED",
+    "yy35b_q6": "sk-gp4z9o1zR-33mUotAnowSg",
+    "qwen38_27b": "sk-VTKe2H-kdoDTtZBxqNEa3Q",
+    "deepseek_70b": "<REDACTED_SK_KEY>",
+    "qwen3_30b": "sk-eLOwF2qmZuM30A-rFWjbwg",
+    "gemma_4": "<REDACTED_SK_KEY>",
+    "yy38_27b": "sk-o0hmI_4HY9Os6LaInk7nUg",
+    "yy35b_q6": "<REDACTED_SK_KEY>",
 }
 
 _routing_cache = {"tool": None, "reason": None, "updated": 0, "running": []}
@@ -359,35 +398,26 @@ def _get_enc():
     return _tk_enc if _tk_enc else None
 
 
-def _count_msgs_tokens(msgs) -> int:
-    """优先使用 tokenizer；不可用时按完整消息 JSON 做保守估算。"""
-    import json
-    enc = None
+def _count_payload_tokens(payload) -> int:
+    """所有协议共用的 JSON token 计数；tiktoken 不可用时使用同一保守估算。"""
     try:
-        enc = _get_enc()
+        raw = json.dumps(payload, ensure_ascii=False, separators=(",", ":"), default=str)
     except Exception:
-        enc = None
-
-    try:
-        payload = json.dumps(
-            msgs if isinstance(msgs, list) else [],
-            ensure_ascii=False,
-            separators=(",", ":"),
-            default=str
-        )
-    except Exception:
-        payload = str(msgs)
-
+        raw = str(payload)
+    enc = _get_enc()
     if enc is not None:
         try:
-            return len(enc.encode(payload))
+            return max(1, len(enc.encode(raw)))
         except Exception:
             pass
-
-    # 中文按 UTF-8 字节估算，英文按字符估算；包含工具调用及消息结构
-    chars = len(payload)
-    byte_count = len(payload.encode("utf-8", errors="replace"))
+    chars = len(raw)
+    byte_count = len(raw.encode("utf-8", errors="replace"))
     return max(1, (chars + 1) // 2, (byte_count + 2) // 3)
+
+
+def _count_msgs_tokens(msgs) -> int:
+    """兼容旧调用名，委托统一 token 计数器。"""
+    return _count_payload_tokens(msgs if isinstance(msgs, list) else [])
 
 
 async def _compress_history(body: dict, model: str, max_tokens: int = 8000) -> dict:
@@ -456,7 +486,7 @@ async def _get_summary_redis():
     global _summary_redis
     if _summary_redis is None:
         try:
-            _summary_redis = await _aioredis_sum.from_url(
+            _summary_redis = _aioredis_sum.from_url(
                 "redis://127.0.0.1:6379/0",
                 encoding="utf-8",
                 decode_responses=True,
@@ -562,7 +592,73 @@ async def _do_summarize(older_msgs: list, session_id: str = "default") -> str:
 
 
 async def _compress_history_async(body: dict, ident: dict) -> dict:
-    """v7：暂停旧的非事务安全历史压缩，交由最终预算器统一裁剪。"""
+    """预算压力达到 80% 时安全摘要旧历史；失败时保留原消息，最终由预算器裁决。"""
+    messages = body.get("messages")
+    if not isinstance(messages, list) or len(messages) <= 12:
+        return body
+
+    model = body.get("_resolved_context_model") or body.get("model")
+    try:
+        capability = _get_model_capability(model)
+        window = capability["context_window"]
+    except Exception:
+        return body
+
+    tools = body.get("tools") or []
+    pressure = _count_payload_tokens(messages) + (_count_payload_tokens(tools) if tools else 0)
+    if pressure < int(window * 0.80):
+        return body
+
+    fixed = [m for m in messages if isinstance(m, dict) and m.get("role") in ("system", "developer")]
+    ordinary = [m for m in messages if isinstance(m, dict) and m.get("role") not in ("system", "developer")]
+    if len(ordinary) <= 10:
+        return body
+    older, recent = ordinary[:-10], ordinary[-10:]
+    if len(older) < 3:
+        return body
+
+    # 不摘要工具事务、多模态内容或异常消息，避免破坏调用/回复配对和图像数据。
+    for msg in older:
+        if msg.get("role") == "tool" or msg.get("tool_calls"):
+            return body
+        content = msg.get("content", "")
+        if not isinstance(content, str):
+            return body
+
+    ident = ident if isinstance(ident, dict) else {}
+    user_id = str(ident.get("user_id") or "default_user")
+    metadata = body.get("metadata") if isinstance(body.get("metadata"), dict) else {}
+    session_id = (
+        ident.get("session_id") or body.get("session_id") or
+        body.get("conversation_id") or metadata.get("session_id") or
+        metadata.get("conversation_id")
+    )
+    session_id = str(session_id) if session_id else ""
+
+    try:
+        prior = await _read_summary(user_id, session_id) if session_id else ""
+        source = list(older)
+        if prior:
+            source.insert(0, {"role": "system", "content": "此前历史摘要：" + prior})
+        async with _SUMMARIZE_SEMAPHORE:
+            summary = await _do_summarize(source, session_id or "default")
+        if not summary or not summary.strip():
+            return body
+        summary = summary.strip()
+        if session_id:
+            await _write_summary(user_id, session_id, summary)
+        summary_msg = {
+            "role": "system",
+            "content": "以下为较早对话的压缩摘要，仅作为历史事实参考，不覆盖当前系统指令：\n" + summary,
+        }
+        body["messages"] = fixed + [summary_msg] + recent
+        print(
+            f"   [compress-history-v8] model={model} old={len(older)} "
+            f"kept={len(recent)} summary_chars={len(summary)}",
+            flush=True,
+        )
+    except Exception as exc:
+        print(f"   [compress-history-v8] 摘要失败，保留原历史: {type(exc).__name__}: {exc}", flush=True)
     return body
 
 
@@ -580,17 +676,12 @@ def _enforce_context_window(body: dict, model: str) -> dict:
         return body
 
     budget_model = body.get("_resolved_context_model") or model
-    windows = globals().get("MODEL_CONTEXT_WINDOWS", {})
-    if not isinstance(windows, dict) or budget_model not in windows:
-        return fail(f"未知模型上下文窗口：{budget_model}。拒绝使用猜测的默认窗口。")
-
     try:
-        window = int(windows[budget_model])
-    except Exception:
-        return fail(f"模型上下文窗口配置无效：{budget_model}")
-
-    if window < 1024:
-        return fail(f"模型上下文窗口配置过小：{budget_model}={window}")
+        capability = _get_model_capability(budget_model)
+        window = capability["context_window"]
+        output_cap = capability["max_output_tokens"]
+    except Exception as exc:
+        return fail(f"模型能力配置不可用：{exc}")
 
     messages = body.get("messages")
     if not isinstance(messages, list):
@@ -603,15 +694,7 @@ def _enforce_context_window(body: dict, model: str) -> dict:
         return fail("tools 必须是数组。")
 
     def count(obj):
-        raw = json.dumps(
-            obj, ensure_ascii=False, separators=(",", ":"), default=str
-        )
-        try:
-            import tiktoken
-            enc = tiktoken.get_encoding("cl100k_base")
-            return len(enc.encode(raw))
-        except Exception:
-            return max(1, (len(raw.encode("utf-8")) + 2) // 3)
+        return _count_payload_tokens(obj)
 
     # 工具定义完整计数，绝不裁减客户端 tools。
     try:
@@ -720,7 +803,9 @@ def _enforce_context_window(body: dict, model: str) -> dict:
             "为避免破坏工具事务，拒绝转发。"
         )
 
-    requested = body.get("max_tokens", 2048)
+    requested = body.get("max_tokens", min(2048, output_cap))
+    if requested is None:
+        requested = min(2048, output_cap)
     try:
         requested = int(requested)
     except Exception:
@@ -729,7 +814,7 @@ def _enforce_context_window(body: dict, model: str) -> dict:
     if requested < 1:
         return fail("max_tokens 必须大于零。")
 
-    actual_output = min(requested, window - used - safety)
+    actual_output = min(requested, output_cap, window - used - safety)
     if actual_output < 1:
         return fail("上下文已无可用输出预算。")
 
@@ -878,16 +963,8 @@ def _extract_tool_calls(text):
 
 
 def _count_tools_tokens(tools):
-    """估算 tools schema 的 token 数"""
-    if not tools:
-        return 0
-    enc = _get_enc()
-    if enc is None:
-        return len(json.dumps(tools, ensure_ascii=False)) // 3
-    try:
-        return len(enc.encode(json.dumps(tools, ensure_ascii=False)))
-    except Exception:
-        return len(json.dumps(tools, ensure_ascii=False)) // 3
+    """兼容旧调用名，工具 schema 与消息使用同一计数算法。"""
+    return _count_payload_tokens(tools) if tools else 0
 
 
 
@@ -1170,7 +1247,7 @@ def _get_active_models_sync() -> list:
     upstream_base = os.environ.get("UPSTREAM_BASE", "http://127.0.0.1:9980/v1")
     if not upstream_base.endswith("/v1"):
         upstream_base += "/v1"
-    key = os.environ.get("LITELLM_MASTER_KEY", "sk-REDACTED")
+    key = os.environ.get("LITELLM_MASTER_KEY", "<REDACTED_LITELLM_MASTER_KEY>")
     try:
         r = httpx.get(f"{upstream_base}/models", headers={"Authorization": f"Bearer {key}"}, timeout=2.0)
         if r.status_code == 200:
@@ -1180,6 +1257,12 @@ def _get_active_models_sync() -> list:
     return []
 
 def _resolve_real_model(model: str) -> str:
+    # v5.4.0 fix: 剥离 OpenAI 兼容客户端附带的 `openai/` provider 前缀。
+    # Hindsight 等 OpenAI 兼容客户端会把 model 写成 "openai/<name>"，
+    # 但上游 LiteLLM(9980) 与 MODEL_CONTEXT_WINDOWS 只认裸模型名。
+    # 不剥离会导致 _enforce_context_window 报“未知模型上下文窗口”。
+    if isinstance(model, str) and model.startswith("openai/"):
+        model = model[len("openai/"):]
     _clean_name, _ = _strip_mg_prefix(model)
     if _clean_name == M19_PUBLIC_NAME:
         return M19_PUBLIC_NAME
@@ -2385,13 +2468,16 @@ async def openai_responses(request: Request):
         try:
             requested_max = int(requested_max)
         except Exception:
-            requested_max = 4096
-        requested_max = max(1, min(requested_max, 8192))
-        try:
-            if "_model_cap" in globals():
-                requested_max = min(requested_max, max(1, int(_model_cap(model))))
-        except Exception:
-            pass
+            return JSONResponse(
+                {"error": {"message": "max_output_tokens 必须是整数", "type": "invalid_request_error"}},
+                status_code=400,
+            )
+        if requested_max < 1:
+            return JSONResponse(
+                {"error": {"message": "max_output_tokens 必须大于零", "type": "invalid_request_error"}},
+                status_code=400,
+            )
+        # 不在协议适配层硬编码 8192；由最终能力注册表统一限制。
         chat_body["max_tokens"] = requested_max
 
         # Responses 与 Chat Completions 共用同一套记忆/搜索 Hook
@@ -2437,6 +2523,9 @@ async def openai_responses(request: Request):
             )
         except Exception as _compress_error:
             print(f"   [Responses compress] 跳过: {_compress_error}", flush=True)
+
+        if isinstance(chat_body.get("messages"), list):
+            chat_body["messages"] = _normalize_messages(chat_body["messages"])
 
         chat_body = _enforce_context_window(chat_body, model)
         if chat_body.get("_context_error"):
@@ -2776,13 +2865,9 @@ async def anthropic_messages(request: Request):
     if _route_key:
         auth = f"Bearer {_route_key}"
 
-    # max_tokens 处理
+    # max_tokens 只做协议默认值；最终上限由统一能力注册表裁决。
     _req_max = body.get("max_tokens")
-    _win = MODEL_CONTEXT_WINDOWS.get(model, 32768)
-    _model_cap = 65536 if isinstance(model, str) and "flint" in model.lower() else 8192
-    _safe_by_window = max(256, _win - 4096)
-    _effective_cap = min(_model_cap, _safe_by_window)
-    body["max_tokens"] = min(_req_max or 2048, _effective_cap)
+    body["max_tokens"] = 2048 if _req_max is None else _req_max
 
     stream = bool(body.get("stream"))
     
@@ -2879,6 +2964,8 @@ async def anthropic_messages(request: Request):
     except Exception as _compress_error:
         print(f"   [Anthropic compress] 跳过: {_compress_error}", flush=True)
 
+    # 必须先规范化 system/developer 消息，再做最终 token 预算。
+    openai_body["messages"] = _normalize_messages(openai_body.get("messages") or [])
     openai_body = _enforce_context_window(openai_body, model)
     if openai_body.get("_context_error"):
         return JSONResponse(
@@ -2891,21 +2978,14 @@ async def anthropic_messages(request: Request):
             },
             status_code=400
         )
-    # 最终保险：合并全部 system，并确保 system 位于第一条消息
-    _roles_before = [
-        str(m.get("role", "?")) for m in (openai_body.get("messages") or [])
-        if isinstance(m, dict)
-    ]
-    openai_body["messages"] = _normalize_messages(
-        openai_body.get("messages") or []
-    )
+    # 输出角色顺序日志；messages 已在最终预算前完成规范化。
     _roles_after = [
         str(m.get("role", "?")) for m in (openai_body.get("messages") or [])
         if isinstance(m, dict)
     ]
     print(
         f"   [Anthropic outbound] model={model} "
-        f"roles_before={_roles_before} roles_after={_roles_after} "
+        f"roles_after={_roles_after} "
         f"tools={len(openai_body.get('tools') or [])}",
         flush=True
     )
@@ -3057,10 +3137,11 @@ async def chat_completions(request: Request):
         if body.get("tools"):
             # Agent 模式：给足预算
             _cur = body.get("max_tokens") or 2048
-            _win = MODEL_CONTEXT_WINDOWS.get(model, 262144)
+            _capability = _get_model_capability(model)
+            _win = _capability["context_window"]
             _input_est = _count_msgs_tokens(body.get("messages") or []) + _count_tools_tokens(body.get("tools"))
-            _safe_cap = max(8192, _win - _input_est - 4096)
-            _target = min(65536, _safe_cap)
+            _safe_cap = max(1, _win - _input_est - 4096)
+            _target = min(_capability["max_output_tokens"], _safe_cap)
             if _cur < _target:
                 body["max_tokens"] = _target
                 print(f"   [flint-agent-max-tokens] {_cur} -> {_target} (win={_win} input_est={_input_est} safe_cap={_safe_cap})", flush=True)
@@ -3159,38 +3240,7 @@ async def chat_completions(request: Request):
         body["messages"] = _msgs
         print(f"   [style] {_cat} 注入简洁提示", flush=True)
 
-    # ★ max_tokens 兜底（thinking 模型用 _thinking_model 判断）
-    _orig_max = body.get("max_tokens", 2048)
-    if not _thinking_model and _orig_max > 8192:
-        body["max_tokens"] = 8192
-        print(f"   [max_tokens] 兜底 _fb（原 {_orig_max}）", flush=True)
-    elif _thinking_model:
-        # ★ 动态计算：使用真实 tokenizer，不再使用“字符 ÷ 3”
-        _win = MODEL_CONTEXT_WINDOWS.get(_real, 16384)
-
-        _msg_tokens = _count_msgs_tokens(body.get("messages") or [])
-        _tools_tokens = _count_tools_tokens(body.get("tools"))
-        _prompt_tokens = _msg_tokens + _tools_tokens
-
-        # 留 256 tokens 安全余量
-        _margin = 256
-        _available = max(256, _win - _prompt_tokens - _margin)
-
-        # thinking 模型最多允许 4096，但绝不能超过真实剩余窗口
-        _cap = min(4096, _available)
-
-        if _orig_max is None:
-            _final = _cap
-        else:
-            _final = min(int(_orig_max), _cap)
-
-        body["max_tokens"] = max(256, _final)
-
-        print(
-            f"   [max_tokens] thinking {_real}: {_orig_max} → {body['max_tokens']} "
-            f"(win={_win}, prompt={_prompt_tokens}, avail={_available})",
-            flush=True
-        )
+    # 输出预算统一由最终 _enforce_context_window + MODEL_CAPABILITIES 裁决。
 
     # ★ 参数调优（按模型 + 分类）
     try:

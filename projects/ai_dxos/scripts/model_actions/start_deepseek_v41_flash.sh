@@ -51,7 +51,7 @@ nohup "$STRATA_BIN" launch \
     --model-path "$MODEL_PATH" \
     --port $PORT \
     --access lan \
-    --api-key "«redacted:strata-api-key»" \
+    --api-key "sk-strata-DXOS-M18-Flash-2026" \
     --dsv41-package "$DSV41_PKG" \
     --no-tui \
     --yes \

@@ -102,6 +102,7 @@ docker run -d --name "$CONTAINER_NAME" \
     --host 0.0.0.0 \
     --port "$PORT" \
     --trust-remote-code \
+    --enable-metrics \ \
     --disable-custom-all-reduce \
     --max-running-requests 2 \
     --cuda-graph-max-bs-decode 1 \

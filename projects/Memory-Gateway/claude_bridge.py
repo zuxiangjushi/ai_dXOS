@@ -11,8 +11,8 @@ logger = logging.getLogger("claude_bridge")
 
 # 🛑 硬编码 LiteLLM 的基础地址
 LITELLM_URL = "http://127.0.0.1:9980/v1"
-LITELLM_KEY = "REPLACE_WITH_LITELLM_KEY_FROM_VAULT"
-CLIENT_KEY = "REPLACE_WITH_LITELLM_KEY_FROM_VAULT"
+LITELLM_KEY = "<REDACTED_LITELLM_KEY>"
+CLIENT_KEY = "sk-gateway-secret-2026"
 
 # 🛑 终极自动探测：问底层要真名，绝不瞎猜
 async def _get_active_chat_model():

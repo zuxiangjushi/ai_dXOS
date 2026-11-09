@@ -10,7 +10,7 @@ import asyncio
 import time
 import psutil
 from datetime import datetime, timedelta
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, BackgroundTasks, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -180,10 +180,6 @@ async def start_model(model_id: str):
     code, out, err = run_cmd(f"{SCHEDULER} switch {model_id}")
     return JSONResponse({"success": code == 0, "message": out + err})
 
-@app.post("/api/models/{model_id}/stop")
-async def stop_model(model_id: str):
-    code, out, err = run_cmd(f"{SCHEDULER} stop {model_id}")
-    return JSONResponse({"success": code == 0, "message": out + err})
 
 @app.post("/api/stop/all")
 async def stop_all():
@@ -248,6 +244,101 @@ if os.path.isdir(FRONTEND_DIR):
 @app.get("/dashboard")
 async def serve_frontend():
     return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+
+
+
+@app.post("/api/models/{model_id}/stop")
+async def stop_model(model_id: str, background_tasks: BackgroundTasks):
+    def run_stop():
+        run_cmd(f"{SCHEDULER} stop {model_id}")
+    background_tasks.add_task(run_stop)
+    return JSONResponse({"success": True, "message": f"已发送后台停止指令: {model_id}"})
+
+
+
+import time
+import httpx
+import re
+
+# 全局缓存，用于计算真实 TPS
+_LAST_TPS_STATE = {}
+
+@app.get("/api/usage/stats")
+async def get_usage_stats():
+    import json, os
+    from pathlib import Path
+    
+    state_file = "/ai/ai_dxos/configs/state/state.json"
+    models_data = []
+    
+    if os.path.exists(state_file):
+        try:
+            with open(state_file, 'r') as f:
+                state = json.load(f)
+            
+            async with httpx.AsyncClient(timeout=2.0) as client:
+                for name, info in state.get("running_models", {}).items():
+                    if info.get("status") == "running":
+                        port = info.get("port")
+                        engine = info.get("engine")
+                        
+                        tps = 0.0
+                        total_tokens = 0
+                        
+                        # 如果是 SGLang 引擎，去抓取真实 metrics
+                        if engine == "sglang" and port:
+                            try:
+                                resp = await client.get(f"http://127.0.0.1:{port}/metrics")
+                                if resp.status_code == 200:
+                                    # 解析 SGLang 的真实解码 token 数
+                                    match = re.search(r'sglang:realtime_tokens_total\{[^}]*mode="decode"[^}]*\}\s+([\d\.]+)', resp.text)
+                                    if match:
+                                        total_tokens = float(match.group(1))
+                                        
+                                        # 计算 TPS (当前时间 - 上次时间)
+                                        now = time.time()
+                                        last_state = _LAST_TPS_STATE.get(name, {"tokens": total_tokens, "time": now})
+                                        
+                                        time_diff = now - last_state["time"]
+                                        token_diff = total_tokens - last_state["tokens"]
+                                        
+                                        # 避免除零和负数（比如模型重启导致 token 归零）
+                                        if time_diff > 0.5 and token_diff >= 0:
+                                            tps = round(token_diff / time_diff, 1)
+                                        
+                                        # 更新缓存
+                                        _LAST_TPS_STATE[name] = {"tokens": total_tokens, "time": now}
+                            except Exception:
+                                pass
+
+                        models_data.append({
+                            "api_name": name,
+                            "container": info.get("container", "-"),
+                            "gpu_ids": info.get("gpu", "-"),
+                            "pool": info.get("pool", "-"),
+                            "throughput_tps": str(tps),
+                            "total_tokens": int(total_tokens),
+                            # Agent 数据目前暂留空，等待下一步接入真实流量
+                            "agents": [] 
+                        })
+        except Exception as e:
+            print("Error fetching stats:", e)
+
+    # 检查网关状态
+    gateway_status = "Down"
+    try:
+        async with httpx.AsyncClient(timeout=1.0) as client:
+            r = await client.get("http://127.0.0.1:9980/health")
+            if r.status_code == 200:
+                gateway_status = "Up"
+    except Exception:
+        pass
+            
+    return JSONResponse({
+        "gateway_status": gateway_status,
+        "models": models_data
+    })
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=9981)

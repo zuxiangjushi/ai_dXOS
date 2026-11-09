@@ -72,6 +72,8 @@ docker run -d \
     --mlock \
     --threads 16 \
     --threads-batch 16 \
+        --metrics \
+    --slots \
     --jinja
 
 # 5. 健康检查

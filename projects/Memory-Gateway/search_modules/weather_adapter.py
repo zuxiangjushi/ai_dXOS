@@ -4,8 +4,8 @@ from urllib.parse import quote
 
 class WeatherAdapter:
     def __init__(self):
-        self.api_key = os.getenv("QWEATHER_API_KEY", "REPLACE_WITH_QWEATHER_API_KEY_FROM_VAULT")
-        self.api_host = os.getenv("QWEATHER_API_HOST", "devapi.qweather.com") 
+        self.api_key = os.getenv("QWEATHER_API_KEY", "4981d9a26173471b9b9fd6852eebc0d4")
+        self.api_host = "devapi.qweather.com" 
         self.headers = {"User-Agent": "Mozilla/5.0"}
         self.proxies = {"http": "socks5h://127.0.0.1:12334", "https": "socks5h://127.0.0.1:12334"}
         

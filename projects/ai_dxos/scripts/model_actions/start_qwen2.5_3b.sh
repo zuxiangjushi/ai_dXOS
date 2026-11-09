@@ -38,6 +38,8 @@ docker run -d \
     --port "$PORT" \
     --n-gpu-layers 0 \
     --ctx-size 32768 \
+        --metrics \
+    --slots \
     --jinja
 
 # 5. 健康检查

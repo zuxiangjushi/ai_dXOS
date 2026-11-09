@@ -93,6 +93,7 @@ docker run -d \
   --host 0.0.0.0 \
   --tp 4 \
   --trust-remote-code \
+    --enable-metrics \ \
   --mem-fraction-static 0.75 \
   --context-length 262144 \
   --disable-custom-all-reduce \

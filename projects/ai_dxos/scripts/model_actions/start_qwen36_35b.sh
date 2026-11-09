@@ -43,7 +43,8 @@ docker run -d --name M06_36_35B --restart unless-stopped --gpus all --shm-size 3
   --entrypoint python3 lmsysorg/sglang:v0.5.17-cu130-runtime \
   -m sglang.launch_server --model-path /models/Qwen3.6-35B-A3B \
   --served-model-name qwen36_35b --port 8007 --host 0.0.0.0 --tp 4 \
-  --trust-remote-code --mem-fraction-static 0.85 --context-length 262144 \
+  --trust-remote-code \
+    --enable-metrics \ --mem-fraction-static 0.85 --context-length 262144 \
   --max-running-requests 4 --disable-custom-all-reduce --cuda-graph-max-bs 1 \
   --mm-feature-transport cpu \
   --reasoning-parser qwen3 \

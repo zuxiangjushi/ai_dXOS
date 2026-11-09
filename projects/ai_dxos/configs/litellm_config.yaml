@@ -3,7 +3,7 @@ model_list:
     litellm_params:
       model: openai/emb_bge_m3
       api_base: http://192.168.10.132:8003/v1
-      api_key: sk-REPLACE_WITH_LITELLM_KEY_M00_FROM_VAULT
+      api_key: <REDACTED_API_KEY>
       custom_llm_provider: openai
     model_info:
       mode: embedding
@@ -12,7 +12,7 @@ model_list:
     litellm_params:
       model: openai/qwen3_32b
       api_base: http://192.168.10.132:8001/v1
-      api_key: sk-REPLACE_WITH_LITELLM_KEY_M00_FROM_VAULT
+      api_key: <REDACTED_API_KEY>
       custom_llm_provider: openai
     model_info:
       mode: chat
@@ -22,7 +22,7 @@ model_list:
     litellm_params:
       model: openai//ai/ai_dxos/volumes/models/gemma-4/gemma-4-31b-jang-crack-Q4_K_M.gguf
       api_base: http://192.168.10.132:8004/v1
-      api_key: sk-REPLACE_WITH_LITELLM_KEY_M00_FROM_VAULT
+      api_key: <REDACTED_API_KEY>
       custom_llm_provider: openai
     model_info:
       mode: chat
@@ -32,7 +32,7 @@ model_list:
     litellm_params:
       model: openai//ai/ai_dxos/volumes/models/YY/Qwen3.6-35B-A3B-Uncensored-HauhauCS-Aggressive-Q4_K_M.gguf
       api_base: http://192.168.10.132:8006/v1
-      api_key: sk-REPLACE_WITH_LITELLM_KEY_M00_FROM_VAULT
+      api_key: <REDACTED_API_KEY>
       custom_llm_provider: openai
     model_info:
       mode: chat
@@ -42,7 +42,7 @@ model_list:
     litellm_params:
       model: openai/qwen38_27b_f8
       api_base: http://192.168.10.132:8002/v1
-      api_key: sk-REPLACE_WITH_LITELLM_KEY_M00_FROM_VAULT
+      api_key: <REDACTED_API_KEY>
       custom_llm_provider: openai
     model_info:
       mode: chat
@@ -52,7 +52,7 @@ model_list:
     litellm_params:
       model: openai//ai/ai_dxos/volumes/models/YY/Qwen3.8-27B-Uncensored-HauhauCS-Aggressive-MTP-Q8_K_P.gguf
       api_base: http://192.168.10.132:8005/v1
-      api_key: sk-REPLACE_WITH_LITELLM_KEY_M00_FROM_VAULT
+      api_key: <REDACTED_API_KEY>
       custom_llm_provider: openai
     model_info:
       mode: chat
@@ -62,7 +62,7 @@ model_list:
     litellm_params:
       model: openai//ai/ai_dxos/volumes/models/Qwen3.8-Flash-Next-UD-IQ4_XS/Qwen3.8-Flash-Next-UD-IQ4_XS-00001-of-00003.gguf
       api_base: http://192.168.10.132:8007/v1
-      api_key: sk-dummy
+      api_key: <REDACTED_API_KEY>
       custom_llm_provider: openai
     model_info:
       mode: chat
@@ -72,7 +72,7 @@ model_list:
     litellm_params:
       model: openai/deepseek_70b
       api_base: http://192.168.10.132:8008/v1
-      api_key: sk-REPLACE_WITH_LITELLM_KEY_M00_FROM_VAULT
+      api_key: <REDACTED_API_KEY>
       custom_llm_provider: openai
     model_info:
       mode: chat
@@ -82,7 +82,7 @@ model_list:
     litellm_params:
       model: openai/qwen3_30b
       api_base: http://192.168.10.132:8009/v1
-      api_key: sk-REPLACE_WITH_LITELLM_KEY_M00_FROM_VAULT
+      api_key: <REDACTED_API_KEY>
       custom_llm_provider: openai
     model_info:
       mode: chat
@@ -92,7 +92,7 @@ model_list:
     litellm_params:
       model: openai//ai/ai_dxos/volumes/models/Qwen3.8-Flash-Next-UD-IQ4_XS/DeepSeek-V2.5 IQ4_XS-00001-of-00003.gguf
       api_base: http://192.168.10.132:8010/v1
-      api_key: sk-xxx
+      api_key: <REDACTED_API_KEY>
       custom_llm_provider: openai
     model_info:
       mode: chat

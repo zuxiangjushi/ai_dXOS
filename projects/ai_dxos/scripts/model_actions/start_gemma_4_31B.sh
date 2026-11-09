@@ -43,7 +43,8 @@ docker run -d --name M13_gemma_4_31B --restart unless-stopped --gpus all --shm-s
   --entrypoint python3 lmsysorg/sglang:v0.5.17-cu130-runtime \
   -m sglang.launch_server --model-path /models/Gemma-4-31B-it \
   --served-model-name gemma_4_31B --port 8017 --host 0.0.0.0 --tp 4 \
-  --trust-remote-code --mem-fraction-static 0.85 --context-length 16384 \
+  --trust-remote-code \
+    --enable-metrics \ --mem-fraction-static 0.85 --context-length 16384 \
   --max-running-requests 4 --disable-custom-all-reduce --cuda-graph-max-bs 2 \
   --mm-feature-transport cpu \
   --reasoning-parser gemma4 \
